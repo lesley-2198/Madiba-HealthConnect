@@ -81,5 +81,4 @@ npm run dev
 ### **Lesley Ngcobo, Anam Kondile, Lisahluma Leve**
 *Data Scientist | Software Developer | Web Developer*
 
-![Profile](https://img.shields.io/badge/Profile-Data_Scientist-00B4D8?style=for-the-badge)
 ![Location](https://img.shields.io/badge/Location-South_Africa-FF6B6B?style=for-the-badge)
