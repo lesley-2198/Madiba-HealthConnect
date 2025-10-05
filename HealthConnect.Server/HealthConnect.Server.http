@@ -1,0 +1,6 @@
+@HealthConnect.Server_HostAddress = http://localhost:5080
+
+GET {{HealthConnect.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

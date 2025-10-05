@@ -1,0 +1,427 @@
+/* ===================================================
+   MADIBA HEALTHCONNECT DASHBOARD - OVERLAPPING DESIGN
+   Profile card hovering above extended top bar
+   =================================================== */
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  background-color: white;
+  position: relative;
+}
+
+/* Top Header Bar - Extended vertically */
+.top-bar {
+  background-color: #1a3a52;
+  color: white;
+  padding: 2.5rem 2rem 10rem 2rem; /* Increased padding top and bottom */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-content h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #5dade2;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.profile-indicator {
+  display: none;
+}
+
+/* Header Avatar */
+.header-avatar {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+  .header-avatar:hover {
+    transform: scale(1.05);
+  }
+
+/* Profile Section - Positioned to overlap the top bar */
+.profile-section {
+  position: relative;
+  z-index: 2;
+  margin-top: -5rem; /* Pulls the card up to overlap the top bar */
+  padding: 0 2rem;
+}
+
+.profile-container {
+  background-color: #f1fffd;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0f2f1;
+  position: relative;
+}
+
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+}
+
+  .user-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+.user-email {
+  margin: 0 0 1.25rem 0;
+  color: #666;
+  font-size: 1rem;
+}
+
+.user-details {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+  .user-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .user-details strong {
+    color: #1a1a1a;
+    font-weight: 600;
+    display: block;
+  }
+
+/* Dashboard Layout */
+.dashboard-layout {
+  display: flex;
+  max-width: 1200px;
+  margin: 2rem auto 0; /* Added top margin to account for overlapping profile */
+  padding: 0 2rem 2rem;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Sidebar - Left Navigation */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+/* Navigation Menu */
+.main-nav {
+  background-color: #f1fffd;
+  border-radius: 16px;
+  padding: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0f2f1;
+}
+
+  .main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .main-nav li {
+    margin: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 12px;
+  }
+
+    .main-nav li:hover {
+      background-color: #f8f9fa;
+    }
+
+    .main-nav li.active {
+      background-color: #e3f2fd;
+    }
+
+      .main-nav li.active .menu-item {
+        border-left: 4px solid #3c7ab7;
+      }
+
+.menu-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+}
+
+  .menu-item input[type="checkbox"] {
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+    transform: scale(1.2);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+.menu-text {
+  flex: 1;
+}
+
+.menu-label {
+  display: block;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.menu-description {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Content Sections */
+.content-section {
+  animation: fadeIn 0.3s ease-in;
+}
+
+  .content-section.hidden {
+    display: none;
+  }
+
+/* Content Cards */
+.content-card {
+  background-color: #f1fffd; /* Light blue background */
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0f2f1;
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: #e3f2fd;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e0f2f1;
+}
+
+  .card-header h2 {
+    color: #1a1a1a;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+.card-content {
+  padding: 2rem;
+}
+
+  .card-content p {
+    color: #666;
+    line-height: 1.8;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    flex-direction: column;
+    padding: 0 1.5rem 2rem;
+  }
+
+  .sidebar {
+    width: 100%;
+    order: 2;
+  }
+
+  .main-content {
+    order: 1;
+  }
+
+  .user-details {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 2rem 1.5rem 3.5rem 1.5rem;
+  }
+
+  .header-content h1 {
+    font-size: 1.25rem;
+  }
+
+  .header-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .profile-section {
+    padding: 0 1.5rem;
+    margin-top: -2.5rem;
+  }
+
+  .profile-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 1.8rem;
+  }
+
+  .user-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .user-details {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .dashboard-layout {
+    padding: 0 1rem 2rem;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .menu-item {
+    padding: 0.875rem 1rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 1.5rem 1rem 3rem 1rem;
+  }
+
+  .header-content h1 {
+    font-size: 1.1rem;
+  }
+
+  .profile-section {
+    padding: 0 1rem;
+    margin-top: -2rem;
+  }
+
+  .profile-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .user-avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 1.6rem;
+    border-radius: 16px;
+  }
+
+  .card-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .card-content {
+    padding: 1.25rem;
+  }
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "HealthConnect.Server\\HealthConnect.Server.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "healthconnect.client\\healthconnect.client.esproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

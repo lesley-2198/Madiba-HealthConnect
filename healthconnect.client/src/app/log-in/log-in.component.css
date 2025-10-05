@@ -1,0 +1,316 @@
+/* Reset any potential overflow */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.login-container {
+  display: flex;
+  min-height: 100vh; /* Use min-height instead of fixed height */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Left Logo Section - 40% */
+.logo-section {
+  flex: 0 0 50%;
+  background-color: #0e2743;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* This centers vertically */
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.logo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  max-width: 500px;
+}
+
+.logo-section h2 {
+  color: #f1fffd;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.8rem, 4vw, 2.8rem); /* Responsive font size */
+  margin: 0.5rem 0;
+  line-height: 1.1;
+  width: 100%;
+}
+
+.tagline {
+  color: #f1fffd;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.2rem); /* Responsive font size */
+  margin: 1.5rem 0 2rem 0;
+  opacity: 0.9;
+}
+
+.logo_nobg {
+  width: min(70%, 300px); /* Responsive sizing */
+  height: auto;
+  margin-top: 1rem;
+}
+
+/* Right Login Section - 60% */
+.login-section {
+  flex: 0 0 50%;
+  background-color: #f1fffd;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  position: relative;
+}
+
+.login-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-section h1 {
+  color: #0e2743;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  margin-bottom: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.login-content > p {
+  color: #666;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* Login Form */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+  .form-group label {
+    display: block;
+    color: #0e2743;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+  .form-control:focus {
+    outline: none;
+    border-color: #3c7ab7;
+  }
+
+  .form-control.error {
+    border-color: #d93025;
+  }
+
+  .form-control::placeholder {
+    color: #999;
+  }
+
+.validation-error {
+  color: #d93025;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Forgot Password */
+.forgot-password-section {
+  text-align: right;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.forgot-password-link {
+  color: #3c7ab7;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+  .forgot-password-link:hover {
+    text-decoration: underline;
+  }
+
+/* Sign In Button */
+.signin-button {
+  width: 100%;
+  background-color: #3c7ab7;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+  .signin-button:hover:not(:disabled) {
+    background-color: #2c5a87;
+  }
+
+  .signin-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+/* Disclaimer Section */
+.disclaimer-section {
+  border-top: 1px solid #e0e0e0;
+  padding: 1.5rem 0 0 0;
+  width: 100%;
+  margin-top: auto; /* Push to bottom naturally */
+}
+
+  .disclaimer-section h3 {
+    color: #0e2743;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  .disclaimer-section p {
+    color: #666;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.7rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .logo-section {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 2rem 1rem;
+    min-height: 40vh;
+  }
+
+    .logo-section h2 {
+      font-size: 1.8rem;
+    }
+
+  .login-section {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    min-height: 60vh;
+  }
+
+  .logo_nobg {
+    width: 50%;
+    max-width: 200px;
+  }
+
+  .login-content-wrapper {
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-section {
+    padding: 1.5rem 1rem;
+  }
+
+    .logo-section h2 {
+      font-size: 1.5rem;
+    }
+
+  .login-section {
+    padding: 1.5rem 1rem;
+  }
+
+    .login-section h1 {
+      font-size: 1.6rem;
+    }
+
+  .logo_nobg {
+    width: 60%;
+    max-width: 150px;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    margin: 1rem 0 1.5rem 0;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .logo-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .tagline {
+    font-size: 0.8rem;
+  }
+
+  .login-section h1 {
+    font-size: 1.4rem;
+  }
+
+  .login-content > p {
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,125 @@
+<div class="dashboard-container">
+  <!-- Top Header Bar -->
+  <header class="top-bar">
+    <div class="header-content">
+      <div class="header-logo">
+      </div>
+      <div>
+        <h1>Madiba HealthConnect</h1>
+        <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" />
+        <p class="page-title">Campus Clinic Booking</p>
+        <p class="profile-indicator">Profile + Home</p>
+      </div>
+    </div>
+    <div class="header-avatar">
+      LM
+    </div>
+  </header>
+
+  <!-- Profile Section - Now positioned to overlap the top bar -->
+  <div class="profile-section">
+    <div class="profile-container">
+      <div class="user-avatar">
+        LM
+      </div>
+      <div class="user-info">
+        <h3>Liyakhanya Mncube</h3>
+        <p class="user-email">s123456789&#64;mandela.ac.za</p>
+        <div class="user-details">
+          <p><strong>Student number:</strong> 123456789</p>
+          <p><strong>Campus:</strong> North Campus</p>
+          <p><strong>Course:</strong> Bachelor of Information Technology</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <nav class="main-nav">
+        <ul>
+          <li *ngFor="let item of menuItems"
+              [class.active]="item.checked"
+              (click)="onMenuItemClick(item)"
+              [attr.data-section]="item.id">
+            <label class="menu-item">
+              <input type="checkbox" [checked]="item.checked" readonly>
+              <div class="menu-text">
+                <span class="menu-label">{{ item.label }}</span>
+                <span class="menu-description">{{ item.description }}</span>
+              </div>
+            </label>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- HealthConnect Content (Default) -->
+      <section id="healthconnect-content" class="content-section" [class.hidden]="!isSectionActive('healthconnect')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>HealthConnect</h2>
+          </div>
+          <div class="card-content">
+            <p>
+              Madiba HealthConnect is a platform committed to making healthcare accessible and convenient for all students and staff.
+              Our clinic booking platform allows you to manually book a slot for in-person consultations or choose a tele-consultation
+              with a professional nurse through triage booking. Whether you need routine care or urgent support, our system is designed
+              to be user-friendly and efficient. We believe that everyone deserves timely and compassionate medical attention, and our
+              platform is here to help you get the care you need, when you need it.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tele-Consult Content -->
+      <section id="tele-consult-content" class="content-section" [class.hidden]="!isSectionActive('tele-consult')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>Tele-Consult</h2>
+          </div>
+          <div class="card-content">
+            <p>
+              Our tele-consultation service connects you with qualified healthcare professionals from the comfort of your space.
+              Through secure calls or emails, you can discuss concerns, receive advice, and get prescriptions when needed, ideal
+              for non-emergencies, follow-ups, and general inquiries.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Manual Booking Content -->
+      <section id="manual-booking-content" class="content-section" [class.hidden]="!isSectionActive('manual-booking')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>Manual Booking</h2>
+          </div>
+          <div class="card-content">
+            <p>
+              Easily schedule in-person appointments at our campus clinic through a simple booking system. Select time slots that
+              fit your schedule, choose your provider, and specify your consultation type. You can also reschedule or cancel as
+              needed — ensuring smooth clinic operations and minimal wait times.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Health News Content -->
+      <section id="health-news-content" class="content-section" [class.hidden]="!isSectionActive('health-news')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>Health News</h2>
+          </div>
+          <div class="card-content">
+            <p>
+              Stay informed about the latest health updates, wellness tips, and important announcements from our healthcare team.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
