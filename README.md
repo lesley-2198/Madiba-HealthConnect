@@ -73,6 +73,9 @@ npm install
 npm run dev
 
 ```
+
+- ***Design:***
+- > ```https://www.canva.com/design/DAGzbQj9-d0/VMiUxR4tHyWnYQj2wZvH1Q/view?utm_content=DAGzbQj9-d0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc5db9cbc84```
 ---
 ## 👨‍💻 The Architects
 
