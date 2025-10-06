@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lesle\\source\\repos\\HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj": {}
+    "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lesle\\source\\repos\\HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj": {
+    "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lesle\\source\\repos\\HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
+        "projectUniqueName": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
         "projectName": "HealthConnect.Server",
-        "projectPath": "C:\\Users\\lesle\\source\\repos\\HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
+        "projectPath": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
         "packagesPath": "C:\\Users\\lesle\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lesle\\source\\repos\\HealthConnect\\HealthConnect.Server\\obj\\",
+        "outputPath": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -2,13 +2,15 @@
   <!-- Top Header Bar -->
   <header class="top-bar">
     <div class="header-content">
-      <div class="header-logo">
-      </div>
-      <div>
+      <div class="header-main">
         <h1>Madiba HealthConnect</h1>
-        <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" />
-        <p class="page-title">Campus Clinic Booking</p>
-        <p class="profile-indicator">Profile + Home</p>
+        <div class="header-subsection">
+          <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" />
+          <div class="header-titles">
+            <p class="page-title">Campus Clinic Booking</p>
+            <p class="profile-indicator">Health, Just a Click Away!</p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="header-avatar">
@@ -44,7 +46,6 @@
               (click)="onMenuItemClick(item)"
               [attr.data-section]="item.id">
             <label class="menu-item">
-              <input type="checkbox" [checked]="item.checked" readonly>
               <div class="menu-text">
                 <span class="menu-label">{{ item.label }}</span>
                 <span class="menu-description">{{ item.description }}</span>
@@ -89,6 +90,34 @@
             </p>
           </div>
         </div>
+        <div class="content-card">
+          <div class="card-content">
+            <div class="tele-options">
+              <div class="tele-card">
+                <h3>Chat with a Health Bot</h3>
+                <p>Get quick guidance. We can escalate to a nurse if needed.</p>
+                <button type="button" class="btn primary" (click)="setTeleSelected('chat')">Start Chat</button>
+              </div>
+              <div class="tele-card">
+                <h3>Call the Clinic</h3>
+                <p>Prefer to talk? Call us directly from the site.</p>
+                <a class="btn outline" href="tel:+27000000000" (click)="setTeleSelected('call')">Call Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-card" *ngIf="teleSelected === 'chat'">
+          <div class="card-content">
+            <h3>Chatbot</h3>
+            <p>Chat interface placeholder. This will guide you and escalate to a nurse when needed.</p>
+          </div>
+        </div>
+        <div class="content-card" *ngIf="teleSelected === 'call'">
+          <div class="card-content">
+            <h3>Call Instructions</h3>
+            <p>Please call the clinic using the button above. A nurse will assist you.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Manual Booking Content -->
@@ -105,6 +134,73 @@
             </p>
           </div>
         </div>
+        <div class="content-card">
+          <div class="card-content">
+            <div class="tabs">
+              <button class="tab-btn" [class.active]="activeBookingTab === 'book'" (click)="setBookingTab('book')">Book Appointment</button>
+              <button class="tab-btn" [class.active]="activeBookingTab === 'manage'" (click)="setBookingTab('manage')">Manage Appointments</button>
+            </div>
+
+            <div class="tab-content" *ngIf="activeBookingTab === 'book'">
+              <form class="booking-form" (ngSubmit)="submitBooking()" #formRef="ngForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="date">Date</label>
+                    <input id="date" type="date" [(ngModel)]="bookingForm.date" name="date" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="time">Time</label>
+                    <input id="time" type="time" [(ngModel)]="bookingForm.time" name="time" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="provider">Provider</label>
+                    <select id="provider" [(ngModel)]="bookingForm.provider" name="provider" required>
+                      <option value="" disabled>Select a provider</option>
+                      <option>Nurse A</option>
+                      <option>Nurse B</option>
+                      <option>Nurse C</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="reason">Reason</label>
+                    <input id="reason" type="text" placeholder="Short description" [(ngModel)]="bookingForm.reason" name="reason" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label class="toggle">
+                    <input type="checkbox" [(ngModel)]="bookingForm.notifications" name="notifications">
+                    <span>Send me reminders and confirmations</span>
+                  </label>
+                </div>
+                <div class="actions">
+                  <button type="submit" class="btn primary">Submit</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="tab-content" *ngIf="activeBookingTab === 'manage'">
+              <div class="appt-list" *ngIf="appointments.length; else noAppts">
+                <div class="appt-item" *ngFor="let appt of appointments">
+                  <div class="appt-info">
+                    <div>
+                      <strong>{{ appt.date }} &#64; {{ appt.time }}</strong>
+                      <div>Provider: {{ appt.provider }} • Status: {{ appt.status }}</div>
+                    </div>
+                  </div>
+                  <div class="appt-actions">
+                    <button type="button" class="btn outline" (click)="rescheduleAppointment(appt.id)">Reschedule</button>
+                    <button type="button" class="btn danger" (click)="cancelAppointment(appt.id)">Cancel</button>
+                  </div>
+                </div>
+              </div>
+              <ng-template #noAppts>
+                <p>No appointments yet.</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Health News Content -->
@@ -117,6 +213,36 @@
             <p>
               Stay informed about the latest health updates, wellness tips, and important announcements from our healthcare team.
             </p>
+          </div>
+        </div>
+
+        <!-- Horizontal Scrolling News Cards -->
+        <div class="content-card">
+          <div class="card-content">
+            <div class="news-section-header">
+              <h3>Campus & Health Updates</h3>
+              <div class="news-controls" *ngIf="!isMobileView()">
+                <button class="news-nav-btn prev" (click)="scrollNews(-1)" [disabled]="currentNewsIndex === 0">
+                  ‹
+                </button>
+                <span class="news-counter">{{ currentNewsIndex + 1 }} / {{ getTotalPages() }}</span>
+                <button class="news-nav-btn next" (click)="scrollNews(1)" [disabled]="currentNewsIndex >= getTotalPages() - 1">
+                  ›
+                </button>
+              </div>
+            </div>
+
+            <div class="news-scroll-container">
+              <div class="news-scroll-wrapper">
+                <div class="news-scroll" [style.transform]="'translateX(' + translateX + 'px)'">
+                  <div class="news-card" *ngFor="let news of newsItems; let i = index">
+                    <h4>{{ news.title }}</h4>
+                    <p>{{ news.description }}</p>
+                    <a class="btn outline small" [href]="news.link" target="_blank" rel="noopener">Read More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MCOShFmYP2M=",
+  "dgSpecHash": "MZyoIE9dbxc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\lesle\\source\\repos\\HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
+  "projectFilePath": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lesle\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.20\\microsoft.aspnetcore.spaproxy.8.0.20.nupkg.sha512",
     "C:\\Users\\lesle\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

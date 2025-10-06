@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:1232",
 "RedirectUrl": "",
 "LaunchCommand": "npm start",
-"WorkingDirectory": "C:\\Users\\lesle\\source\\repos\\HealthConnect\\HealthConnect.Server\\..\\healthconnect.client",
+"WorkingDirectory": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\..\\healthconnect.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
