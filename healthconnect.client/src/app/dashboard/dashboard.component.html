@@ -129,8 +129,8 @@
           <div class="card-content">
             <p>
               Easily schedule in-person appointments at our campus clinic through a simple booking system. Select time slots that
-              fit your schedule, choose your provider, and specify your consultation type. You can also reschedule or cancel as
-              needed — ensuring smooth clinic operations and minimal wait times.
+              fit your schedule, choose your campus, and specify your consultation type. You can also reschedule or cancel as
+              needed - ensuring smooth clinic operations and minimal wait times.
             </p>
           </div>
         </div>
@@ -155,12 +155,13 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="provider">Provider</label>
-                    <select id="provider" [(ngModel)]="bookingForm.provider" name="provider" required>
-                      <option value="" disabled>Select a provider</option>
-                      <option>Nurse A</option>
-                      <option>Nurse B</option>
-                      <option>Nurse C</option>
+                    <label for="campus">Campus</label>
+                    <select id="campus" [(ngModel)]="bookingForm.campus" name="campus" required>
+                      <option value="" disabled>Select your campus</option>
+                      <option>North Campus</option>
+                      <option>South Campus</option>
+                      <option>Missionvale Campus</option>
+                      <option>George Campus</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -186,7 +187,7 @@
                   <div class="appt-info">
                     <div>
                       <strong>{{ appt.date }} &#64; {{ appt.time }}</strong>
-                      <div>Provider: {{ appt.provider }} • Status: {{ appt.status }}</div>
+                      <div>Campus: {{ appt.campus }} • Status: {{ appt.status }}</div>
                     </div>
                   </div>
                   <div class="appt-actions">

@@ -133,14 +133,14 @@ export class DashboardComponent implements OnInit {
   bookingForm = {
     date: '',
     time: '',
-    provider: '',
+    campus: '',
     reason: '',
     notifications: true
   };
 
   appointments = [
-    { id: 1, date: '2025-10-15', time: '10:00', provider: 'Nurse A', status: 'Confirmed' },
-    { id: 2, date: '2025-10-20', time: '14:30', provider: 'Nurse B', status: 'Pending' }
+    { id: 1, date: '2025-10-15', time: '10:00', campus: 'North Campus', status: 'Confirmed' },
+    { id: 2, date: '2025-10-20', time: '14:30', campus: 'South Campus', status: 'Pending' }
   ];
 
   setBookingTab(tab: 'book' | 'manage'): void {
