@@ -1,0 +1,181 @@
+<div class="login-container">
+  <div class="logo-section">
+    <div class="logo-content">
+      <h2>Join Your</h2>
+      <h2>Healthcare Companion</h2>
+      <p class="tagline">Health, Just a Click Away!</p>
+      <img class="logo_nobg" src="../../assets/logos/icononly_transparent_nobuffer.png" />
+    </div>
+  </div>
+
+  <div class="login-section">
+    <div class="login-content-wrapper">
+      <div class="login-content">
+        <h1>Create Account</h1>
+        <p>Please use your academic details to register</p>
+
+        <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()" class="login-form">
+          <!-- Success Message -->
+          <div class="success-message" *ngIf="showSuccessMessage">
+            <div class="success-content">
+              <span class="success-icon">✓</span>
+              <p>Account created successfully! Redirecting to login...</p>
+            </div>
+          </div>
+
+          <!-- Student Number -->
+          <div class="form-group">
+            <label for="studentNumber">Student Number</label>
+            <input type="text"
+                   id="studentNumber"
+                   formControlName="studentNumber"
+                   placeholder="e.g., s123456789"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('studentNumber')?.invalid && createAccountForm.get('studentNumber')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('studentNumber')?.invalid && createAccountForm.get('studentNumber')?.touched">
+              <span *ngIf="createAccountForm.get('studentNumber')?.errors?.['required']">Student number is required</span>
+              <span *ngIf="createAccountForm.get('studentNumber')?.errors?.['pattern']">Please enter a valid student number (e.g., s123456789)</span>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email">Academic Email</label>
+            <input type="email"
+                   id="email"
+                   formControlName="email"
+                   placeholder="s123456789@mandela.ac.za"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('email')?.invalid && createAccountForm.get('email')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('email')?.invalid && createAccountForm.get('email')?.touched">
+              <span *ngIf="createAccountForm.get('email')?.errors?.['required']">Email is required</span>
+              <span *ngIf="createAccountForm.get('email')?.errors?.['invalidAcademicEmail']">Please enter a valid academic email</span>
+            </div>
+          </div>
+
+          <!-- Campus Selection -->
+          <div class="form-group">
+            <label for="campus">Campus</label>
+            <select id="campus"
+                    formControlName="campus"
+                    class="form-control"
+                    [class.error]="createAccountForm.get('campus')?.invalid && createAccountForm.get('campus')?.touched">
+              <option value="" disabled>Select your campus</option>
+              <option>North Campus</option>
+              <option>South Campus</option>
+              <option>Missionvale Campus</option>
+              <option>George Campus</option>
+              <option>Second Avenue Campus</option>
+              <option>Bird Street Campus</option>
+            </select>
+
+            <div class="validation-error" *ngIf="createAccountForm.get('campus')?.invalid && createAccountForm.get('campus')?.touched">
+              <span *ngIf="createAccountForm.get('campus')?.errors?.['required']">Please select your campus</span>
+            </div>
+          </div>
+
+          <!-- Course Selection -->
+          <div class="form-group">
+            <label for="course">Course</label>
+            <input type="text"
+                   id="course"
+                   formControlName="course"
+                   placeholder="e.g., Bachelor of Information Technology"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('course')?.invalid && createAccountForm.get('course')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('course')?.invalid && createAccountForm.get('course')?.touched">
+              <span *ngIf="createAccountForm.get('course')?.errors?.['required']">Course is required</span>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password"
+                   id="password"
+                   formControlName="password"
+                   placeholder="Create a password"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('password')?.invalid && createAccountForm.get('password')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('password')?.invalid && createAccountForm.get('password')?.touched">
+              <span *ngIf="createAccountForm.get('password')?.errors?.['required']">Password is required</span>
+              <span *ngIf="createAccountForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</span>
+            </div>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password"
+                   id="confirmPassword"
+                   formControlName="confirmPassword"
+                   placeholder="Confirm your password"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('confirmPassword')?.invalid && createAccountForm.get('confirmPassword')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('confirmPassword')?.invalid && createAccountForm.get('confirmPassword')?.touched">
+              <span *ngIf="createAccountForm.get('confirmPassword')?.errors?.['required']">Please confirm your password</span>
+              <span *ngIf="createAccountForm.get('confirmPassword')?.errors?.['passwordMismatch']">Passwords do not match</span>
+            </div>
+          </div>
+
+          <!-- Terms and Conditions -->
+          <div class="form-group terms-section">
+            <label class="toggle">
+              <input type="checkbox" formControlName="termsAccepted" name="termsAccepted">
+              <span>
+                I agree to the
+                <a href="#" (click)="navigateToTerms(); $event.preventDefault()" class="terms-link">
+                  Terms and Conditions
+                </a>
+                and
+                <a href="#" class="terms-link" (click)="navigateToPrivacyPolicy(); $event.preventDefault()">
+                  Privacy Policy
+                </a>
+              </span>
+            </label>
+            <div class="validation-error" *ngIf="createAccountForm.get('termsAccepted')?.invalid && createAccountForm.get('termsAccepted')?.touched">
+              <span *ngIf="createAccountForm.get('termsAccepted')?.errors?.['required']">You must accept the terms and conditions</span>
+            </div>
+          </div>
+
+          <!-- Create Account Button -->
+          <button type="submit"
+                  class="signin-button"
+                  [disabled]="isLoading">
+            <span *ngIf="!isLoading">CREATE ACCOUNT</span>
+            <span *ngIf="isLoading">Creating Account...</span>
+          </button>
+
+          <!-- Back to Login -->
+          <div class="create-account-section">
+            <p class="create-account-text">
+              Already have an account?
+              <a href="#" (click)="navigateToLogin(); $event.preventDefault()" class="create-account-link">
+                Sign In
+              </a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Disclaimer Section -->
+    <div class="disclaimer-section">
+      <h3>Disclaimer</h3>
+      <p>
+        All parties agree that they will comply with POPI regulations and process all the information
+        and/or personal data in respect of the services being rendered in accordance with the said regulations.
+      </p>
+      <p>
+        It is confirmed that by submitting information to Madiba HealthConnect, irrespective as to how
+        such information is submitted, you consent to the collection, collation, processing, and storing
+        of such information and the use and disclosure of such information in accordance with this policy.
+      </p>
+    </div>
+  </div>
+</div>

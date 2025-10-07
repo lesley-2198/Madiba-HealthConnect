@@ -20,9 +20,66 @@ export class DashboardComponent implements OnInit {
   menuItems = [
     { id: 'healthconnect', label: 'HealthConnect', description: 'What we have to Offer', checked: true },
     { id: 'tele-consult', label: 'Tele-Consult', description: 'Talk to a Professional', checked: false },
-    { id: 'manual-booking', label: 'Manual Booking', description: 'Make Appointments Manually', checked: false },
+    { id: 'manual-booking', label: 'Book & Manage', description: 'Appointments & Bookings', checked: false }, // Changed
     { id: 'health-news', label: 'Health News', description: 'What\'s New', checked: false }
   ];
+
+  // Add this method (Option 2)
+  hasActiveAppointments(): boolean {
+    return this.appointments.length > 0;
+  }
+
+  // Add these properties to your dashboard component
+  availableTimeSlots: any[] = [];
+  lunchStart = '13:00';
+  lunchEnd = '14:00';
+
+  generateTimeSlots(): void {
+    const slots = [];
+    const startHour = 9;
+    const endHour = 16;
+
+    // Get currently booked times (you might want to filter by selected date too)
+    const bookedTimes = this.appointments.map(appt => appt.time);
+
+    for (let hour = startHour; hour < endHour; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const nextMinute = minute + 15;
+        const nextHour = nextMinute === 60 ? hour + 1 : hour;
+        const nextMinuteFormatted = nextMinute === 60 ? '00' : nextMinute.toString().padStart(2, '0');
+        const endTimeString = `${nextHour.toString().padStart(2, '0')}:${nextMinuteFormatted}`;
+
+        const isDuringLunch = this.isDuringLunch(timeString, endTimeString);
+        const isBooked = bookedTimes.includes(timeString);
+
+        slots.push({
+          value: timeString,
+          display: `${timeString} - ${endTimeString}`,
+          available: !isDuringLunch && !isBooked
+        });
+      }
+    }
+
+    this.availableTimeSlots = slots;
+  }
+
+  // Helper method to check if a time slot overlaps with lunch
+  isDuringLunch(startTime: string, endTime: string): boolean {
+    const slotStart = this.timeToMinutes(startTime);
+    const slotEnd = this.timeToMinutes(endTime);
+    const lunchStartMinutes = this.timeToMinutes(this.lunchStart);
+    const lunchEndMinutes = this.timeToMinutes(this.lunchEnd);
+
+    // Check if the slot overlaps with lunch time
+    return (slotStart < lunchEndMinutes && slotEnd > lunchStartMinutes);
+  }
+
+  // Helper method to convert time string to minutes
+  timeToMinutes(timeString: string): number {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
 
   // --- News Scrolling Functionality ---
   newsItems = [
@@ -71,6 +128,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.checkMobileView();
+    this.generateTimeSlots();
   }
 
   @HostListener('window:resize')

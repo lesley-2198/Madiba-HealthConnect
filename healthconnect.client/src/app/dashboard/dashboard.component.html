@@ -47,7 +47,14 @@
               [attr.data-section]="item.id">
             <label class="menu-item">
               <div class="menu-text">
-                <span class="menu-label">{{ item.label }}</span>
+                <span class="menu-label">
+                  {{ item.label }}
+                  <!-- Badge for manual booking when appointments exist -->
+                  <span class="appointment-badge"
+                        *ngIf="item.id === 'manual-booking' && hasActiveAppointments()">
+                    {{ appointments.length }}
+                  </span>
+                </span>
                 <span class="menu-description">{{ item.description }}</span>
               </div>
             </label>
@@ -149,8 +156,13 @@
                     <input id="date" type="date" [(ngModel)]="bookingForm.date" name="date" required>
                   </div>
                   <div class="form-group">
-                    <label for="time">Time</label>
-                    <input id="time" type="time" [(ngModel)]="bookingForm.time" name="time" required>
+                    <label for="time">Time Slot</label>
+                    <select id="time" [(ngModel)]="bookingForm.time" name="time" class="form-control" required>
+                      <option value="" disabled>Select a time slot</option>
+                      <option *ngFor="let slot of availableTimeSlots" [value]="slot.value" [disabled]="!slot.available">
+                        {{ slot.display }} <span *ngIf="!slot.available">(Unavailable)</span>
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-row">

@@ -40,6 +40,10 @@ export class LoginComponent {
     this.router.navigate(['/forgot-password']);
   }
 
+  navigateToCreateAccount(): void {
+    this.router.navigate(['/create-account']);
+  }
+
   private markFormGroupTouched(): void {
     Object.keys(this.loginForm.controls).forEach(key => {
       this.loginForm.get(key)?.markAsTouched();

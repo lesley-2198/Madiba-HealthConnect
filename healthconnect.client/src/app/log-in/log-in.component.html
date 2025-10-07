@@ -61,6 +61,16 @@
             <span *ngIf="!isLoading">SIGN IN</span>
             <span *ngIf="isLoading">Signing in...</span>
           </button>
+
+          <!-- Add this after the sign-in button in your login-form -->
+          <div class="create-account-section">
+            <p class="create-account-text">
+              Don't have an account?
+              <a href="#" (click)="navigateToCreateAccount(); $event.preventDefault()" class="create-account-link">
+                Create Account
+              </a>
+            </p>
+          </div>
         </form>
       </div>
     </div>

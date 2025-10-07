@@ -6,14 +6,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from '././log-in/log-in.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { DashboardComponent } from './dashboard/dashboard.component'
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ForgotPasswordComponent,
-    DashboardComponent
+    DashboardComponent,
+    CreateAccountComponent,
+    ResetPasswordComponent,
+    TermsConditionsComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,
