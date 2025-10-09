@@ -45,15 +45,21 @@ Thumbs.db
 .env
 .env.local
 .env.production
+.env.*local
 
-# API keys and secrets
-*config*.json
-*secret*
-*key*
+# Secrets and API keys (SPECIFIC files only)
+src/environments/environment.prod.ts
+firebase-config.json
+aws-credentials.json
+.secret
+.secrets
+*.pem
+*.key
+*.crt
 
-# Backend-specific (ASP.NET Core)
-/bin/
-/obj/
+# Backend-specific (ASP.NET Core) - if you have a backend
+[Bb]in/
+[Oo]bj/
 *.user
 *.aps
 *.pch
@@ -63,3 +69,21 @@ Thumbs.db
 *_p.c
 *.ncb
 *.suo
+*.userprefs
+*.pidb
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+[Bb]in/
+[Oo]bj/
+
+# BUT KEEP THESE IMPORTANT CONFIG FILES:
+!angular.json
+!tsconfig.json
+!tsconfig.app.json
+!tsconfig.spec.json
+!package.json
+!package-lock.json
