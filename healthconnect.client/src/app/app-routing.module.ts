@@ -7,6 +7,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { NurseDashboardComponent } from './nurse-dashboard/nurse-dashboard.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'terms-conditions', component: TermsConditionsComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'nurse-dashboard', component: NurseDashboardComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
   { path: '**', redirectTo: '/login' } // Redirect unknown routes to login
 ];
 

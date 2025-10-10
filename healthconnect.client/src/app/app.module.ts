@@ -10,7 +10,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component'
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { NurseDashboardComponent } from './nurse-dashboard/nurse-dashboard.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
     CreateAccountComponent,
     ResetPasswordComponent,
     TermsConditionsComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    NurseDashboardComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,

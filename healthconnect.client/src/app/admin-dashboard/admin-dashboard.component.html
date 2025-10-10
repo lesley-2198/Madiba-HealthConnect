@@ -1,0 +1,372 @@
+<div class="dashboard-container">
+  <!-- Top Header Bar -->
+  <header class="top-bar">
+    <div class="header-content">
+      <div class="header-main">
+        <h1>Madiba HealthConnect - Admin Portal</h1>
+        <div class="header-subsection">
+          <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" />
+          <div class="header-titles">
+            <p class="page-title">Admin Dashboard</p>
+            <p class="profile-indicator">Managing Campus Healthcare</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-avatar">
+      {{ adminInitials }}
+    </div>
+  </header>
+
+  <!-- Admin Profile Section -->
+  <div class="profile-section">
+    <div class="profile-container">
+      <div class="user-avatar">
+        {{ adminInitials }}
+      </div>
+      <div class="user-info">
+        <h3>{{ admin.fullName }}</h3>
+        <p class="user-email">{{ admin.email }}</p>
+        <div class="user-details">
+          <p><strong>Employee Number:</strong> {{ admin.employeeNumber }}</p>
+          <p><strong>Role:</strong> {{ admin.role }}</p>
+          <p><strong>Phone:</strong> {{ admin.phoneNumber }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Left Sidebar - Admin Navigation -->
+    <aside class="sidebar">
+      <nav class="main-nav">
+        <ul>
+          <li *ngFor="let item of menuItems"
+              [class.active]="item.checked"
+              (click)="onMenuItemClick(item)"
+              [attr.data-section]="item.id">
+            <label class="menu-item">
+              <div class="menu-text">
+                <span class="menu-label">{{ item.label }}</span>
+                <span class="menu-description">{{ item.description }}</span>
+              </div>
+            </label>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Quick Stats -->
+      <div class="quick-stats">
+        <div class="stat-card">
+          <div class="stat-number">{{ pendingAppointmentsCount }}</div>
+          <div class="stat-label">Pending Assignments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{ availableNursesCount }}/{{ totalNursesCount }}</div>
+          <div class="stat-label">Nurses Available</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Dashboard Overview (Default View) -->
+      <section id="overview-content" class="content-section" [class.hidden]="!isSectionActive('overview')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>System Overview - {{ today | date:'fullDate' }}</h2>
+          </div>
+          <div class="card-content">
+            <div class="overview-grid">
+              <div class="overview-card">
+                <h3>Appointments</h3>
+                <div class="overview-number">{{ pendingAppointmentsCount + assignedAppointments.length }}</div>
+                <p>Total appointments today</p>
+              </div>
+              <div class="overview-card">
+                <h3>Nursing Staff</h3>
+                <div class="overview-number">{{ totalNursesCount }}</div>
+                <p>{{ availableNursesCount }} currently available</p>
+              </div>
+              <div class="overview-card">
+                <h3>Health News</h3>
+                <div class="overview-number">{{ publishedNewsCount }}</div>
+                <p>Published articles</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-header">
+            <h3>Recent Pending Appointments</h3>
+          </div>
+          <div class="card-content">
+            <div class="appointment-list">
+              <div *ngFor="let appointment of pendingAppointments.slice(0, 3)"
+                   class="appointment-item">
+                <div class="appointment-time">
+                  <strong>{{ appointment.timeSlot }}</strong>
+                </div>
+                <div class="appointment-details">
+                  <div class="patient-info">
+                    <strong>{{ appointment.studentName }}</strong>
+                    <span class="student-id">{{ appointment.studentNumber }}</span>
+                  </div>
+                  <div class="appointment-type">
+                    {{ appointment.consultationType }}
+                  </div>
+                  <div class="symptoms">
+                    {{ appointment.symptomsDescription }}
+                  </div>
+                </div>
+                <div class="appointment-actions">
+                  <button class="btn primary small"
+                          (click)="assignAppointment(appointment)">
+                    Assign Nurse
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="pendingAppointments.length === 0" class="no-appointments">
+                <p>No pending appointments requiring assignment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Appointment Management -->
+      <section id="appointments-content" class="content-section" [class.hidden]="!isSectionActive('appointments')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>Appointment Assignment</h2>
+          </div>
+          <div class="card-content">
+            <!-- Pending Appointments -->
+            <h3>Pending Assignment ({{ pendingAppointments.length }})</h3>
+            <div class="appointment-list">
+              <div *ngFor="let appointment of pendingAppointments"
+                   class="appointment-item">
+                <div class="appointment-time">
+                  <strong>{{ appointment.timeSlot }}</strong>
+                </div>
+                <div class="appointment-details">
+                  <div class="patient-info">
+                    <strong>{{ appointment.studentName }}</strong>
+                    <span class="student-id">{{ appointment.studentNumber }}</span>
+                  </div>
+                  <div class="appointment-type">
+                    {{ appointment.consultationType }} • {{ appointment.appointmentDate }}
+                  </div>
+                  <div class="symptoms">
+                    {{ appointment.symptomsDescription }}
+                  </div>
+                </div>
+                <div class="appointment-actions">
+                  <button class="btn primary small"
+                          (click)="assignAppointment(appointment)">
+                    Assign Nurse
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="pendingAppointments.length === 0" class="no-appointments">
+                <p>No appointments pending assignment.</p>
+              </div>
+            </div>
+
+            <!-- Assignment Modal -->
+            <div *ngIf="selectedAppointment" class="assignment-modal">
+              <h3>Assign Nurse to Appointment</h3>
+              <div class="appointment-details">
+                <strong>{{ selectedAppointment.studentName }}</strong> -
+                {{ selectedAppointment.timeSlot }} • {{ selectedAppointment.consultationType }}
+              </div>
+
+              <div class="form-group">
+                <label>Select Nurse:</label>
+                <select [(ngModel)]="selectedNurseId" class="form-control">
+                  <option [value]="null" disabled>Choose a nurse...</option>
+                  <option *ngFor="let nurse of getAvailableNurses()"
+                          [value]="nurse.id">
+                    {{ nurse.fullName }} ({{ nurse.specialization }}) - {{ nurse.currentAppointments }} appointments
+                  </option>
+                </select>
+              </div>
+
+              <div class="action-buttons">
+                <button class="btn success"
+                        (click)="confirmAssignment()"
+                        [disabled]="!selectedNurseId">
+                  Confirm Assignment
+                </button>
+                <button class="btn outline" (click)="cancelAssignment()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!-- Assigned Appointments -->
+            <h3>Assigned Appointments ({{ assignedAppointments.length }})</h3>
+            <div class="appointment-list">
+              <div *ngFor="let appointment of assignedAppointments"
+                   class="appointment-item assigned">
+                <div class="appointment-time">
+                  <strong>{{ appointment.timeSlot }}</strong>
+                </div>
+                <div class="appointment-details">
+                  <div class="patient-info">
+                    <strong>{{ appointment.studentName }}</strong>
+                    <span class="student-id">{{ appointment.studentNumber }}</span>
+                  </div>
+                  <div class="appointment-type">
+                    Assigned to: {{ appointment.assignedNurseName }}
+                  </div>
+                  <div class="symptoms">
+                    {{ appointment.symptomsDescription }}
+                  </div>
+                </div>
+                <div class="appointment-status">
+                  <span class="status-badge assigned">Assigned</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Nurse Management -->
+      <section id="nurses-content" class="content-section" [class.hidden]="!isSectionActive('nurses')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>Nurse Management</h2>
+            <button class="btn primary" (click)="addNurse()">Add New Nurse</button>
+          </div>
+          <div class="card-content">
+            <div class="nurses-grid">
+              <div *ngFor="let nurse of nurses" class="nurse-card">
+                <div class="nurse-header">
+                  <h3>{{ nurse.fullName }}</h3>
+                  <span class="status-badge"
+                        [class.available]="nurse.isAvailable"
+                        [class.unavailable]="!nurse.isAvailable">
+                    {{ nurse.isAvailable ? 'Available' : 'Unavailable' }}
+                  </span>
+                </div>
+                <div class="nurse-details">
+                  <p><strong>Employee #:</strong> {{ nurse.employeeNumber }}</p>
+                  <p><strong>Specialization:</strong> {{ nurse.specialization }}</p>
+                  <p><strong>Email:</strong> {{ nurse.email }}</p>
+                  <p><strong>Current Appointments:</strong> {{ nurse.currentAppointments }}</p>
+                </div>
+                <div class="nurse-actions">
+                  <label class="toggle">
+                    <input type="checkbox"
+                           [checked]="nurse.isAvailable"
+                           (change)="toggleNurseAvailability(nurse)">
+                    <span>Available for appointments</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Health News Management -->
+      <section id="health-news-content" class="content-section" [class.hidden]="!isSectionActive('health-news')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>Health News Management</h2>
+          </div>
+          <div class="card-content">
+            <!-- Create New News Form -->
+            <div class="news-form">
+              <h3>Create New Health News</h3>
+              <div class="form-group">
+                <label>Title:</label>
+                <input type="text" [(ngModel)]="newNewsItem.title" placeholder="Enter news title">
+              </div>
+              <div class="form-group">
+                <label>Category:</label>
+                <select [(ngModel)]="newNewsItem.category">
+                  <option>General</option>
+                  <option>Clinic Updates</option>
+                  <option>Events</option>
+                  <option>Health Tips</option>
+                  <option>Emergency</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Content:</label>
+                <textarea [(ngModel)]="newNewsItem.content"
+                          placeholder="Enter news content..."
+                          rows="4"></textarea>
+              </div>
+              <button class="btn primary" (click)="createNews()">Create News Item</button>
+            </div>
+
+            <!-- Existing News Items -->
+            <div class="news-list">
+              <h3>Existing News Items</h3>
+              <div *ngFor="let news of healthNews" class="news-item">
+                <div class="news-header">
+                  <h4>{{ news.title }}</h4>
+                  <span class="status-badge"
+                        [class.published]="news.isPublished"
+                        [class.draft]="!news.isPublished">
+                    {{ news.isPublished ? 'Published' : 'Draft' }}
+                  </span>
+                </div>
+                <p><strong>Category:</strong> {{ news.category }}</p>
+                <p>{{ news.content }}</p>
+                <div class="news-meta">
+                  <small>Created by {{ news.createdBy }} on {{ news.createdAt | date }}</small>
+                  <small *ngIf="news.publishDate">Published on {{ news.publishDate }}</small>
+                </div>
+                <div class="news-actions">
+                  <button *ngIf="!news.isPublished"
+                          class="btn success small"
+                          (click)="publishNews(news)">
+                    Publish
+                  </button>
+                  <button class="btn danger small"
+                          (click)="deleteNews(news)">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reports & Analytics -->
+      <section id="reports-content" class="content-section" [class.hidden]="!isSectionActive('reports')">
+        <div class="content-card">
+          <div class="card-header">
+            <h2>Reports & Analytics</h2>
+          </div>
+          <div class="card-content">
+            <div class="reports-grid">
+              <div class="report-card">
+                <h3>Appointment Statistics</h3>
+                <p>Weekly/Monthly appointment trends and distribution</p>
+                <button class="btn outline">View Report</button>
+              </div>
+              <div class="report-card">
+                <h3>Nurse Performance</h3>
+                <p>Nurse workload and appointment completion rates</p>
+                <button class="btn outline">View Report</button>
+              </div>
+              <div class="report-card">
+                <h3>Clinic Utilization</h3>
+                <p>Peak hours and resource utilization patterns</p>
+                <button class="btn outline">View Report</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
