@@ -209,6 +209,30 @@ body, html {
     cursor: not-allowed;
   }
 
+/* Create Account Section */
+.create-account-section {
+  text-align: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.create-account-text {
+  color: #666;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+}
+
+.create-account-link {
+  color: #3c7ab7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+  .create-account-link:hover {
+    text-decoration: underline;
+  }
+
 /* Disclaimer Section */
 .disclaimer-section {
   border-top: 1px solid #e0e0e0;
@@ -313,170 +337,4 @@ body, html {
   .login-content > p {
     font-size: 0.85rem;
   }
-}
-
-/* Create Account Section */
-.create-account-section {
-  text-align: center;
-  margin-top: 1rem;
-  width: 100%;
-}
-
-.create-account-text {
-  color: #666;
-  font-size: 0.9rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-}
-
-.create-account-link {
-  color: #3c7ab7;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-  .create-account-link:hover {
-    text-decoration: underline;
-  }
-
-/* Terms and Conditions */
-.terms-section .toggle {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  cursor: pointer;
-}
-
-  .terms-section .toggle input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-top: 0.1rem;
-  }
-
-/* Success Message Styles */
-.success-message {
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  width: 100%;
-}
-
-.success-content {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.success-icon {
-  color: #155724;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.success-message p {
-  color: #155724;
-  margin: 0;
-  font-size: 0.9rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Terms and Conditions Links */
-.terms-link {
-  color: #3c7ab7;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-  .terms-link:hover {
-    text-decoration: underline;
-  }
-
-/* Terms Section Styling */
-.terms-section .toggle {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  cursor: pointer;
-  padding: 0.5rem 0;
-  width: fit-content;
-}
-
-  .terms-section .toggle input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    cursor: pointer;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-
-  .terms-section .toggle span {
-    font-size: 0.9rem;
-    color: #666;
-    font-weight: 400;
-    line-height: 1.4;
-  }
-
-/* Forgot Password Specific Styles */
-.button-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.back-to-login-button {
-  width: 100%;
-  background-color: transparent;
-  color: #3c7ab7;
-  border: 2px solid #3c7ab7;
-  padding: 0.75rem;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-  .back-to-login-button:hover {
-    background-color: #3c7ab7;
-    color: white;
-  }
-
-/* Success Message Styles for Forgot Password */
-.success-message {
-  text-align: center;
-  width: 100%;
-}
-
-.success-icon {
-  font-size: 3rem;
-  color: #28a745;
-  margin-bottom: 1rem;
-}
-
-.success-message h3 {
-  color: #0e2743;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-
-.success-message p {
-  color: #666;
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-}
-
-.check-inbox {
-  font-weight: 500;
-  color: #0e2743 !important;
-}
-
-.success-actions {
-  display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
-  width: 100%;
 }

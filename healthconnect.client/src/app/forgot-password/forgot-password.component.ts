@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, Valid
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['../log-in/log-in.component.css'] // Reuse login CSS
+  styleUrls: ['./forgot-password.component.css'] // Reuse login CSS
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;

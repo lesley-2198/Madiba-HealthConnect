@@ -23,22 +23,6 @@
             </div>
           </div>
 
-          <!-- Student Number -->
-          <div class="form-group">
-            <label for="studentNumber">Student Number</label>
-            <input type="text"
-                   id="studentNumber"
-                   formControlName="studentNumber"
-                   placeholder="e.g., s123456789"
-                   class="form-control"
-                   [class.error]="createAccountForm.get('studentNumber')?.invalid && createAccountForm.get('studentNumber')?.touched">
-
-            <div class="validation-error" *ngIf="createAccountForm.get('studentNumber')?.invalid && createAccountForm.get('studentNumber')?.touched">
-              <span *ngIf="createAccountForm.get('studentNumber')?.errors?.['required']">Student number is required</span>
-              <span *ngIf="createAccountForm.get('studentNumber')?.errors?.['pattern']">Please enter a valid student number (e.g., s123456789)</span>
-            </div>
-          </div>
-
           <!-- Email Field -->
           <div class="form-group">
             <label for="email">Academic Email</label>
@@ -52,6 +36,22 @@
             <div class="validation-error" *ngIf="createAccountForm.get('email')?.invalid && createAccountForm.get('email')?.touched">
               <span *ngIf="createAccountForm.get('email')?.errors?.['required']">Email is required</span>
               <span *ngIf="createAccountForm.get('email')?.errors?.['invalidAcademicEmail']">Please enter a valid academic email</span>
+            </div>
+          </div>
+
+          <!-- Cellphone Number -->
+          <div class="form-group">
+            <label for="cellphone">Cellphone Number</label>
+            <input type="tel"
+                   id="cellphone"
+                   formControlName="cellphone"
+                   placeholder="e.g., 0712345678"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('cellphone')?.invalid && createAccountForm.get('cellphone')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('cellphone')?.invalid && createAccountForm.get('cellphone')?.touched">
+              <span *ngIf="createAccountForm.get('cellphone')?.errors?.['required']">Cellphone number is required</span>
+              <span *ngIf="createAccountForm.get('cellphone')?.errors?.['pattern']">Please enter a valid South African cellphone number (e.g., 0712345678)</span>
             </div>
           </div>
 
@@ -76,18 +76,33 @@
             </div>
           </div>
 
-          <!-- Course Selection -->
+          <!-- Course Selection with Autocomplete -->
           <div class="form-group">
             <label for="course">Course</label>
             <input type="text"
                    id="course"
                    formControlName="course"
-                   placeholder="e.g., Bachelor of Information Technology"
+                   placeholder="Start typing your course..."
                    class="form-control"
-                   [class.error]="createAccountForm.get('course')?.invalid && createAccountForm.get('course')?.touched">
+                   [class.error]="createAccountForm.get('course')?.invalid && createAccountForm.get('course')?.touched"
+                   (input)="filterCourses()"
+                   (focus)="showCourseDropdown = true"
+                   (blur)="onCourseBlur()">
+
+            <!-- Course Dropdown -->
+            <div class="autocomplete-dropdown" *ngIf="showCourseDropdown && filteredCourses.length > 0">
+              <div class="dropdown-list">
+                <div *ngFor="let course of filteredCourses"
+                     class="dropdown-item"
+                     (mousedown)="selectCourse(course)">
+                  {{ course }}
+                </div>
+              </div>
+            </div>
 
             <div class="validation-error" *ngIf="createAccountForm.get('course')?.invalid && createAccountForm.get('course')?.touched">
               <span *ngIf="createAccountForm.get('course')?.errors?.['required']">Course is required</span>
+              <span *ngIf="createAccountForm.get('course')?.errors?.['invalidCourse']">Please select a valid course from the list</span>
             </div>
           </div>
 
@@ -97,13 +112,43 @@
             <input type="password"
                    id="password"
                    formControlName="password"
-                   placeholder="Create a password"
+                   placeholder="Create a strong password"
                    class="form-control"
                    [class.error]="createAccountForm.get('password')?.invalid && createAccountForm.get('password')?.touched">
+
+            <!-- Password Requirements -->
+            <div class="password-requirements" *ngIf="createAccountForm.get('password')?.value">
+              <p class="requirements-title">Password requirements:</p>
+              <ul class="requirements-list">
+                <li [class.requirement-met]="passwordRequirements.minLength" [class.requirement-unmet]="!passwordRequirements.minLength">
+                  <span class="requirement-icon">{{ passwordRequirements.minLength ? '✓' : '○' }}</span>
+                  At least 8 characters
+                </li>
+                <li [class.requirement-met]="passwordRequirements.hasUpperCase" [class.requirement-unmet]="!passwordRequirements.hasUpperCase">
+                  <span class="requirement-icon">{{ passwordRequirements.hasUpperCase ? '✓' : '○' }}</span>
+                  One uppercase letter (A-Z)
+                </li>
+                <li [class.requirement-met]="passwordRequirements.hasLowerCase" [class.requirement-unmet]="!passwordRequirements.hasLowerCase">
+                  <span class="requirement-icon">{{ passwordRequirements.hasLowerCase ? '✓' : '○' }}</span>
+                  One lowercase letter (a-z)
+                </li>
+                <li [class.requirement-met]="passwordRequirements.hasNumber" [class.requirement-unmet]="!passwordRequirements.hasNumber">
+                  <span class="requirement-icon">{{ passwordRequirements.hasNumber ? '✓' : '○' }}</span>
+                  One number (0-9)
+                </li>
+                <li [class.requirement-recommended]="true">
+                  <span class="requirement-icon">💡</span>
+                  One special character (recommended)
+                </li>
+              </ul>
+            </div>
 
             <div class="validation-error" *ngIf="createAccountForm.get('password')?.invalid && createAccountForm.get('password')?.touched">
               <span *ngIf="createAccountForm.get('password')?.errors?.['required']">Password is required</span>
               <span *ngIf="createAccountForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</span>
+              <span *ngIf="createAccountForm.get('password')?.errors?.['missingUpperCase']">Password must contain at least one uppercase letter</span>
+              <span *ngIf="createAccountForm.get('password')?.errors?.['missingLowerCase']">Password must contain at least one lowercase letter</span>
+              <span *ngIf="createAccountForm.get('password')?.errors?.['missingNumber']">Password must contain at least one number</span>
             </div>
           </div>
 

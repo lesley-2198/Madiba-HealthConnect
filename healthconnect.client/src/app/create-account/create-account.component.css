@@ -1,0 +1,322 @@
+@import url('../log-in/log-in.component.css');
+
+/* Terms and Conditions */
+.terms-section .toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  width: fit-content;
+}
+
+  .terms-section .toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .terms-section .toggle span {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+.terms-link {
+  color: #3c7ab7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+  .terms-link:hover {
+    text-decoration: underline;
+  }
+
+/* Success Message Styles */
+.success-message {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.success-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.success-icon {
+  color: #155724;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.success-message p {
+  color: #155724;
+  margin: 0;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Autocomplete Dropdown Styles */
+.autocomplete-dropdown {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 2px;
+}
+
+.dropdown-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f5f5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+
+  .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+/* Form group relative positioning for dropdown */
+.form-group {
+  position: relative;
+}
+
+/* Ensure the course input has proper z-index */
+#course {
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive Design for Dropdown */
+@media (max-width: 768px) {
+  .autocomplete-dropdown {
+    max-height: 150px;
+  }
+
+  .dropdown-item {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Password Requirements Styles */
+.password-requirements {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.requirements-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
+  margin: 0 0 0.5rem 0;
+}
+
+.requirements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+  .requirements-list li {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    padding: 0.1rem 0;
+  }
+
+.requirement-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.requirement-met {
+  color: #28a745;
+}
+
+.requirement-unmet {
+  color: #6c757d;
+}
+
+.requirement-met .requirement-icon {
+  color: #28a745;
+}
+
+.requirement-unmet .requirement-icon {
+  color: #6c757d;
+}
+
+/* Responsive Design for Password Requirements */
+@media (max-width: 768px) {
+  .password-requirements {
+    padding: 0.75rem;
+  }
+
+  .requirements-list li {
+    font-size: 0.7rem;
+  }
+}
+
+/* Autocomplete Dropdown Styles */
+.autocomplete-dropdown {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 2px;
+}
+
+.dropdown-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f5f5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+
+  .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+/* Form group relative positioning for dropdown */
+.form-group {
+  position: relative;
+}
+
+/* Ensure the course input has proper z-index */
+#course {
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive Design for Dropdown */
+@media (max-width: 768px) {
+  .autocomplete-dropdown {
+    max-height: 150px;
+  }
+
+  .dropdown-item {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Password Requirements Styles */
+.password-requirements {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.requirements-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
+  margin: 0 0 0.5rem 0;
+}
+
+.requirements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+  .requirements-list li {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    padding: 0.1rem 0;
+  }
+
+.requirement-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.requirement-met {
+  color: #28a745;
+}
+
+.requirement-unmet {
+  color: #6c757d;
+}
+
+.requirement-met .requirement-icon {
+  color: #28a745;
+}
+
+.requirement-unmet .requirement-icon {
+  color: #6c757d;
+}
+
+/* Responsive Design for Password Requirements */
+@media (max-width: 768px) {
+  .password-requirements {
+    padding: 0.75rem;
+  }
+
+  .requirements-list li {
+    font-size: 0.7rem;
+  }
+}
