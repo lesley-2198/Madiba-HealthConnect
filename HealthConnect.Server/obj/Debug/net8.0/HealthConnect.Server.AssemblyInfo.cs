@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HealthConnect.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8ae318b887929e1982becc2d072d6805655133e5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61fc914dab2791179defd2f33de6c11ed55fca98")]
 [assembly: System.Reflection.AssemblyProductAttribute("HealthConnect.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HealthConnect.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,6 +1,7 @@
 ﻿using HealthConnect.Server.Data;
 using HealthConnect.Server.DTOs;
 using HealthConnect.Server.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,10 +36,10 @@ namespace HealthConnect.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            // Validate role
-            if (model.Role != "Student" && model.Role != "Nurse")
+            // Validate role - only allow Student registration for now
+            if (model.Role != "Student")
             {
-                return BadRequest(new { message = "Role must be either Student or Nurse" });
+                return BadRequest(new { message = "Only Student registration is currently available" });
             }
 
             var user = new ApplicationUser
@@ -46,10 +47,10 @@ namespace HealthConnect.Server.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 FullName = model.FullName,
-                Role = "Student",
-                StudentNumber = model.Role == "Student" ? model.StudentNumber : null,
-                Campus = model.Role == "Student" ? model.Campus : null,
-                Course = model.Role == "Student" ? model.Course : null,
+                Role = model.Role, // Use the role from DTO, not hardcoded
+                StudentNumber = model.StudentNumber,
+                Campus = model.Campus,
+                Course = model.Course,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -116,6 +117,32 @@ namespace HealthConnect.Server.Controllers
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [HttpPost("register-nurse")]
+        [Authorize(Roles = "Admin")] // Only admins can register nurses
+        public async Task<IActionResult> RegisterNurse([FromBody] RegisterNurseDto model)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FullName = model.FullName,
+                Role = "Nurse",
+                EmployeeNumber = model.EmployeeNumber,
+                Specialization = model.Specialization,
+                IsAvailable = true
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Nurse");
+                return Ok(new { message = "Nurse registered successfully" });
+            }
+
+            return BadRequest(new { errors = result.Errors });
         }
     }
 }

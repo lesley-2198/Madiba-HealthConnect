@@ -8,10 +8,6 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\healthconnect.client\browser\</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="src\app\NewFolder\**" />
-    <TypeScriptConfiguration Remove="src\app\NewFolder\**" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="src\assets\logos\" />
   </ItemGroup>
 </Project>

@@ -71,6 +71,14 @@
               </a>
             </p>
           </div>
+
+          <!-- Add this inside the form, after the password field -->
+          <div class="error-message" *ngIf="errorMessage">
+            <div class="error-content">
+              <span class="error-icon">⚠</span>
+              <p>{{ errorMessage }}</p>
+            </div>
+          </div>
         </form>
       </div>
     </div>

@@ -320,6 +320,34 @@ body, html {
   }
 }
 
+/* Error Message Styles */
+.error-message {
+  background-color: #ffe6e6;
+  border: 1px solid #d93025;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.error-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-icon {
+  color: #d93025;
+  font-weight: bold;
+}
+
+.error-message p {
+  color: #d93025;
+  margin: 0;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 /* Extra small screens */
 @media (max-width: 360px) {
   .logo-section h2 {
