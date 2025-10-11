@@ -3,12 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2536C23A-D6D3-2723-4E69-FD17523E9E92}|healthconnect.client\\healthconnect.client.esproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.client\\src\\app\\log-in\\log-in.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{2536C23A-D6D3-2723-4E69-FD17523E9E92}|healthconnect.client\\healthconnect.client.esproj|solutionrelative:healthconnect.client\\src\\app\\log-in\\log-in.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2536C23A-D6D3-2723-4E69-FD17523E9E92}|healthconnect.client\\healthconnect.client.esproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{2536C23A-D6D3-2723-4E69-FD17523E9E92}|healthconnect.client\\healthconnect.client.esproj|solutionrelative:healthconnect.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\healthconnect.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\healthconnect.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|c:\\users\\lesle\\source\\repos\\madiba-healthconnect\\healthconnect.server\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3C4D4B4-D240-4C4D-BBBE-E62F714AB968}|HealthConnect.Server\\HealthConnect.Server.csproj|solutionrelative:healthconnect.server\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,36 +46,128 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "HealthConnect.Server\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAowDUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T11:58:48.783Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\appsettings.json",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\appsettings.json",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\appsettings.json",
+              "RelativeToolTip": "HealthConnect.Server\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-11T11:57:23.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Program.cs",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\Program.cs",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Program.cs",
+              "RelativeToolTip": "HealthConnect.Server\\Program.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAwwD4AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T11:56:34.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\DTOs\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\DTOs\\RegisterDto.cs",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\DTOs\\RegisterDto.cs",
+              "RelativeToolTip": "HealthConnect.Server\\DTOs\\RegisterDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvw0AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T11:56:10.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\DTOs\\LoginDto.cs",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\DTOs\\LoginDto.cs",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\DTOs\\LoginDto.cs",
+              "RelativeToolTip": "HealthConnect.Server\\DTOs\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T11:39:16.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HealthConnect.Server",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\HealthConnect.Server.csproj",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\HealthConnect.Server.csproj",
+              "RelativeToolTip": "HealthConnect.Server\\HealthConnect.Server.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-11T11:33:15.711Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "log-in.component.ts",
-              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\healthconnect.client\\src\\app\\log-in\\log-in.component.ts",
-              "RelativeDocumentMoniker": "healthconnect.client\\src\\app\\log-in\\log-in.component.ts",
-              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\healthconnect.client\\src\\app\\log-in\\log-in.component.ts",
-              "RelativeToolTip": "healthconnect.client\\src\\app\\log-in\\log-in.component.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-10-10T22:49:46.011Z",
+              "DocumentIndex": 6,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "HealthConnect.Server\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T11:22:31.022Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "app-routing.module.ts",
-              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\healthconnect.client\\src\\app\\app-routing.module.ts",
-              "RelativeDocumentMoniker": "healthconnect.client\\src\\app\\app-routing.module.ts",
-              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\healthconnect.client\\src\\app\\app-routing.module.ts",
-              "RelativeToolTip": "healthconnect.client\\src\\app\\app-routing.module.ts",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABYAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-10-10T21:03:41.709Z"
+              "DocumentIndex": 8,
+              "Title": "Appointment.cs",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Models\\Appointment.cs",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\Models\\Appointment.cs",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Models\\Appointment.cs",
+              "RelativeToolTip": "HealthConnect.Server\\Models\\Appointment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T11:20:58.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Models\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "HealthConnect.Server\\Models\\ApplicationUser.cs",
+              "ToolTip": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\HealthConnect.Server\\Models\\ApplicationUser.cs",
+              "RelativeToolTip": "HealthConnect.Server\\Models\\ApplicationUser.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA9wBEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T11:18:49.809Z",
+              "EditorCaption": ""
             }
           ]
         }
