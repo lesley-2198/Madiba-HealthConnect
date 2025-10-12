@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 interface Nurse {
   id: number;
@@ -34,16 +35,8 @@ interface Appointment {
 })
 export class NurseDashboardComponent implements OnInit {
   // Nurse data
-  nurse: Nurse = {
-    id: 1,
-    employeeNumber: 'N123456',
-    fullName: 'Sindisiwe Dlamini',
-    email: 'sindi.dlamini@mandela.ac.za',
-    specialization: 'General Nursing',
-    phoneNumber: '+27 123 456 789',
-    isAvailable: true,
-    workingHours: 'Mon-Fri: 8:00 AM - 4:30 PM'
-  };
+  nurse: any = null;
+  nurseInitials: string = '';
 
   // Navigation menu
   menuItems = [
@@ -52,6 +45,13 @@ export class NurseDashboardComponent implements OnInit {
     { id: 'consultations', label: 'Consultations', description: 'Conduct patient consultations', checked: false },
     { id: 'availability', label: 'Availability', description: 'Manage your schedule', checked: false }
   ];
+
+  // Add to your component
+  showUserMenu = false;
+
+  toggleUserMenu() {
+    this.showUserMenu = !this.showUserMenu;
+  }
 
   // Appointments data
   // In your todaysAppointments array, add createdAt:
@@ -93,15 +93,27 @@ export class NurseDashboardComponent implements OnInit {
   // UI state
   today: Date = new Date();
   appointmentFilter: string = 'all';
-  nurseInitials: string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.nurseInitials = this.getInitials(this.nurse.fullName);
   }
 
-  getInitials(fullName: string): string {
+  // ADD THIS METHOD
+  private loadNurseData(): void {
+    this.nurse = this.authService.getUser();
+    if (this.nurse) {
+      this.nurseInitials = this.getInitials(this.nurse.fullName);
+    }
+  }
+
+  // ADD THIS METHOD
+  private getInitials(fullName: string): string {
+    if (!fullName) return '';
     return fullName.split(' ').map(name => name[0]).join('').toUpperCase();
   }
 
@@ -194,6 +206,6 @@ export class NurseDashboardComponent implements OnInit {
   }
 
   logout(): void {
-    this.router.navigate(['/login']);
+    this.authService.logout();
   }
 }

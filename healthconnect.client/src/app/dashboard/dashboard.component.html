@@ -13,24 +13,34 @@
         </div>
       </div>
     </div>
-    <div class="header-avatar">
-      LM
+
+    <!-- Updated Header Avatar with Logout -->
+    <div class="header-avatar-container">
+      <div class="header-avatar" (click)="toggleUserMenu()">
+        {{ userInitials }}
+      </div>
+      <div class="user-menu" *ngIf="showUserMenu">
+        <div class="user-menu-item" (click)="logout()">
+          <span class="menu-icon">🚪</span>
+          Logout
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- Profile Section - Now positioned to overlap the top bar -->
+  <!-- Profile Section -->
   <div class="profile-section">
     <div class="profile-container">
       <div class="user-avatar">
-        LM
+        {{ userInitials }}
       </div>
       <div class="user-info">
-        <h3>Liyakhanya Mncube</h3>
-        <p class="user-email">s123456789&#64;mandela.ac.za</p>
+        <h3>{{ user?.fullName || 'Loading...' }}</h3>
+        <p class="user-email">{{ user?.email || 'Loading...' }}</p>
         <div class="user-details">
-          <p><strong>Student number:</strong> 123456789</p>
-          <p><strong>Campus:</strong> North Campus</p>
-          <p><strong>Course:</strong> Bachelor of Information Technology</p>
+          <p><strong>Student number:</strong> {{ user?.studentNumber || 'N/A' }}</p>
+          <p><strong>Campus:</strong> {{ user?.campus || 'N/A' }}</p>
+          <p><strong>Course:</strong> {{ user?.course || 'N/A' }}</p>
         </div>
       </div>
     </div>
@@ -60,6 +70,14 @@
             </label>
           </li>
         </ul>
+
+        <!-- Updated Logout Button -->
+        <div class="logout-section">
+          <button class="logout-btn" (click)="logout()">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Logout</span>
+          </button>
+        </div>
       </nav>
     </aside>
 

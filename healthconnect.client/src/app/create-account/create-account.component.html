@@ -23,6 +23,39 @@
             </div>
           </div>
 
+          <!-- First Name -->
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text"
+                   id="firstName"
+                   formControlName="firstName"
+                   placeholder="Enter your first name"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('firstName')?.invalid && createAccountForm.get('firstName')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('firstName')?.invalid && createAccountForm.get('firstName')?.touched">
+              <span *ngIf="createAccountForm.get('firstName')?.errors?.['required']">First name is required</span>
+              <span *ngIf="createAccountForm.get('firstName')?.errors?.['pattern']">First name can only contain letters</span>
+            </div>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text"
+                   id="lastName"
+                   formControlName="lastName"
+                   placeholder="Enter your last name"
+                   class="form-control"
+                   [class.error]="createAccountForm.get('lastName')?.invalid && createAccountForm.get('lastName')?.touched">
+
+            <div class="validation-error" *ngIf="createAccountForm.get('lastName')?.invalid && createAccountForm.get('lastName')?.touched">
+              <span *ngIf="createAccountForm.get('lastName')?.errors?.['required']">Last name is required</span>
+              <span *ngIf="createAccountForm.get('lastName')?.errors?.['pattern']">Last name can only contain letters</span>
+            </div>
+          </div>
+
+
           <!-- Email Field -->
           <div class="form-group">
             <label for="email">Academic Email</label>

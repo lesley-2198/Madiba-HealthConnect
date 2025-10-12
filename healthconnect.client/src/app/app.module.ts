@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'; // Add this
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,7 +13,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { NurseDashboardComponent } from './nurse-dashboard/nurse-dashboard.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 @NgModule({
   declarations: [
@@ -32,10 +35,18 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule, // Important for our form
+    ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    AuthGuard,
+    RoleGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

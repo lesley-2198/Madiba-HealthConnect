@@ -13,8 +13,17 @@
         </div>
       </div>
     </div>
-    <div class="header-avatar">
-      {{ nurseInitials }}
+
+    <div class="header-avatar-container">
+      <div class="header-avatar" (click)="toggleUserMenu()">
+        {{ nurseInitials }}
+      </div>
+      <div class="user-menu" *ngIf="showUserMenu">
+        <div class="user-menu-item" (click)="logout()">
+          <span class="menu-icon">🚪</span>
+          Logout
+        </div>
+      </div>
     </div>
   </header>
 
@@ -25,11 +34,11 @@
         {{ nurseInitials }}
       </div>
       <div class="user-info">
-        <h3>{{ nurse?.fullName }}</h3>
-        <p class="user-email">{{ nurse?.email }}</p>
+        <h3>{{ nurse?.fullName || 'Loading...' }}</h3>
+        <p class="user-email">{{ nurse?.email || 'Loading...' }}</p>
         <div class="user-details">
-          <p><strong>Employee Number:</strong> {{ nurse?.employeeNumber }}</p>
-          <p><strong>Specialization:</strong> {{ nurse?.specialization }}</p>
+          <p><strong>Employee Number:</strong> {{ nurse?.employeeNumber || 'N/A' }}</p>
+          <p><strong>Specialization:</strong> {{ nurse?.specialization || 'N/A' }}</p>
           <p>
             <strong>Status:</strong>
             <span class="status-badge" [class.available]="nurse?.isAvailable"
@@ -39,7 +48,7 @@
           </p>
         </div>
       </div>
-    </div>
+      </div>
   </div>
 
   <div class="dashboard-layout">
@@ -59,6 +68,14 @@
             </label>
           </li>
         </ul>
+
+        <!-- Logout Button -->
+        <div class="logout-section">
+          <button class="logout-btn" (click)="logout()">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Logout</span>
+          </button>
+        </div>
       </nav>
 
       <!-- Quick Stats -->

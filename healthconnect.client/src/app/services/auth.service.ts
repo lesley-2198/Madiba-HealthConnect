@@ -13,6 +13,9 @@ export interface LoginResponse {
     studentNumber?: string;
     employeeNumber?: string;
     specialization?: string;
+    campus?: string;
+    course?: string;
+    department?: string;
   };
 }
 

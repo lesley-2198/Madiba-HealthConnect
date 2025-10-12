@@ -8,20 +8,42 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { NurseDashboardComponent } from './nurse-dashboard/nurse-dashboard.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
+  // Public routes (no authentication required)
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'create-account', component: CreateAccountComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'terms-conditions', component: TermsConditionsComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
-  { path: 'nurse-dashboard', component: NurseDashboardComponent },
-  { path: 'admin-dashboard', component: AdminDashboardComponent },
-  { path: '**', redirectTo: '/login' } // Redirect unknown routes to login
+
+  // Protected routes (authentication required)
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Student'] }
+  },
+  {
+    path: 'nurse-dashboard',
+    component: NurseDashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Nurse'] }
+  },
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Admin'] }
+  },
+
+  // Catch-all route
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

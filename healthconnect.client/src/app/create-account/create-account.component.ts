@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-create-account',
@@ -73,9 +74,12 @@ export class CreateAccountComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.createAccountForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s'-]+$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s'-]+$/)]],
       email: ['', [Validators.required, Validators.email, this.mandelaEmailValidator()]],
       cellphone: ['', [Validators.required, Validators.pattern(/^(\+27|0)[1-9][0-9]{8}$/)]],
       campus: ['', Validators.required],
@@ -93,6 +97,16 @@ export class CreateAccountComponent {
       this.updatePasswordRequirements(password);
     });
   }
+
+  private capitalizeName(name: string): string {
+    if (!name) return '';
+    return name
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
 
   private passwordComplexityValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -186,26 +200,58 @@ export class CreateAccountComponent {
 
       this.isLoading = true;
 
+      // Capitalize first and last names before saving
+      const firstName = this.capitalizeName(this.createAccountForm.get('firstName')?.value);
+      const lastName = this.capitalizeName(this.createAccountForm.get('lastName')?.value);
+
+      // Combine into FullName for backend
+      const fullName = `${firstName} ${lastName}`;
+
       // Extract student number from email for backend processing
       const email = this.createAccountForm.get('email')?.value;
       const studentNumber = this.extractStudentNumberFromEmail(email);
 
-      const formData = {
-        ...this.createAccountForm.value,
-        studentNumber: studentNumber // Add extracted student number to form data
+      // Prepare data for backend (match RegisterDto structure)
+      const registerData = {
+        email: email,
+        password: this.createAccountForm.get('password')?.value,
+        fullName: fullName,
+        studentNumber: studentNumber,
+        campus: this.createAccountForm.get('campus')?.value,
+        course: courseValue,
+        cellphone: this.createAccountForm.get('cellphone')?.value
       };
 
-      // Simulate account creation process
-      setTimeout(() => {
-        this.isLoading = false;
-        this.showSuccessMessage = true;
-        console.log('Account creation:', formData);
+      // ACTUALLY CALL THE BACKEND API
+      this.authService.register(registerData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.showSuccessMessage = true;
+          console.log('Account created successfully:', response);
 
-        // Redirect to login after showing success message
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
-      }, 2000);
+          // Redirect to login after showing success message
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Registration failed:', error);
+
+          // Show error message to user
+          let errorMessage = 'Registration failed. Please try again.';
+
+          if (error.error?.errors) {
+            // Handle Identity errors (array of error objects)
+            const identityErrors = error.error.errors;
+            errorMessage = identityErrors.map((err: any) => err.description).join(', ');
+          } else if (error.error?.message) {
+            errorMessage = error.error.message;
+          }
+
+          alert(errorMessage); // Consider using a better UI notification
+        }
+      });
     } else {
       this.markFormGroupTouched();
       console.log('Form is invalid - showing validation errors');

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 interface Admin {
   id: number;
@@ -53,14 +54,8 @@ interface HealthNews {
 })
 export class AdminDashboardComponent implements OnInit {
   // Admin data
-  admin: Admin = {
-    id: 1,
-    employeeNumber: 'A123456',
-    fullName: 'Admin User',
-    email: 'admin@mandela.ac.za',
-    role: 'Clinic Administrator',
-    phoneNumber: '+27 123 456 789'
-  };
+  admin: any = null;
+  adminInitials: string = '';
 
   // Navigation menu
   menuItems = [
@@ -70,6 +65,13 @@ export class AdminDashboardComponent implements OnInit {
     { id: 'health-news', label: 'Health News', description: 'Create and manage health news', checked: false },
     { id: 'reports', label: 'Reports & Analytics', description: 'View system reports', checked: false }
   ];
+
+  // Add to your component
+  showUserMenu = false;
+
+  toggleUserMenu() {
+    this.showUserMenu = !this.showUserMenu;
+  }
 
   // Nurses data
   nurses: Nurse[] = [
@@ -186,15 +188,27 @@ export class AdminDashboardComponent implements OnInit {
 
   // UI state
   today: Date = new Date();
-  adminInitials: string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.adminInitials = this.getInitials(this.admin.fullName);
+    this.loadAdminData();
   }
 
-  getInitials(fullName: string): string {
+  // ADD THIS METHOD
+  private loadAdminData(): void {
+    this.admin = this.authService.getUser();
+    if (this.admin) {
+      this.adminInitials = this.getInitials(this.admin.fullName);
+    }
+  }
+
+  // ADD THIS METHOD
+  private getInitials(fullName: string): string {
+    if (!fullName) return '';
     return fullName.split(' ').map(name => name[0]).join('').toUpperCase();
   }
 
@@ -312,6 +326,6 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   logout(): void {
-    this.router.navigate(['/login']);
+    this.authService.logout();
   }
 }

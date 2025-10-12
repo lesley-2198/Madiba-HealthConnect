@@ -36,18 +36,13 @@ namespace HealthConnect.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            // Validate role - only allow Student registration for now
-            if (model.Role != "Student")
-            {
-                return BadRequest(new { message = "Only Student registration is currently available" });
-            }
-
+            // Only allow Student registration
             var user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,
                 FullName = model.FullName,
-                Role = model.Role, // Use the role from DTO, not hardcoded
+                Role = "Student", // Always Student
                 StudentNumber = model.StudentNumber,
                 Campus = model.Campus,
                 Course = model.Course,
@@ -57,8 +52,8 @@ namespace HealthConnect.Server.Controllers
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, model.Role);
-                return Ok(new { message = "User registered successfully" });
+                await _userManager.AddToRoleAsync(user, "Student");
+                return Ok(new { message = "Student registered successfully" });
             }
 
             return BadRequest(new { errors = result.Errors });
@@ -87,7 +82,10 @@ namespace HealthConnect.Server.Controllers
                         user.Role,
                         user.StudentNumber,
                         user.EmployeeNumber,
-                        user.Specialization
+                        user.Specialization,
+                        user.Campus,
+                        user.Course,
+                        user.Department
                     }
                 });
             }

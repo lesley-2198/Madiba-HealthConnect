@@ -110,10 +110,86 @@ body, html {
   margin-top: 50px; 
 }
 
-  .header-avatar:hover {
-    transform: scale(1.05);
+.header-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* Header Avatar with Dropdown */
+.header-avatar-container {
+  position: relative;
+  margin-top: 50px;
+}
+
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  min-width: 140px;
+  z-index: 1000;
+  margin-top: 0.5rem;
+}
+
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #333;
+  font-weight: 500;
+}
+
+  .user-menu-item:hover {
+    background-color: #f8f9fa;
   }
 
+.menu-icon {
+  font-size: 1.1rem;
+}
+
+/* Sidebar Logout Section */
+.logout-section {
+  margin-top: auto;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0f2f1;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: 1px solid #e53935;
+  border-radius: 12px;
+  color: #e53935;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+  .logout-btn:hover {
+    background: #e53935;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+  }
+
+.logout-icon {
+  font-size: 1.1rem;
+}
+
+.logout-text {
+  font-size: 0.95rem;
+}
 
 /* Profile Section - Positioned to overlap the top bar */
 .profile-section {

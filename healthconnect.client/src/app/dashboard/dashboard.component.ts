@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,13 +9,8 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   // Mock user data
-  user = {
-    fullName: 'Liyakhanya Mncube',
-    email: 's123456789@mandela.ac.za',
-    studentNumber: '123456789',
-    campus: 'North Campus',
-    course: 'Bachelor of Information Technology'
-  };
+  user: any = null;
+  userInitials: string = '';
 
   // Navigation menu items
   menuItems = [
@@ -33,6 +29,13 @@ export class DashboardComponent implements OnInit {
   availableTimeSlots: any[] = [];
   lunchStart = '13:00';
   lunchEnd = '14:00';
+
+  // Add to your component
+  showUserMenu = false;
+
+  toggleUserMenu() {
+    this.showUserMenu = !this.showUserMenu;
+  }
 
   generateTimeSlots(): void {
     const slots = [];
@@ -124,11 +127,29 @@ export class DashboardComponent implements OnInit {
   translateX = 0;
   private isMobile = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.loadUserData();
     this.checkMobileView();
     this.generateTimeSlots();
+  }
+
+  // ADD THIS METHOD
+  private loadUserData(): void {
+    this.user = this.authService.getUser();
+    if (this.user) {
+      this.userInitials = this.getInitials(this.user.fullName);
+    }
+  }
+
+  // ADD THIS METHOD
+  private getInitials(fullName: string): string {
+    if (!fullName) return '';
+    return fullName.split(' ').map(name => name[0]).join('').toUpperCase();
   }
 
   @HostListener('window:resize')
@@ -184,7 +205,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout(): void {
-    this.router.navigate(['/login']);
+    this.authService.logout();
   }
 
   activeBookingTab: 'book' | 'manage' = 'book';
