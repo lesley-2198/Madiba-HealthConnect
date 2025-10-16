@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { NurseService, CreateNurseRequest, Nurse } from '../services/nurse.service';
 
 interface Admin {
   id: number;
@@ -9,16 +11,6 @@ interface Admin {
   email: string;
   role: string;
   phoneNumber: string;
-}
-
-interface Nurse {
-  id: number;
-  employeeNumber: string;
-  fullName: string;
-  email: string;
-  specialization: string;
-  isAvailable: boolean;
-  currentAppointments: number;
 }
 
 interface Appointment {
@@ -31,7 +23,7 @@ interface Appointment {
   consultationType: 'InPerson' | 'TeleConsult';
   symptomsDescription: string;
   status: 'Pending' | 'Assigned' | 'Confirmed' | 'InProgress' | 'Completed' | 'Cancelled' | 'Rescheduled';
-  assignedNurseId?: number;
+  assignedNurseId?: string;
   assignedNurseName?: string;
   createdAt: string;
 }
@@ -74,38 +66,13 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   // Nurses data
-  nurses: Nurse[] = [
-    {
-      id: 1,
-      employeeNumber: 'N123456',
-      fullName: 'Sindisiwe Dlamini',
-      email: 'sindi.dlamini@mandela.ac.za',
-      specialization: 'General Nursing',
-      isAvailable: true,
-      currentAppointments: 3
-    },
-    {
-      id: 2,
-      employeeNumber: 'N123457',
-      fullName: 'James Khumalo',
-      email: 'james.khumalo@mandela.ac.za',
-      specialization: 'Emergency Care',
-      isAvailable: true,
-      currentAppointments: 2
-    },
-    {
-      id: 3,
-      employeeNumber: 'N123458',
-      fullName: 'Nomvula Botha',
-      email: 'nomvula.botha@mandela.ac.za',
-      specialization: 'Primary Care',
-      isAvailable: false,
-      currentAppointments: 0
-    }
-  ];
+  nurses: Nurse[] = [];
+  isCreatingNurse = false;
+  nurseForm: FormGroup;
+  showNurseForm = false;
 
   // Appointments data
-  pendingAppointments: Appointment[] = [
+  pendingAppointments: any[] = [
     {
       id: 1,
       studentId: 1,
@@ -143,7 +110,7 @@ export class AdminDashboardComponent implements OnInit {
       consultationType: 'InPerson',
       symptomsDescription: 'Vaccination',
       status: 'Assigned',
-      assignedNurseId: 1,
+      assignedNurseId: '1',
       assignedNurseName: 'Sindisiwe Dlamini',
       createdAt: new Date().toISOString()
     }
@@ -184,18 +151,30 @@ export class AdminDashboardComponent implements OnInit {
   };
 
   selectedAppointment: Appointment | null = null;
-  selectedNurseId: number | null = null;
+  selectedNurseId: string | null = null;
 
   // UI state
   today: Date = new Date();
 
   constructor(
     private router: Router,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private nurseService: NurseService,
+    private fb: FormBuilder
+  ) {
+    // Initialize nurse form
+    this.nurseForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email, this.mandelaEmailValidator()]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      fullName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s'-]+$/)]],
+      employeeNumber: ['', [Validators.required, Validators.pattern(/^N\d{6}$/)]],
+      specialization: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.loadAdminData();
+    this.loadNurses();
   }
 
   // ADD THIS METHOD
@@ -210,6 +189,32 @@ export class AdminDashboardComponent implements OnInit {
   private getInitials(fullName: string): string {
     if (!fullName) return '';
     return fullName.split(' ').map(name => name[0]).join('').toUpperCase();
+  }
+
+  // ADD THIS METHOD
+  private loadNurses(): void {
+    // For now, we'll use mock data since we don't have a getNurses endpoint yet
+    // This will be replaced when we add the backend endpoint
+    this.nurses = [
+      {
+        id: '1',
+        email: 'nurse1@mandela.ac.za',
+        fullName: 'Sindisiwe Dlamini',
+        employeeNumber: 'N123456',
+        specialization: 'General Nursing',
+        isAvailable: true,
+        role: 'Nurse'
+      },
+      {
+        id: '2',
+        email: 'nurse2@mandela.ac.za',
+        fullName: 'James Khumalo',
+        employeeNumber: 'N123457',
+        specialization: 'Emergency Care',
+        isAvailable: true,
+        role: 'Nurse'
+      }
+    ];
   }
 
   // Navigation
@@ -242,7 +247,7 @@ export class AdminDashboardComponent implements OnInit {
         this.pendingAppointments = this.pendingAppointments.filter(a => a.id !== this.selectedAppointment!.id);
 
         // Update nurse appointment count
-        nurse.currentAppointments++;
+        // nurse.currentAppointments++; // Commented out since currentAppointments doesn't exist in Nurse interface
 
         alert(`Appointment assigned to ${nurse.fullName}`);
         this.selectedAppointment = null;
@@ -260,16 +265,104 @@ export class AdminDashboardComponent implements OnInit {
     return this.nurses.filter(nurse => nurse.isAvailable);
   }
 
-  // Nurse Management
+  // Nurse Management - ADD THESE METHODS
+  showCreateNurseForm(): void {
+    this.showNurseForm = true;
+    this.nurseForm.reset();
+  }
+
+  hideCreateNurseForm(): void {
+    this.showNurseForm = false;
+    this.nurseForm.reset();
+  }
+
+  createNurse(): void {
+    if (this.nurseForm.valid) {
+      this.isCreatingNurse = true;
+
+      const nurseData: CreateNurseRequest = {
+        email: this.nurseForm.value.email,
+        password: this.nurseForm.value.password,
+        fullName: this.nurseForm.value.fullName,
+        employeeNumber: this.nurseForm.value.employeeNumber,
+        specialization: this.nurseForm.value.specialization
+      };
+
+      this.nurseService.createNurse(nurseData).subscribe({
+        next: (response) => {
+          console.log('Nurse created successfully:', response);
+          this.isCreatingNurse = false;
+          this.hideCreateNurseForm();
+          alert('Nurse created successfully!');
+
+          // Add the new nurse to the local array immediately
+          const newNurse: Nurse = {
+            id: response.id || Date.now().toString(), // Use response ID or generate temporary ID
+            email: nurseData.email,
+            fullName: nurseData.fullName,
+            employeeNumber: nurseData.employeeNumber,
+            specialization: nurseData.specialization,
+            isAvailable: true,
+            role: 'Nurse'
+          };
+
+          this.nurses.push(newNurse);
+
+          // Refresh nurses list (when we have the endpoint)
+          //this.loadNurses();
+        },
+        error: (error) => {
+          console.error('Error creating nurse:', error);
+          this.isCreatingNurse = false;
+          let errorMessage = 'Failed to create nurse. Please try again.';
+          
+          if (error.error?.errors) {
+            const identityErrors = error.error.errors;
+            errorMessage = identityErrors.map((err: any) => err.description).join(', ');
+          } else if (error.error?.message) {
+            errorMessage = error.error.message;
+          }
+          
+          alert(errorMessage);
+        }
+      });
+    } else {
+      this.markFormGroupTouched();
+    }
+  }
+
   toggleNurseAvailability(nurse: Nurse): void {
     nurse.isAvailable = !nurse.isAvailable;
     // Here you would typically call an API to update the nurse's availability
     console.log(`Nurse ${nurse.fullName} availability: ${nurse.isAvailable}`);
+    alert(`Nurse ${nurse.fullName} availability updated to ${nurse.isAvailable ? 'Available' : 'Unavailable'}`);
   }
 
   addNurse(): void {
     // Implementation for adding new nurse
-    alert('Add nurse functionality to be implemented');
+    this.showCreateNurseForm();
+  }
+
+  // ADD THIS METHOD
+  private markFormGroupTouched(): void {
+    Object.keys(this.nurseForm.controls).forEach(key => {
+      const control = this.nurseForm.get(key);
+      if (control) {
+        control.markAsTouched();
+      }
+    });
+  }
+
+  // ADD THIS METHOD
+  private mandelaEmailValidator(): any {
+    return (control: any): any => {
+      if (!control.value) {
+        return null;
+      }
+      const email = control.value as string;
+      const isValid = email.toLowerCase().endsWith('@mandela.ac.za');
+      return isValid ? null : { invalidAcademicEmail: true };
+    };
   }
 
   // Health News Management

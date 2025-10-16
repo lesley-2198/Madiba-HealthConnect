@@ -167,15 +167,25 @@
             </div>
 
             <div class="tab-content" *ngIf="activeBookingTab === 'book'">
-              <form class="booking-form" (ngSubmit)="submitBooking()" #formRef="ngForm">
+              <form class="booking-form" [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="date">Date</label>
-                    <input id="date" type="date" [(ngModel)]="bookingForm.date" name="date" required>
+                    <label for="appointmentDate">Date</label>
+                    <input id="appointmentDate"
+                           type="date"
+                           formControlName="appointmentDate"
+                           [min]="getMinDate()"
+                           [max]="getMaxDate()"
+                           (change)="onDateChange()"
+                           required>
+                    <div *ngIf="bookingForm.get('appointmentDate')?.hasError('weekendNotAllowed')"
+                         class="error-message">
+                      Appointments are not available on weekends. Please select a weekday.
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="time">Time Slot</label>
-                    <select id="time" [(ngModel)]="bookingForm.time" name="time" class="form-control" required>
+                    <label for="timeSlot">Time Slot</label>
+                    <select id="timeSlot" formControlName="timeSlot" class="form-control" required>
                       <option value="" disabled>Select a time slot</option>
                       <option *ngFor="let slot of availableTimeSlots" [value]="slot.value" [disabled]="!slot.available">
                         {{ slot.display }} <span *ngIf="!slot.available">(Unavailable)</span>
@@ -185,28 +195,22 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="campus">Campus</label>
-                    <select id="campus" [(ngModel)]="bookingForm.campus" name="campus" required>
-                      <option value="" disabled>Select your campus</option>
-                      <option>North Campus</option>
-                      <option>South Campus</option>
-                      <option>Missionvale Campus</option>
-                      <option>George Campus</option>
+                    <label for="consultationType">Consultation Type</label>
+                    <select id="consultationType" formControlName="consultationType" required>
+                      <option value="" disabled>Select consultation type</option>
+                      <option value="InPerson">In-Person</option>
+                      <option value="TeleConsult">Tele-Consult</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="reason">Reason</label>
-                    <input id="reason" type="text" placeholder="Short description" [(ngModel)]="bookingForm.reason" name="reason" required>
+                    <label for="symptomsDescription">Symptoms/Reason</label>
+                    <input id="symptomsDescription" type="text" formControlName="symptomsDescription" placeholder="Describe your symptoms or reason for visit" required>
                   </div>
                 </div>
-                <div class="form-row">
-                  <label class="toggle">
-                    <input type="checkbox" [(ngModel)]="bookingForm.notifications" name="notifications">
-                    <span>Send me reminders and confirmations</span>
-                  </label>
-                </div>
                 <div class="actions">
-                  <button type="submit" class="btn primary">Submit</button>
+                  <button type="submit" class="btn primary" [disabled]="isSubmittingBooking">
+                    {{ isSubmittingBooking ? 'Booking...' : 'Submit' }}
+                  </button>
                 </div>
               </form>
             </div>
@@ -216,13 +220,19 @@
                 <div class="appt-item" *ngFor="let appt of appointments">
                   <div class="appt-info">
                     <div>
-                      <strong>{{ appt.date }} &#64; {{ appt.time }}</strong>
-                      <div>Campus: {{ appt.campus }} • Status: {{ appt.status }}</div>
+                      <strong>{{ appt.appointmentDate | date:'short' }} &#64; {{ appt.timeSlot }}</strong>
                     </div>
+                    <div>Type: {{ appt.consultationType }} • Status: {{ appt.status }}</div>
+                    <div>{{ appt.symptomsDescription }}</div>
+                    <div *ngIf="appt.nurseName">Assigned to: {{ appt.nurseName }}</div>
                   </div>
                   <div class="appt-actions">
-                    <button type="button" class="btn outline" (click)="rescheduleAppointment(appt.id)">Reschedule</button>
-                    <button type="button" class="btn danger" (click)="cancelAppointment(appt.id)">Cancel</button>
+                    <button *ngIf="appt.status === 'Pending'" class="btn danger small" (click)="cancelAppointment(appt.id)">
+                      Cancel
+                    </button>
+                    <button *ngIf="appt.status === 'Assigned'" class="btn outline small" (click)="rescheduleAppointment(appt.id)">
+                      Reschedule
+                    </button>
                   </div>
                 </div>
               </div>

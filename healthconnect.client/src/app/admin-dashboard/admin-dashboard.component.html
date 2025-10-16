@@ -205,7 +205,7 @@
                   <option [value]="null" disabled>Choose a nurse...</option>
                   <option *ngFor="let nurse of getAvailableNurses()"
                           [value]="nurse.id">
-                    {{ nurse.fullName }} ({{ nurse.specialization }}) - {{ nurse.currentAppointments }} appointments
+                    {{ nurse.fullName }} ({{ nurse.specialization }})
                   </option>
                 </select>
               </div>
@@ -252,20 +252,75 @@
       </section>
 
       <!-- Nurse Management -->
+      <!-- Add this to your existing nurses section -->
       <section id="nurses-content" class="content-section" [class.hidden]="!isSectionActive('nurses')">
         <div class="content-card">
           <div class="card-header">
             <h2>Nurse Management</h2>
-            <button class="btn primary" (click)="addNurse()">Add New Nurse</button>
+            <button class="btn primary" (click)="showCreateNurseForm()">Add New Nurse</button>
           </div>
           <div class="card-content">
+            <!-- Nurse Creation Form -->
+            <div *ngIf="showNurseForm" class="nurse-creation-form">
+              <h3>Create New Nurse</h3>
+              <form [formGroup]="nurseForm" (ngSubmit)="createNurse()">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" formControlName="email" placeholder="nurse@mandela.ac.za" required>
+                    <div *ngIf="nurseForm.get('email')?.hasError('invalidAcademicEmail')" class="error-message">
+                      Must be a Mandela University email address
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" formControlName="password" placeholder="Minimum 8 characters" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input id="fullName" type="text" formControlName="fullName" placeholder="First Last" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="employeeNumber">Employee Number</label>
+                    <input id="employeeNumber" type="text" formControlName="employeeNumber" placeholder="N123456" required>
+                    <div *ngIf="nurseForm.get('employeeNumber')?.hasError('pattern')" class="error-message">
+                      Must be in format N123456
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="specialization">Specialization</label>
+                    <select id="specialization" formControlName="specialization" required>
+                      <option value="" disabled>Select specialization</option>
+                      <option value="General Nursing">General Nursing</option>
+                      <option value="Emergency Care">Emergency Care</option>
+                      <option value="Primary Care">Primary Care</option>
+                      <option value="Mental Health">Mental Health</option>
+                      <option value="Pediatrics">Pediatrics</option>
+                      <option value="Geriatrics">Geriatrics</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn primary" [disabled]="isCreatingNurse">
+                    {{ isCreatingNurse ? 'Creating...' : 'Create Nurse' }}
+                  </button>
+                  <button type="button" class="btn outline" (click)="hideCreateNurseForm()">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Existing Nurses List -->
             <div class="nurses-grid">
               <div *ngFor="let nurse of nurses" class="nurse-card">
                 <div class="nurse-header">
                   <h3>{{ nurse.fullName }}</h3>
-                  <span class="status-badge"
-                        [class.available]="nurse.isAvailable"
-                        [class.unavailable]="!nurse.isAvailable">
+                  <span class="status-badge" [class.available]="nurse.isAvailable" [class.unavailable]="!nurse.isAvailable">
                     {{ nurse.isAvailable ? 'Available' : 'Unavailable' }}
                   </span>
                 </div>
@@ -273,13 +328,10 @@
                   <p><strong>Employee #:</strong> {{ nurse.employeeNumber }}</p>
                   <p><strong>Specialization:</strong> {{ nurse.specialization }}</p>
                   <p><strong>Email:</strong> {{ nurse.email }}</p>
-                  <p><strong>Current Appointments:</strong> {{ nurse.currentAppointments }}</p>
                 </div>
                 <div class="nurse-actions">
                   <label class="toggle">
-                    <input type="checkbox"
-                           [checked]="nurse.isAvailable"
-                           (change)="toggleNurseAvailability(nurse)">
+                    <input type="checkbox" [checked]="nurse.isAvailable" (change)="toggleNurseAvailability(nurse)">
                     <span>Available for appointments</span>
                   </label>
                 </div>

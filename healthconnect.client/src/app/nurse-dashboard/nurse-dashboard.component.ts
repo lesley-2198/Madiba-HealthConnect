@@ -1,32 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-
-interface Nurse {
-  id: number;
-  employeeNumber: string;
-  fullName: string;
-  email: string;
-  specialization: string;
-  phoneNumber: string;
-  isAvailable: boolean;
-  workingHours: string;
-}
-
-interface Appointment {
-  id: number;
-  studentId: number;
-  studentName: string;
-  studentNumber: string;
-  appointmentDate: string;
-  timeSlot: string;
-  consultationType: 'InPerson' | 'TeleConsult';
-  consultationMode?: 'VoiceCall' | 'VideoCall' | 'Chat';
-  symptomsDescription: string;
-  status: 'Pending' | 'Assigned' | 'Confirmed' | 'InProgress' | 'Completed' | 'Cancelled' | 'Rescheduled';
-  notes?: string;
-  createdAt: string;
-}
+import { AppointmentService, Appointment, UpdateAppointmentRequest } from '../services/appointment.service';
 
 @Component({
   selector: 'app-nurse-dashboard',
@@ -34,93 +10,86 @@ interface Appointment {
   styleUrls: ['./nurse-dashboard.component.css']
 })
 export class NurseDashboardComponent implements OnInit {
-  // Nurse data
+  // Real nurse data from authentication
   nurse: any = null;
   nurseInitials: string = '';
 
+  // Appointments data
+  appointments: Appointment[] = [];
+  isLoadingAppointments = false;
+  selectedAppointment: Appointment | null = null;
+  appointmentNotesForm: FormGroup;
+  isUpdatingAppointment = false;
+
   // Navigation menu
   menuItems = [
-    { id: 'schedule', label: "Today's Schedule", description: 'View today\'s appointments', checked: true },
-    { id: 'appointments', label: 'All Appointments', description: 'Manage all appointments', checked: false },
-    { id: 'consultations', label: 'Consultations', description: 'Conduct patient consultations', checked: false },
-    { id: 'availability', label: 'Availability', description: 'Manage your schedule', checked: false }
+    { id: 'overview', label: 'Dashboard Overview', description: 'Your schedule and workload', checked: true },
+    { id: 'appointments', label: 'My Appointments', description: 'Manage your assigned appointments', checked: false },
+    { id: 'availability', label: 'Availability', description: 'Set your working hours', checked: false },
+    { id: 'profile', label: 'Profile', description: 'Update your information', checked: false }
   ];
 
-  // Add to your component
-  showUserMenu = false;
-
-  toggleUserMenu() {
-    this.showUserMenu = !this.showUserMenu;
-  }
-
-  // Appointments data
-  // In your todaysAppointments array, add createdAt:
-  todaysAppointments: Appointment[] = [
-    {
-      id: 1,
-      studentId: 1,
-      studentName: 'Lindokuhle Madwendwe',
-      studentNumber: 's123456789',
-      appointmentDate: new Date().toISOString().split('T')[0],
-      timeSlot: '08:45',
-      consultationType: 'InPerson',
-      symptomsDescription: 'Family planning consultation',
-      status: 'Confirmed',
-      createdAt: new Date().toISOString() // Add this line
-    },
-    {
-      id: 2,
-      studentId: 2,
-      studentName: 'Liyakhanya Mncube',
-      studentNumber: 's987654321',
-      appointmentDate: new Date().toISOString().split('T')[0],
-      timeSlot: '09:15',
-      consultationType: 'TeleConsult',
-      consultationMode: 'VoiceCall',
-      symptomsDescription: 'Follow-up on previous treatment',
-      status: 'InProgress',
-      createdAt: new Date().toISOString() // Add this line
-    }
-  ];
-
-  // Consultation state
-  activeConsultation: Appointment | null = null;
-  consultationNotes: string = '';
-  prescription: string = '';
-  followUpRequired: boolean = false;
-  followUpDate: string = '';
+  // Availability
+  availabilityForm: FormGroup;
+  isUpdatingAvailability = false;
 
   // UI state
   today: Date = new Date();
-  appointmentFilter: string = 'all';
+  showUserMenu = false;
+  appointmentFilter = 'all';
+  activeConsultation: Appointment | null = null;
+  consultationNotes = '';
+  prescription = '';
+  followUpRequired = false;
+  followUpDate = '';
 
   constructor(
     private router: Router,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private appointmentService: AppointmentService,
+    private fb: FormBuilder
+  ) {
+    this.appointmentNotesForm = this.fb.group({
+      notes: ['', Validators.required]
+    });
 
-  ngOnInit(): void {
-    this.nurseInitials = this.getInitials(this.nurse.fullName);
+    this.availabilityForm = this.fb.group({
+      isAvailable: [true]
+    });
   }
 
-  // ADD THIS METHOD
+  ngOnInit(): void {
+    this.loadNurseData();
+    this.loadAppointments();
+  }
+
   private loadNurseData(): void {
     this.nurse = this.authService.getUser();
     if (this.nurse) {
       this.nurseInitials = this.getInitials(this.nurse.fullName);
+      this.availabilityForm.patchValue({
+        isAvailable: this.nurse.isAvailable
+      });
     }
   }
 
-  // ADD THIS METHOD
+  private loadAppointments(): void {
+    this.isLoadingAppointments = true;
+    this.appointmentService.getAppointments().subscribe({
+      next: (appointments) => {
+        this.appointments = appointments;
+        this.isLoadingAppointments = false;
+      },
+      error: (error) => {
+        console.error('Error loading appointments:', error);
+        this.isLoadingAppointments = false;
+      }
+    });
+  }
+
   private getInitials(fullName: string): string {
     if (!fullName) return '';
     return fullName.split(' ').map(name => name[0]).join('').toUpperCase();
-  }
-
-  get pendingAppointmentsCount(): number {
-    return this.todaysAppointments.filter(apt =>
-      apt.status === 'Confirmed' || apt.status === 'Assigned'
-    ).length;
   }
 
   // Navigation
@@ -131,78 +100,209 @@ export class NurseDashboardComponent implements OnInit {
 
   isSectionActive(sectionId: string): boolean {
     const activeItem = this.menuItems.find(item => item.checked);
-    return activeItem ? activeItem.id === sectionId : sectionId === 'schedule';
+    return activeItem ? activeItem.id === sectionId : sectionId === 'overview';
   }
 
-  // Appointment actions
-  startConsultation(appointment: Appointment): void {
-    appointment.status = 'InProgress';
-    this.activeConsultation = appointment;
-    this.onMenuItemClick(this.menuItems.find(item => item.id === 'consultations'));
+  // User menu methods
+  toggleUserMenu(): void {
+    this.showUserMenu = !this.showUserMenu;
   }
 
-  completeConsultation(appointment: Appointment): void {
-    if (this.consultationNotes.trim()) {
-      appointment.status = 'Completed';
-      appointment.notes = this.consultationNotes;
-      this.activeConsultation = null;
-      this.consultationNotes = '';
-      this.prescription = '';
+  // Appointment management
+  selectAppointment(appointment: Appointment): void {
+    this.selectedAppointment = appointment;
+    this.appointmentNotesForm.patchValue({
+      notes: appointment.notes || ''
+    });
+  }
 
-      // Show success message
-      alert('Consultation completed successfully!');
-    } else {
-      alert('Please add consultation notes before completing.');
+  updateAppointmentStatus(appointmentId: number, status: string): void {
+    const updateData: UpdateAppointmentRequest = {
+      id: appointmentId,
+      status: status
+    };
+
+    this.appointmentService.updateAppointment(appointmentId, updateData).subscribe({
+      next: () => {
+        // Update local appointment
+        const appointment = this.appointments.find(a => a.id === appointmentId);
+        if (appointment) {
+          appointment.status = status;
+        }
+        alert(`Appointment ${status.toLowerCase()} successfully.`);
+      },
+      error: (error) => {
+        console.error('Error updating appointment:', error);
+        alert('Failed to update appointment. Please try again.');
+      }
+    });
+  }
+
+  addNotesToAppointment(): void {
+    if (this.appointmentNotesForm.valid && this.selectedAppointment) {
+      this.isUpdatingAppointment = true;
+
+      const updateData: UpdateAppointmentRequest = {
+        id: this.selectedAppointment.id,
+        notes: this.appointmentNotesForm.value.notes
+      };
+
+      this.appointmentService.updateAppointment(this.selectedAppointment.id, updateData).subscribe({
+        next: () => {
+          // Update local appointment
+          this.selectedAppointment!.notes = this.appointmentNotesForm.value.notes;
+          const appointment = this.appointments.find(a => a.id === this.selectedAppointment!.id);
+          if (appointment) {
+            appointment.notes = this.appointmentNotesForm.value.notes;
+          }
+
+          this.isUpdatingAppointment = false;
+          alert('Notes added successfully.');
+          this.selectedAppointment = null;
+        },
+        error: (error) => {
+          console.error('Error adding notes:', error);
+          this.isUpdatingAppointment = false;
+          alert('Failed to add notes. Please try again.');
+        }
+      });
     }
   }
 
-  viewAppointmentDetails(appointment: Appointment): void {
-    // Navigate to detailed view or show modal
-    console.log('View details for appointment:', appointment);
-  }
-
-  rescheduleAppointment(appointment: Appointment): void {
-    // Implement reschedule logic
-    const newDate = prompt('Enter new date (YYYY-MM-DD):', appointment.appointmentDate);
-    const newTime = prompt('Enter new time (HH:MM):', appointment.timeSlot);
-
-    if (newDate && newTime) {
-      appointment.appointmentDate = newDate;
-      appointment.timeSlot = newTime;
-      appointment.status = 'Rescheduled';
-      alert('Appointment rescheduled successfully!');
-    }
-  }
-
-  // Consultation management
-  saveConsultation(): void {
-    if (this.activeConsultation && this.consultationNotes.trim()) {
-      this.activeConsultation.notes = this.consultationNotes;
-      alert('Consultation notes saved!');
-    } else {
-      alert('Please add consultation notes before saving.');
-    }
-  }
-
-  cancelConsultation(): void {
-    if (this.activeConsultation) {
-      this.activeConsultation.status = 'Confirmed';
-      this.activeConsultation = null;
-      this.consultationNotes = '';
-      this.prescription = '';
-    }
+  cancelNotesUpdate(): void {
+    this.selectedAppointment = null;
+    this.appointmentNotesForm.reset();
   }
 
   // Availability management
   updateAvailability(): void {
-    // Call API to update nurse availability
-    console.log('Availability updated:', this.nurse.isAvailable);
-    alert(`You are now ${this.nurse.isAvailable ? 'available' : 'unavailable'} for appointments`);
+    this.isUpdatingAvailability = true;
+
+    // This would typically call an API to update nurse availability
+    // For now, we'll just update the local state
+    const isAvailable = this.availabilityForm.value.isAvailable;
+
+    // Simulate API call
+    setTimeout(() => {
+      this.nurse.isAvailable = isAvailable;
+      this.isUpdatingAvailability = false;
+      alert(`Availability updated to ${isAvailable ? 'Available' : 'Unavailable'}.`);
+    }, 1000);
   }
 
+  // Filter appointments
+  getTodaysAppointments(): Appointment[] {
+    const today = new Date().toISOString().split('T')[0];
+    return this.appointments.filter(appt =>
+      appt.appointmentDate.split('T')[0] === today
+    );
+  }
+
+  getUpcomingAppointments(): Appointment[] {
+    const today = new Date().toISOString().split('T')[0];
+    return this.appointments.filter(appt =>
+      appt.appointmentDate.split('T')[0] > today
+    );
+  }
+
+  getPendingAppointments(): Appointment[] {
+    return this.appointments.filter(appt => appt.status === 'Pending');
+  }
+
+  getAssignedAppointments(): Appointment[] {
+    return this.appointments.filter(appt => appt.status === 'Assigned');
+  }
+
+  getCompletedAppointments(): Appointment[] {
+    return this.appointments.filter(appt => appt.status === 'Completed');
+  }
+
+  // Appointment filtering
   filterAppointments(): void {
-    // Implement appointment filtering logic
+    // This method can be used to filter appointments based on appointmentFilter
     console.log('Filtering appointments by:', this.appointmentFilter);
+  }
+
+  // Consultation methods
+  startConsultation(appointment: Appointment): void {
+    this.activeConsultation = appointment;
+    this.consultationNotes = '';
+    this.prescription = '';
+    this.followUpRequired = false;
+    this.followUpDate = '';
+  }
+
+  completeConsultation(appointment: Appointment): void {
+    if (this.activeConsultation) {
+      this.updateAppointmentStatus(appointment.id, 'Completed');
+      this.activeConsultation = null;
+      this.consultationNotes = '';
+      this.prescription = '';
+      this.followUpRequired = false;
+      this.followUpDate = '';
+    }
+  }
+
+  viewAppointmentDetails(appointment: Appointment): void {
+    this.selectAppointment(appointment);
+    // You can add more detailed view logic here
+  }
+
+  rescheduleAppointment(appointment: Appointment): void {
+    alert('Reschedule functionality to be implemented');
+  }
+
+  // Consultation management
+  saveConsultation(): void {
+    if (this.activeConsultation && this.consultationNotes) {
+      // Save consultation notes
+      const updateData: UpdateAppointmentRequest = {
+        id: this.activeConsultation.id,
+        notes: this.consultationNotes
+      };
+
+      this.appointmentService.updateAppointment(this.activeConsultation.id, updateData).subscribe({
+        next: () => {
+          alert('Consultation notes saved successfully.');
+        },
+        error: (error) => {
+          console.error('Error saving consultation:', error);
+          alert('Failed to save consultation notes.');
+        }
+      });
+    } else {
+      alert('Please enter consultation notes before saving.');
+    }
+  }
+
+  cancelConsultation(): void {
+    this.activeConsultation = null;
+    this.consultationNotes = '';
+    this.prescription = '';
+    this.followUpRequired = false;
+    this.followUpDate = '';
+  }
+
+  // Quick stats
+  get totalAppointments(): number {
+    return this.appointments.length;
+  }
+
+  get todaysAppointmentsCount(): number {
+    return this.getTodaysAppointments().length;
+  }
+
+  get pendingAppointmentsCount(): number {
+    return this.getPendingAppointments().length;
+  }
+
+  get completedAppointmentsCount(): number {
+    return this.getCompletedAppointments().length;
+  }
+
+  // Getter for todaysAppointments (used in HTML)
+  get todaysAppointments(): Appointment[] {
+    return this.getTodaysAppointments();
   }
 
   logout(): void {

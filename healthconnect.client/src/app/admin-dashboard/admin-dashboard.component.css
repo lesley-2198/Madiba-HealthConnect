@@ -89,7 +89,7 @@
 }
 
 /* Health News Management */
-.news-form {
+.news-form{
   background: #f8f9fa;
   padding: 1.5rem;
   border-radius: 12px;
@@ -205,6 +205,183 @@
 .status-badge.draft {
   background-color: #fff3e0;
   color: #ef6c00;
+}
+
+/* Nurse Creation Form Styling */
+.nurse-creation-form {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #e0f2f1;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+  .nurse-creation-form h3 {
+    margin: 0 0 1.5rem 0;
+    color: #1a1a1a;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #3c7ab7;
+    padding-bottom: 0.5rem;
+  }
+
+  .nurse-creation-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .nurse-creation-form .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+    .nurse-creation-form .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+  .nurse-creation-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+    font-size: 0.95rem;
+  }
+
+  .nurse-creation-form input,
+  .nurse-creation-form select {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid #e0f2f1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+  }
+
+    .nurse-creation-form input:focus,
+    .nurse-creation-form select:focus {
+      outline: none;
+      border-color: #3c7ab7;
+      box-shadow: 0 0 0 3px rgba(60, 122, 183, 0.1);
+    }
+
+  .nurse-creation-form .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0f2f1;
+  }
+
+  .nurse-creation-form .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+  }
+
+    .nurse-creation-form .btn.primary {
+      background: #3c7ab7;
+      color: white;
+    }
+
+      .nurse-creation-form .btn.primary:hover:not(:disabled) {
+        background: #2c5a8a;
+        transform: translateY(-1px);
+      }
+
+      .nurse-creation-form .btn.primary:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+    .nurse-creation-form .btn.outline {
+      background: transparent;
+      color: #666;
+      border: 2px solid #e0f2f1;
+    }
+
+      .nurse-creation-form .btn.outline:hover {
+        background: #f8f9fa;
+        border-color: #ccc;
+      }
+
+  /* Error messages */
+  .nurse-creation-form .error-message {
+    color: #d32f2f;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+  }
+
+  .nurse-creation-form .form-group.error input,
+  .nurse-creation-form .form-group.error select {
+    border-color: #d32f2f;
+  }
+
+/* Responsive design for nurse form */
+@media (max-width: 768px) {
+  .nurse-creation-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .nurse-creation-form .form-actions {
+    flex-direction: column;
+  }
+
+  .nurse-creation-form .btn {
+    width: 100%;
+  }
+}
+
+/* Form validation styling */
+.nurse-creation-form .form-group.ng-invalid.ng-touched input,
+.nurse-creation-form .form-group.ng-invalid.ng-touched select {
+  border-color: #d32f2f;
+  background-color: #ffebee;
+}
+
+.nurse-creation-form .form-group.ng-valid.ng-touched input,
+.nurse-creation-form .form-group.ng-valid.ng-touched select {
+  border-color: #4caf50;
+  background-color: #f1f8e9;
+}
+
+/* Loading state */
+.nurse-creation-form .btn.primary:disabled {
+  position: relative;
+  color: transparent;
+}
+
+  .nurse-creation-form .btn.primary:disabled::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 /* Responsive Design */

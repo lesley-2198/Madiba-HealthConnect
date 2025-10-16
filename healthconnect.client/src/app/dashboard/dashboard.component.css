@@ -59,10 +59,10 @@ body, html {
   display: flex;
   align-items: center;
   gap: 1rem;
-  position: absolute; /* Use absolute positioning */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Adjust for exact center */
-  top: 50px; /* Adjust vertical position */
+  position: absolute; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  top: 50px; 
 }
 
 .header-logo {
@@ -508,10 +508,10 @@ body, html {
 .booking-form .toggle {
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* Reduced from 0.75rem to bring them closer */
+  gap: 0.5rem; 
   cursor: pointer;
   padding: 0.5rem 0;
-  width: fit-content; /* Only take up needed space */
+  width: fit-content; 
 }
 
   .booking-form .toggle input[type="checkbox"] {
@@ -519,14 +519,14 @@ body, html {
     height: 18px;
     margin: 0;
     cursor: pointer;
-    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    flex-shrink: 0; 
   }
 
   .booking-form .toggle span {
     font-size: 0.95rem;
     color: #1a1a1a;
     font-weight: 500;
-    white-space: nowrap; /* Prevent text wrapping */
+    white-space: nowrap;
   }
 
 .actions {
@@ -559,6 +559,21 @@ body, html {
 .appt-actions {
   display: flex;
   gap: 0.5rem;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.form-group input.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.form-group select.ng-invalid.ng-touched {
+  border-color: #dc3545;
 }
 
 .news-section-header {
