@@ -120,9 +120,12 @@ A comprehensive digital platform that enables:
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm (v6 or higher)
-- Angular CLI (`npm install -g @angular/cli`)
+- **Node.js** (v18 or higher)
+- **npm** (v8 or higher)
+- **Angular CLI** (`npm install -g @angular/cli`)
+- **.NET 8.0 SDK**
+- **SQL Server LocalDB** (included with Visual Studio)
+- **Git**
 
 ### Installation Steps
 
@@ -131,6 +134,31 @@ A comprehensive digital platform that enables:
    git clone https://github.com/lesley-2198/Madiba-HealthConnect.git
    cd healthconnect.client
    ```
+
+<details>
+<summary>⚙️ Backend Setup (ASP.NET Core)</summary>
+
+2. **Restore NuGet packages**
+   ```bash
+   dotnet restore
+   ```
+
+3. **Create and update database**
+   ```bash
+   dotnet ef database update
+   ```
+
+4. **Run the backend server**
+   ```bash
+   dotnet run
+   ```
+   
+   The backend will be available at `https://localhost:7000` or `http://localhost:5000`
+
+</details>
+
+<details>
+<summary>🌐 Frontend Setup (Angular)</summary>
 
 2. **Install dependencies**
    ```bash
@@ -146,69 +174,19 @@ A comprehensive digital platform that enables:
    ```bash
    ng serve
    ```
-
-5. **Access the application**
+   
    Navigate to `http://localhost:4200/` in your browser
-
-
-## 🛠️ Installation & Setup
-
-### Prerequisites
-- **Node.js** (v18 or higher)
-- **npm** (v8 or higher)
-- **Angular CLI** (`npm install -g @angular/cli`)
-- **.NET 8.0 SDK**
-- **SQL Server LocalDB** (included with Visual Studio)
-- **Git**
-
-### Installation Steps
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/lesley-2198/Madiba-HealthConnect.git
-   cd Madiba-HealthConnect
-   ```
-
-2. **Backend Setup**
-   ```bash
-   cd HealthConnect.Server
-   
-   # Restore NuGet packages
-   dotnet restore
-   
-   # Create and update database
-   dotnet ef database update
-   
-   # Run the backend server
-   dotnet run
-   ```
-   The backend will be available at `https://localhost:7000` or `http://localhost:5000`
-
-3. **Frontend Setup**
-   ```bash
-   cd healthconnect.client
-   
-   # Install dependencies
-   npm install
-   
-   # Run development server
-   ng serve
-   ```
-   The frontend will be available at `http://localhost:4200`
-
-4. **Access the application**
-   - Navigate to `http://localhost:4200/` in your browser
-   - The frontend will automatically proxy API calls to the backend
+</details>
 
 ### Default Login Credentials
 
-**Admin Account:**
-- Email: `admin@mandela.ac.za`
-- Password: `Admin123!`
+>**Admin Account:**
+>- Email: `admin@mandela.ac.za`
+>- Password: `Admin123!`
 
-**Test Nurse Account:**
-- Email: `nurse1@mandela.ac.za`
-- Password: `Nurse123!`
+>**Test Nurse Account:**
+>- Email: `nurse1@mandela.ac.za`
+>- Password: `Nurse123!`
 
 ## 🎨 Application Features
 
