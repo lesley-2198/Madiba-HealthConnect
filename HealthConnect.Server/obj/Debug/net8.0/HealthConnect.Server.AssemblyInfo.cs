@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HealthConnect.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5515665c6d7cc8db077cb57f3959111b09c65e9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+918bf8cd8cad64f8f5fd43be16f3102e2e471ee6")]
 [assembly: System.Reflection.AssemblyProductAttribute("HealthConnect.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HealthConnect.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

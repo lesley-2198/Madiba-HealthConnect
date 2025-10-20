@@ -1,32 +1,75 @@
 <div class="dashboard-container">
-  <!-- Top Header Bar -->
-  <header class="top-bar">
-    <div class="header-content">
-      <div class="header-main">
-        <h1>Madiba HealthConnect</h1>
-        <div class="header-subsection">
-          <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" />
-          <div class="header-titles">
-            <p class="page-title">Campus Clinic Booking</p>
-            <p class="profile-indicator">Health, Just a Click Away!</p>
-          </div>
-        </div>
+
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.active]="showMobileMenu">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" [class.active]="showMobileMenu" (click)="closeMobileMenu()"></div>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav class="mobile-nav-drawer" [class.active]="showMobileMenu">
+    <div class="mobile-nav-header">
+      <h2>Menu</h2>
+      <button class="mobile-nav-close" (click)="closeMobileMenu()">
+        <span>&times;</span>
+      </button>
+    </div>
+
+    <div class="mobile-nav-profile">
+      <div class="mobile-avatar">{{ userInitials }}</div>
+      <div class="mobile-user-info">
+        <h3>{{ user?.fullName || 'Loading...' }}</h3>
+        <p>{{ user?.email || 'Loading...' }}</p>
       </div>
     </div>
 
-    <!-- Updated Header Avatar with Logout -->
-    <div class="header-avatar-container">
-      <div class="header-avatar" (click)="toggleUserMenu()">
-        {{ userInitials }}
-      </div>
-      <div class="user-menu" *ngIf="showUserMenu">
-        <div class="user-menu-item" (click)="logout()">
-          <span class="menu-icon">🚪</span>
-          Logout
-        </div>
+    <ul class="mobile-nav-list">
+      <li *ngFor="let item of menuItems"
+          [class.active]="item.checked"
+          (click)="onMobileMenuItemClick(item)">
+        <span class="mobile-menu-label">{{ item.label }}</span>
+        <span class="mobile-menu-badge"
+              *ngIf="item.id === 'manual-booking' && hasActiveAppointments()">
+          {{ appointments.length }}
+        </span>
+      </li>
+    </ul>
+
+    <div class="mobile-nav-footer">
+      <button class="mobile-logout-btn" (click)="logout()">
+        <span class="logout-icon">🚪</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Top Header Bar -->
+<header class="top-bar">
+  <div class="header-brand">
+    <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" alt="Logo" />
+    <div class="header-text">
+      <h1>Madiba HealthConnect</h1>
+      <p class="header-subtitle">Campus Clinic Booking</p>
+    </div>
+  </div>
+
+  <!-- Desktop Header Avatar (hidden on mobile) -->
+  <div class="header-avatar-container">
+    <div class="header-avatar" (click)="toggleUserMenu()">
+      {{ userInitials }}
+    </div>
+    <div class="user-menu" *ngIf="showUserMenu">
+      <div class="user-menu-item" (click)="logout()">
+        <span class="menu-icon">🚪</span>
+        Logout
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
   <!-- Profile Section -->
   <div class="profile-section">
@@ -101,50 +144,6 @@
         </div>
       </section>
 
-      <!-- Tele-Consult Content -->
-      <section id="tele-consult-content" class="content-section" [class.hidden]="!isSectionActive('tele-consult')">
-        <div class="content-card">
-          <div class="card-header">
-            <h2>Tele-Consult</h2>
-          </div>
-          <div class="card-content">
-            <p>
-              Our tele-consultation service connects you with qualified healthcare professionals from the comfort of your space.
-              Through secure calls or emails, you can discuss concerns, receive advice, and get prescriptions when needed, ideal
-              for non-emergencies, follow-ups, and general inquiries.
-            </p>
-          </div>
-        </div>
-        <div class="content-card">
-          <div class="card-content">
-            <div class="tele-options">
-              <div class="tele-card">
-                <h3>Chat with a Health Bot</h3>
-                <p>Get quick guidance. We can escalate to a nurse if needed.</p>
-                <button type="button" class="btn primary" (click)="setTeleSelected('chat')">Start Chat</button>
-              </div>
-              <div class="tele-card">
-                <h3>Call the Clinic</h3>
-                <p>Prefer to talk? Call us directly from the site.</p>
-                <a class="btn outline" href="tel:+27000000000" (click)="setTeleSelected('call')">Call Now</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="content-card" *ngIf="teleSelected === 'chat'">
-          <div class="card-content">
-            <h3>Chatbot</h3>
-            <p>Chat interface placeholder. This will guide you and escalate to a nurse when needed.</p>
-          </div>
-        </div>
-        <div class="content-card" *ngIf="teleSelected === 'call'">
-          <div class="card-content">
-            <h3>Call Instructions</h3>
-            <p>Please call the clinic using the button above. A nurse will assist you.</p>
-          </div>
-        </div>
-      </section>
-
       <!-- Manual Booking Content -->
       <section id="manual-booking-content" class="content-section" [class.hidden]="!isSectionActive('manual-booking')">
         <div class="content-card">
@@ -195,11 +194,15 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="consultationType">Consultation Type</label>
+                    <label for="consultationType">Nurse Type</label>
                     <select id="consultationType" formControlName="consultationType" required>
-                      <option value="" disabled>Select consultation type</option>
-                      <option value="InPerson">In-Person</option>
-                      <option value="TeleConsult">Tele-Consult</option>
+                      <option value="" disabled>Select nurse specialization</option>
+                      <option value="General Nursing">General Nursing</option>
+                      <option value="Emergency Care">Emergency Care</option>
+                      <option value="Primary Care">Primary Care</option>
+                      <option value="Mental Health">Mental Health</option>
+                      <option value="Pediatrics">Pediatrics</option>
+                      <option value="Geriatrics">Geriatrics</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -222,7 +225,7 @@
                     <div>
                       <strong>{{ appt.appointmentDate | date:'short' }} &#64; {{ appt.timeSlot }}</strong>
                     </div>
-                    <div>Type: {{ appt.consultationType }} • Status: {{ appt.status }}</div>
+                    <div>Nurse Type: {{ appt.consultationType }} • Status: {{ appt.status }}</div>
                     <div>{{ appt.symptomsDescription }}</div>
                     <div *ngIf="appt.nurseName">Assigned to: {{ appt.nurseName }}</div>
                   </div>
@@ -244,24 +247,24 @@
         </div>
       </section>
 
-      <!-- Health News Content -->
-      <section id="health-news-content" class="content-section" [class.hidden]="!isSectionActive('health-news')">
+      <!-- Self-Care Tips Content -->
+      <section id="self-care-content" class="content-section" [class.hidden]="!isSectionActive('self-care')">
         <div class="content-card">
           <div class="card-header">
-            <h2>Health News</h2>
+            <h2>Self-Care Tips</h2>
           </div>
           <div class="card-content">
             <p>
-              Stay informed about the latest health updates, wellness tips, and important announcements from our healthcare team.
+              Many minor health issues can be managed at home. Here are some tips for common ailments.
+              If symptoms persist or worsen, please book an appointment with our healthcare team.
             </p>
           </div>
         </div>
-
-        <!-- Horizontal Scrolling News Cards -->
+        <!-- Self-Care Tips Cards -->
         <div class="content-card">
           <div class="card-content">
             <div class="news-section-header">
-              <h3>Campus & Health Updates</h3>
+              <h3>Common Ailments & Home Care</h3>
               <div class="news-controls" *ngIf="!isMobileView()">
                 <button class="news-nav-btn prev" (click)="scrollNews(-1)" [disabled]="currentNewsIndex === 0">
                   ‹
@@ -276,10 +279,10 @@
             <div class="news-scroll-container">
               <div class="news-scroll-wrapper">
                 <div class="news-scroll" [style.transform]="'translateX(' + translateX + 'px)'">
-                  <div class="news-card" *ngFor="let news of newsItems; let i = index">
-                    <h4>{{ news.title }}</h4>
-                    <p>{{ news.description }}</p>
-                    <a class="btn outline small" [href]="news.link" target="_blank" rel="noopener">Read More</a>
+                  <div class="news-card" *ngFor="let tip of selfCareTips" [class.urgent]="tip.severity === 'urgent'">
+                    <div class="tip-icon">{{ tip.icon }}</div>
+                    <h4>{{ tip.title }}</h4>
+                    <p>{{ tip.description }}</p>
                   </div>
                 </div>
               </div>

@@ -155,6 +155,7 @@ export class AdminDashboardComponent implements OnInit {
 
   // UI state
   today: Date = new Date();
+  showMobileMenu = false;
 
   constructor(
     private router: Router,
@@ -170,6 +171,26 @@ export class AdminDashboardComponent implements OnInit {
       employeeNumber: ['', [Validators.required, Validators.pattern(/^N\d{6}$/)]],
       specialization: ['', Validators.required]
     });
+  }
+
+  toggleMobileMenu(): void {
+    this.showMobileMenu = !this.showMobileMenu;
+
+    if (this.showMobileMenu) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeMobileMenu(): void {
+    this.showMobileMenu = false;
+    document.body.style.overflow = '';
+  }
+
+  onMobileMenuItemClick(menuItem: any): void {
+    this.onMenuItemClick(menuItem);
+    this.closeMobileMenu();
   }
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
@@ -9,7 +9,7 @@ import { AppointmentService, Appointment, CreateAppointmentRequest } from '../se
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   // User data
   user: any = null;
   userInitials: string = '';
@@ -21,9 +21,8 @@ export class DashboardComponent implements OnInit {
   // Navigation menu items
   menuItems = [
     { id: 'healthconnect', label: 'HealthConnect', description: 'What we have to Offer', checked: true },
-    { id: 'tele-consult', label: 'Tele-Consult', description: 'Talk to a Professional', checked: false },
+    { id: 'self-care', label: 'Self-Care Tips', description: 'Before Booking', checked: false },
     { id: 'manual-booking', label: 'Book & Manage', description: 'Appointments & Bookings', checked: false },
-    { id: 'health-news', label: 'Health News', description: 'What\'s New', checked: false }
   ];
 
   // Booking form
@@ -39,43 +38,61 @@ export class DashboardComponent implements OnInit {
   showUserMenu = false;
   activeBookingTab: 'book' | 'manage' = 'book';
   teleSelected: 'chat' | 'call' | null = null;
+  showMobileMenu = false;
 
-  // News items
-  newsItems = [
+  // Nurse Types
+  nurseSpecializations = [
+    'General Nursing',
+    'Emergency Care',
+    'Primary Care',
+    'Mental Health',
+    'Pediatrics',
+    'Geriatrics'
+  ];
+
+  // Self-care tips for common ailments
+  selfCareTips = [
     {
-      title: 'Mandela Clinic: Extended Hours',
-      description: 'Campus clinic now open until 6 PM on weekdays to better serve students.',
-      link: 'https://news.mandela.ac.za'
+      title: 'Headaches',
+      description: 'Rest in a quiet, dark room. Apply a cold compress to your forehead. Stay hydrated and avoid caffeine.',
+      severity: 'minor',
+      icon: '🤕'
     },
     {
-      title: 'Student Wellness Week',
-      description: 'Join workshops on stress management, nutrition, and mental health support.',
-      link: 'https://news.mandela.ac.za'
+      title: 'Stomach Aches',
+      description: 'Drink clear fluids. Eat bland foods like toast or crackers. Avoid dairy and fatty foods. Rest and monitor symptoms.',
+      severity: 'minor',
+      icon: '🤢'
     },
     {
-      title: 'Free Flu Vaccinations',
-      description: 'Get your free flu shot at the campus clinic throughout October.',
-      link: 'https://news.mandela.ac.za'
+      title: 'Allergies',
+      description: 'Identify and avoid triggers. Take antihistamines as directed. Keep windows closed during high pollen days.',
+      severity: 'minor',
+      icon: '🤧'
     },
     {
-      title: 'SA Health: Vaccination Drive',
-      description: 'National vaccination campaign targeting students and young adults.',
-      link: 'https://www.gov.za'
+      title: 'Common Cold',
+      description: 'Get plenty of rest. Drink warm fluids. Use throat lozenges. Take over-the-counter pain relievers if needed.',
+      severity: 'minor',
+      icon: '😷'
     },
     {
-      title: 'Health24: Student Health Tips',
-      description: 'Expert advice on maintaining wellness during exam season.',
-      link: 'https://www.health24.com'
+      title: 'Minor Cuts & Scrapes',
+      description: 'Clean with soap and water. Apply antiseptic. Cover with a bandage. Keep the area clean and dry.',
+      severity: 'minor',
+      icon: '🩹'
     },
     {
-      title: 'WHO: Global Health Update',
-      description: 'Latest guidance on public health priorities and response strategies.',
-      link: 'https://www.who.int'
+      title: 'Mild Fever',
+      description: 'Rest and stay hydrated. Take paracetamol as directed. Use lukewarm compresses. Monitor temperature regularly.',
+      severity: 'minor',
+      icon: '🌡️'
     },
     {
-      title: 'CDC: Seasonal Flu Guidance',
-      description: 'Recommendations for flu prevention and vaccination timing.',
-      link: 'https://www.cdc.gov'
+      title: 'When to Seek Help',
+      description: 'Book an appointment if symptoms worsen, persist beyond 3 days, or you experience severe pain, high fever (>38.5°C), or difficulty breathing.',
+      severity: 'urgent',
+      icon: '⚠️'
     }
   ];
 
@@ -306,9 +323,8 @@ export class DashboardComponent implements OnInit {
   }
 
   // News scrolling methods
-  @HostListener('window:resize')
+  @HostListener('window:resize', ['$event'])
   onResize() {
-    this.checkMobileView();
     this.updateScrollPosition();
   }
 
@@ -317,32 +333,65 @@ export class DashboardComponent implements OnInit {
   }
 
   isMobileView(): boolean {
-    return this.isMobile;
+    return window.innerWidth <= 768;
   }
 
+  // Fix getTotalPages to calculate actual pages (3 cards per page on desktop)
   getTotalPages(): number {
-    return this.newsItems.length;
+    const visibleCards = 2;
+    const totalCards = this.selfCareTips.length;
+    // How many scroll positions do we need to see all cards?
+    // With 7 cards showing 3: positions 0,1,2,3,4 = 5 positions
+    // Formula: totalCards - visibleCards + 1
+    return Math.max(1, totalCards - visibleCards + 1);
   }
 
   scrollNews(direction: number): void {
-    if (this.isMobile) return;
-
     const newIndex = this.currentNewsIndex + direction;
-    const maxIndex = this.newsItems.length - 1;
+    const totalPages = this.getTotalPages();
 
-    if (newIndex >= 0 && newIndex <= maxIndex) {
+    if (newIndex >= 0 && newIndex < totalPages) {
       this.currentNewsIndex = newIndex;
       this.updateScrollPosition();
     }
   }
 
-  private updateScrollPosition(): void {
-    if (!this.isMobile) {
-      const scrollContainer = document.querySelector('.news-scroll-container');
-      if (scrollContainer) {
-        const containerWidth = scrollContainer.clientWidth;
-        this.translateX = -this.currentNewsIndex * (containerWidth / 3);
+  toggleMobileMenu(): void {
+    this.showMobileMenu = !this.showMobileMenu;
+    // Only prevent body scroll on mobile when menu is open
+    if (window.innerWidth <= 768) {
+      if (this.showMobileMenu) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
       }
+    }
+  }
+
+  closeMobileMenu(): void {
+    this.showMobileMenu = false;
+    // Always restore scroll when closing
+    document.body.style.overflow = '';
+  }
+
+  onMobileMenuItemClick(menuItem: any): void {
+    this.onMenuItemClick(menuItem);
+    this.closeMobileMenu();
+  }
+
+  // ADD THIS: Ensure scroll is restored when component is destroyed
+  ngOnDestroy(): void {
+    document.body.style.overflow = '';
+  }
+
+  private updateScrollPosition(): void {
+    const cards = document.querySelectorAll('.news-card');
+    if (cards.length > 0) {
+      const firstCard = cards[0] as HTMLElement;
+      const cardWidth = firstCard.offsetWidth;
+      const gap = 24; // 1.5rem = 24px
+      // Scroll one card at a time
+      this.translateX = -this.currentNewsIndex * (cardWidth + gap);
     }
   }
 }

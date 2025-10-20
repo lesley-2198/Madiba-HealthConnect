@@ -1,19 +1,64 @@
 <div class="dashboard-container">
-  <!-- Top Header Bar -->
-  <header class="top-bar">
-    <div class="header-content">
-      <div class="header-main">
-        <h1>Madiba HealthConnect - Admin Portal</h1>
-        <div class="header-subsection">
-          <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" />
-          <div class="header-titles">
-            <p class="page-title">Admin Dashboard</p>
-            <p class="profile-indicator">Managing Campus Healthcare</p>
-          </div>
+  <!-- Mobile Menu Toggle Button (Hamburger) -->
+  <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.active]="showMobileMenu">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" [class.active]="showMobileMenu" (click)="closeMobileMenu()"></div>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav class="mobile-nav-drawer" [class.active]="showMobileMenu">
+    <div class="mobile-nav-header">
+      <h2>Menu</h2>
+      <button class="mobile-nav-close" (click)="closeMobileMenu()">&times;</button>
+    </div>
+
+    <!-- Mobile Profile Section -->
+    <div class="mobile-profile-section">
+      <div class="mobile-user-avatar">{{ adminInitials }}</div>
+      <div class="mobile-user-info">
+        <h3>{{ admin?.fullName || 'Loading...' }}</h3>
+        <p class="mobile-user-email">{{ admin?.email || 'Loading...' }}</p>
+        <div class="mobile-user-details">
+          <p><strong>Employee Number:</strong> {{ admin?.employeeNumber || 'N/A' }}</p>
+          <p><strong>Role:</strong> {{ admin?.role || 'N/A' }}</p>
         </div>
       </div>
     </div>
 
+    <!-- Mobile Menu Items -->
+    <ul class="mobile-menu-list">
+      <li *ngFor="let item of menuItems"
+          [class.active]="item.checked"
+          (click)="onMobileMenuItemClick(item)">
+        <span class="mobile-menu-label">{{ item.label }}</span>
+        <span class="mobile-menu-description">{{ item.description }}</span>
+      </li>
+    </ul>
+
+    <!-- Mobile Logout Button -->
+    <div class="mobile-logout-section">
+      <button class="mobile-logout-btn" (click)="logout()">
+        <span class="logout-icon">🚪</span>
+        <span class="logout-text">Logout</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Top Header Bar -->
+  <header class="top-bar">
+    <div class="header-brand">
+      <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" alt="Logo" />
+      <div class="header-text">
+        <h1>Madiba HealthConnect - Admin Portal</h1>
+        <p class="header-subtitle">Managing Campus Healthcare</p>
+      </div>
+    </div>
+
+    <!-- Desktop Header Avatar (hidden on mobile) -->
     <div class="header-avatar-container">
       <div class="header-avatar" (click)="toggleUserMenu()">
         {{ adminInitials }}
@@ -42,7 +87,7 @@
           <p><strong>Department:</strong> {{ admin?.department || 'N/A' }}</p>
         </div>
       </div>
-  </div>
+    </div>
   </div>
 
   <div class="dashboard-layout">

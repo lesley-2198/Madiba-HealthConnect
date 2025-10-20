@@ -158,7 +158,7 @@ namespace HealthConnect.Server.Controllers
             if (model.AppointmentDate.Date < DateTime.Today)
                 return BadRequest(new { message = "Appointment date cannot be in the past" });
 
-            // ADD THIS: Check if appointment is on weekend
+            // Check if appointment is on weekend
             if (model.AppointmentDate.DayOfWeek == DayOfWeek.Saturday ||
                 model.AppointmentDate.DayOfWeek == DayOfWeek.Sunday)
             {

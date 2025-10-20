@@ -42,6 +42,7 @@ export class NurseDashboardComponent implements OnInit {
   prescription = '';
   followUpRequired = false;
   followUpDate = '';
+  showMobileMenu = false;
 
   constructor(
     private router: Router,
@@ -90,6 +91,26 @@ export class NurseDashboardComponent implements OnInit {
   private getInitials(fullName: string): string {
     if (!fullName) return '';
     return fullName.split(' ').map(name => name[0]).join('').toUpperCase();
+  }
+
+  toggleMobileMenu(): void {
+    this.showMobileMenu = !this.showMobileMenu;
+
+    if (this.showMobileMenu) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeMobileMenu(): void {
+    this.showMobileMenu = false;
+    document.body.style.overflow = '';
+  }
+
+  onMobileMenuItemClick(menuItem: any): void {
+    this.onMenuItemClick(menuItem);
+    this.closeMobileMenu();
   }
 
   // Navigation
