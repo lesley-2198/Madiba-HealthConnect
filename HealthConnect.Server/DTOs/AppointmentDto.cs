@@ -34,13 +34,14 @@
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        // Student information
+        // Student details
         public string StudentName { get; set; } = string.Empty;
-        public string StudentEmail { get; set; } = string.Empty;
         public string StudentNumber { get; set; } = string.Empty;
+        public string StudentPhoneNumber { get; set; } = string.Empty;
 
-        // Nurse information (if assigned)
+        // Nurse details (if assigned)
         public string? NurseName { get; set; }
+        public string? NurseEmployeeNumber { get; set; }
         public string? NurseSpecialization { get; set; }
     }
 }

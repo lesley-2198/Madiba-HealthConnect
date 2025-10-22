@@ -8,6 +8,7 @@ export interface Nurse {
   fullName: string;
   employeeNumber: string;
   specialization: string;
+  phoneNumber: string;
   isAvailable: boolean;
   role: string;
 }
@@ -18,6 +19,7 @@ export interface CreateNurseRequest {
   fullName: string;
   employeeNumber: string;
   specialization: string;
+  phoneNumber: string;
 }
 
 export interface UpdateNurseRequest {

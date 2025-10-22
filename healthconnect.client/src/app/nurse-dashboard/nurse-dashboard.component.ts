@@ -139,7 +139,6 @@ export class NurseDashboardComponent implements OnInit {
 
   updateAppointmentStatus(appointmentId: number, status: string): void {
     const updateData: UpdateAppointmentRequest = {
-      id: appointmentId,
       status: status
     };
 
@@ -164,7 +163,6 @@ export class NurseDashboardComponent implements OnInit {
       this.isUpdatingAppointment = true;
 
       const updateData: UpdateAppointmentRequest = {
-        id: this.selectedAppointment.id,
         notes: this.appointmentNotesForm.value.notes
       };
 
@@ -278,7 +276,6 @@ export class NurseDashboardComponent implements OnInit {
     if (this.activeConsultation && this.consultationNotes) {
       // Save consultation notes
       const updateData: UpdateAppointmentRequest = {
-        id: this.activeConsultation.id,
         notes: this.consultationNotes
       };
 

@@ -36,16 +36,20 @@ namespace HealthConnect.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            // Only allow Student registration
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,
                 FullName = model.FullName,
-                Role = "Student", // Always Student
+                Role = "Student",
                 StudentNumber = model.StudentNumber,
                 Campus = model.Campus,
                 Course = model.Course,
+                PhoneNumber = model.PhoneNumber,
+                CreatedAt = DateTime.UtcNow
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -53,7 +57,7 @@ namespace HealthConnect.Server.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Student");
-                return Ok(new { message = "Student registered successfully" });
+                return Ok(new { message = "Student registration successful" });
             }
 
             return BadRequest(new { errors = result.Errors });
@@ -118,9 +122,12 @@ namespace HealthConnect.Server.Controllers
         }
 
         [HttpPost("register-nurse")]
-        [Authorize(Roles = "Admin")] // Only admins can register nurses
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RegisterNurse([FromBody] RegisterNurseDto model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var user = new ApplicationUser
             {
                 UserName = model.Email,
@@ -129,7 +136,9 @@ namespace HealthConnect.Server.Controllers
                 Role = "Nurse",
                 EmployeeNumber = model.EmployeeNumber,
                 Specialization = model.Specialization,
-                IsAvailable = true
+                PhoneNumber = model.PhoneNumber,
+                IsAvailable = true,
+                CreatedAt = DateTime.UtcNow
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -137,10 +146,45 @@ namespace HealthConnect.Server.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Nurse");
-                return Ok(new { message = "Nurse registered successfully" });
+                return Ok(new
+                {
+                    message = "Nurse registration successful",
+                    nurse = new
+                    {
+                        user.Id,
+                        user.Email,
+                        user.FullName,
+                        user.EmployeeNumber,
+                        user.Specialization,
+                        user.PhoneNumber,
+                        user.IsAvailable
+                    }
+                });
             }
 
             return BadRequest(new { errors = result.Errors });
+        }
+
+        [HttpGet("nurses")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetNurses()
+        {
+            var nurses = await _userManager.Users
+                .Where(u => u.Role == "Nurse")
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Email,
+                    u.FullName,
+                    u.EmployeeNumber,
+                    u.Specialization,
+                    u.PhoneNumber,
+                    u.IsAvailable,
+                    u.Role
+                })
+                .ToListAsync();
+
+            return Ok(nurses);
         }
     }
 }

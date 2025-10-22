@@ -18,6 +18,7 @@ export interface Appointment {
   studentName: string;
   studentEmail: string;
   studentNumber: string;
+  studentPhoneNumber: string;
   nurseName?: string;
   nurseSpecialization?: string;
 }
@@ -31,13 +32,11 @@ export interface CreateAppointmentRequest {
 }
 
 export interface UpdateAppointmentRequest {
-  id: number;
-  appointmentDate?: string;
-  timeSlot?: string;
-  consultationType?: string;
-  symptomsDescription?: string;
-  notes?: string;
+  nurseId?: string;
   status?: string;
+  notes?: string;
+  consultationMethod?: string;
+  // Add other updatable fields as needed
 }
 
 @Injectable({
@@ -64,8 +63,8 @@ export class AppointmentService {
   }
 
   // Update an appointment
-  updateAppointment(id: number, appointment: UpdateAppointmentRequest): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, appointment);
+  updateAppointment(id: number, updates: UpdateAppointmentRequest): Observable<Appointment> {
+    return this.http.put<Appointment>(`${this.apiUrl}/${id}`, updates);
   }
 
   // Delete an appointment
@@ -74,7 +73,6 @@ export class AppointmentService {
   }
 
   // Assign appointment to nurse (Admin only)
-  assignAppointment(id: number, nurseId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${id}/assign`, { nurseId });
-  }
+  assignAppointment(appointmentId: number, nurseId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${appointmentId}/assign`, { NurseId: nurseId });  }
 }

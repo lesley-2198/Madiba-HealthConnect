@@ -83,9 +83,10 @@ namespace HealthConnect.Server.Controllers
                 CreatedAt = a.CreatedAt,
                 UpdatedAt = a.UpdatedAt,
                 StudentName = a.Student.FullName,
-                StudentEmail = a.Student.Email,
                 StudentNumber = a.Student.StudentNumber ?? "",
+                StudentPhoneNumber = a.Student.PhoneNumber ?? "",
                 NurseName = a.Nurse?.FullName,
+                NurseEmployeeNumber = a.Nurse?.EmployeeNumber,
                 NurseSpecialization = a.Nurse?.Specialization
             }).ToList();
 
@@ -131,7 +132,7 @@ namespace HealthConnect.Server.Controllers
                 CreatedAt = appointment.CreatedAt,
                 UpdatedAt = appointment.UpdatedAt,
                 StudentName = appointment.Student.FullName,
-                StudentEmail = appointment.Student.Email,
+                StudentPhoneNumber = appointment.Student.PhoneNumber ?? "",
                 StudentNumber = appointment.Student.StudentNumber ?? "",
                 NurseName = appointment.Nurse?.FullName,
                 NurseSpecialization = appointment.Nurse?.Specialization
@@ -208,7 +209,7 @@ namespace HealthConnect.Server.Controllers
                 CreatedAt = createdAppointment.CreatedAt,
                 UpdatedAt = createdAppointment.UpdatedAt,
                 StudentName = createdAppointment.Student.FullName,
-                StudentEmail = createdAppointment.Student.Email,
+                StudentPhoneNumber = createdAppointment.Student.PhoneNumber ?? "",
                 StudentNumber = createdAppointment.Student.StudentNumber ?? ""
             };
 

@@ -219,7 +219,7 @@ export class CreateAccountComponent {
         studentNumber: studentNumber,
         campus: this.createAccountForm.get('campus')?.value,
         course: courseValue,
-        cellphone: this.createAccountForm.get('cellphone')?.value
+        phoneNumber: this.createAccountForm.get('cellphone')?.value
       };
 
       // ACTUALLY CALL THE BACKEND API

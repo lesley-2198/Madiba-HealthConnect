@@ -150,11 +150,6 @@
                 <div class="overview-number">{{ totalNursesCount }}</div>
                 <p>{{ availableNursesCount }} currently available</p>
               </div>
-              <div class="overview-card">
-                <h3>Health News</h3>
-                <div class="overview-number">{{ publishedNewsCount }}</div>
-                <p>Published articles</p>
-              </div>
             </div>
           </div>
         </div>
@@ -281,7 +276,7 @@
                     <span class="student-id">{{ appointment.studentNumber }}</span>
                   </div>
                   <div class="appointment-type">
-                    Assigned to: {{ appointment.assignedNurseName }}
+                    Assigned to: {{ appointment.nurseName }}
                   </div>
                   <div class="symptoms">
                     {{ appointment.symptomsDescription }}
@@ -336,6 +331,19 @@
                   </div>
                 </div>
                 <div class="form-row">
+                  <!-- In the nurse form, ADD THIS after employeeNumber: -->
+                  <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel"
+                           id="phoneNumber"
+                           formControlName="phoneNumber"
+                           placeholder="0812345678"
+                           required>
+                    <span class="error-message"
+                          *ngIf="nurseForm.get('phoneNumber')?.invalid && nurseForm.get('phoneNumber')?.touched">
+                      Please enter a valid phone number (e.g., 0812345678)
+                    </span>
+                  </div>
                   <div class="form-group">
                     <label for="specialization">Specialization</label>
                     <select id="specialization" formControlName="specialization" required>
@@ -373,80 +381,13 @@
                   <p><strong>Employee #:</strong> {{ nurse.employeeNumber }}</p>
                   <p><strong>Specialization:</strong> {{ nurse.specialization }}</p>
                   <p><strong>Email:</strong> {{ nurse.email }}</p>
+                  <p><strong>Tel:</strong> {{nurse.phoneNumber}}</p>
                 </div>
                 <div class="nurse-actions">
                   <label class="toggle">
                     <input type="checkbox" [checked]="nurse.isAvailable" (change)="toggleNurseAvailability(nurse)">
                     <span>Available for appointments</span>
                   </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Health News Management -->
-      <section id="health-news-content" class="content-section" [class.hidden]="!isSectionActive('health-news')">
-        <div class="content-card">
-          <div class="card-header">
-            <h2>Health News Management</h2>
-          </div>
-          <div class="card-content">
-            <!-- Create New News Form -->
-            <div class="news-form">
-              <h3>Create New Health News</h3>
-              <div class="form-group">
-                <label>Title:</label>
-                <input type="text" [(ngModel)]="newNewsItem.title" placeholder="Enter news title">
-              </div>
-              <div class="form-group">
-                <label>Category:</label>
-                <select [(ngModel)]="newNewsItem.category">
-                  <option>General</option>
-                  <option>Clinic Updates</option>
-                  <option>Events</option>
-                  <option>Health Tips</option>
-                  <option>Emergency</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Content:</label>
-                <textarea [(ngModel)]="newNewsItem.content"
-                          placeholder="Enter news content..."
-                          rows="4"></textarea>
-              </div>
-              <button class="btn primary" (click)="createNews()">Create News Item</button>
-            </div>
-
-            <!-- Existing News Items -->
-            <div class="news-list">
-              <h3>Existing News Items</h3>
-              <div *ngFor="let news of healthNews" class="news-item">
-                <div class="news-header">
-                  <h4>{{ news.title }}</h4>
-                  <span class="status-badge"
-                        [class.published]="news.isPublished"
-                        [class.draft]="!news.isPublished">
-                    {{ news.isPublished ? 'Published' : 'Draft' }}
-                  </span>
-                </div>
-                <p><strong>Category:</strong> {{ news.category }}</p>
-                <p>{{ news.content }}</p>
-                <div class="news-meta">
-                  <small>Created by {{ news.createdBy }} on {{ news.createdAt | date }}</small>
-                  <small *ngIf="news.publishDate">Published on {{ news.publishDate }}</small>
-                </div>
-                <div class="news-actions">
-                  <button *ngIf="!news.isPublished"
-                          class="btn success small"
-                          (click)="publishNews(news)">
-                    Publish
-                  </button>
-                  <button class="btn danger small"
-                          (click)="deleteNews(news)">
-                    Delete
-                  </button>
                 </div>
               </div>
             </div>
