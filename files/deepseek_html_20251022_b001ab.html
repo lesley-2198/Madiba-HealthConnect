@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madiba HealthConnect - Appointment Booking</title>
+    <style>
+        /* Import Roboto Font */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background-color: #1a3a52;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #5dade2;
+        }
+
+        .header-text p {
+            margin: 0.25rem 0 0 0;
+            color: #f1fffd;
+            font-size: 1rem;
+        }
+
+        .booking-form-container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            color: #1a3a52;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .booking-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a3a52;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid #cfe0ef;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3c7ab7;
+            box-shadow: 0 0 0 2px rgba(60, 122, 183, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: #3c7ab7;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2c5a87;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(60, 122, 183, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .modal-container.active {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .modal-header.warning {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+        }
+
+        .modal-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        .close-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-message {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        /* Appointment Details */
+        .appointment-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .appointment-details h3 {
+            margin: 0 0 1rem 0;
+            color: #1a3a52;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .details-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+            flex-shrink: 0;
+            min-width: 80px;
+        }
+
+        .detail-value {
+            color: #1a3a52;
+            text-align: right;
+            flex: 1;
+            font-weight: 500;
+        }
+
+        /* Operating Hours Info */
+        .operating-hours-info {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 1.25rem;
+            border-left: 4px solid #2196F3;
+        }
+
+        .operating-hours-info h4 {
+            margin: 0 0 0.75rem 0;
+            color: #1a3a52;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .operating-hours-info ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: #495057;
+        }
+
+        .operating-hours-info li {
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 0 2rem 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            background-color: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-top: 2rem;
+        }
+
+        .demo-controls h3 {
+            color: #1a3a52;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .modal-container {
+                max-width: 100%;
+                margin: 1rem;
+            }
+            
+            .modal-header {
+                padding: 1.25rem 1.5rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .modal-title {
+                font-size: 1.2rem;
+            }
+            
+            .modal-footer {
+                padding: 0 1.5rem 1.5rem;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            
+            .detail-label,
+            .detail-value {
+                text-align: left;
+            }
+            
+            .demo-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+            
+            .modal-icon {
+                order: -1;
+            }
+            
+            .close-button {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-logo">MH</div>
+            <div class="header-text">
+                <h1>Madiba HealthConnect</h1>
+                <p>Campus Clinic Booking System</p>
+            </div>
+        </div>
+
+        <div class="booking-form-container">
+            <h2 class="form-title">Book an Appointment</h2>
+            <form class="booking-form" id="appointmentForm">
+                <div class="form-group">
+                    <label for="appointmentDate">Appointment Date</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="timeSlot">Time Slot</label>
+                    <select id="timeSlot" name="timeSlot" required>
+                        <option value="" disabled selected>Select a time slot</option>
+                        <option value="09:00">09:00 - 09:15</option>
+                        <option value="09:15">09:15 - 09:30</option>
+                        <option value="09:30">09:30 - 09:45</option>
+                        <option value="09:45">09:45 - 10:00</option>
+                        <option value="10:00">10:00 - 10:15</option>
+                        <option value="10:15">10:15 - 10:30</option>
+                        <option value="10:30">10:30 - 10:45</option>
+                        <option value="10:45">10:45 - 11:00</option>
+                        <option value="11:00">11:00 - 11:15</option>
+                        <option value="11:15">11:15 - 11:30</option>
+                        <option value="11:30">11:30 - 11:45</option>
+                        <option value="11:45">11:45 - 12:00</option>
+                        <option value="12:00">12:00 - 12:15</option>
+                        <option value="12:15">12:15 - 12:30</option>
+                        <option value="12:30">12:30 - 12:45</option>
+                        <option value="12:45">12:45 - 13:00</option>
+                        <option value="14:00">14:00 - 14:15</option>
+                        <option value="14:15">14:15 - 14:30</option>
+                        <option value="14:30">14:30 - 14:45</option>
+                        <option value="14:45">14:45 - 15:00</option>
+                        <option value="15:00">15:00 - 15:15</option>
+                        <option value="15:15">15:15 - 15:30</option>
+                        <option value="15:30">15:30 - 15:45</option>
+                        <option value="15:45">15:45 - 16:00</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="consultationType">Nurse Specialization</label>
+                    <select id="consultationType" name="consultationType" required>
+                        <option value="" disabled selected>Select nurse specialization</option>
+                        <option value="General Nursing">General Nursing</option>
+                        <option value="Emergency Care">Emergency Care</option>
+                        <option value="Primary Care">Primary Care</option>
+                        <option value="Mental Health">Mental Health</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Geriatrics">Geriatrics</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="symptomsDescription">Symptoms/Reason for Visit</label>
+                    <textarea id="symptomsDescription" name="symptomsDescription" placeholder="Describe your symptoms or reason for visit" required></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="demo-controls">
+            <h3>Demo Controls - Test Different Scenarios</h3>
+            <div class="demo-buttons">
+                <button class="btn btn-secondary" id="demoWithinHours">Show Success Modal (Within Hours)</button>
+                <button class="btn btn-warning" id="demoOutsideHours">Show Warning Modal (Outside Hours)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Success Modal -->
+    <div class="modal-overlay" id="appointmentModal">
+        <div class="modal-container" id="modalContainer">
+            <!-- Modal content will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Clinic operating hours (9 AM to 4 PM, Monday to Friday)
+        const CLINIC_HOURS = {
+            start: 9,  // 9 AM
+            end: 16,   // 4 PM
+            days: [1, 2, 3, 4, 5] // Monday to Friday (1 = Monday, 0 = Sunday)
+        };
+
+        // DOM elements
+        const appointmentForm = document.getElementById('appointmentForm');
+        const appointmentModal = document.getElementById('appointmentModal');
+        const modalContainer = document.getElementById('modalContainer');
+        const demoWithinHours = document.getElementById('demoWithinHours');
+        const demoOutsideHours = document.getElementById('demoOutsideHours');
+
+        // Check if current time is within operating hours
+        function isWithinOperatingHours() {
+            const now = new Date();
+            const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            const currentHour = now.getHours();
+            
+            // Check if it's a weekday and within operating hours
+            return CLINIC_HOURS.days.includes(currentDay) && 
+                   currentHour >= CLINIC_HOURS.start && 
+                   currentHour < CLINIC_HOURS.end;
+        }
+
+        // Generate modal data based on booking time
+        function generateModalData(appointmentDetails, isWithinHours) {
+            if (isWithinHours) {
+                return {
+                    title: 'Appointment Booked Successfully!',
+                    message: 'Your appointment has been booked successfully and is pending approval. You will receive a notification once it\'s confirmed.',
+                    type: 'success',
+                    appointmentDetails: appointmentDetails
+                };
+            } else {
+                return {
+                    title: 'Appointment Received - Outside Operating Hours',
+                    message: 'Your appointment has been received. Since you booked outside of our operating hours (Monday-Friday, 9 AM - 4 PM), your appointment approval will be processed when the clinic opens.',
+                    type: 'warning',
+                    appointmentDetails: appointmentDetails
+                };
+            }
+        }
+
+        // Create modal HTML
+        function createModalHTML(modalData) {
+            return `
+                <div class="modal-header ${modalData.type === 'warning' ? 'warning' : ''}">
+                    <div class="modal-icon">
+                        ${modalData.type === 'success' ? '✅' : '⚠️'}
+                    </div>
+                    <h2 class="modal-title">${modalData.title}</h2>
+                    <button class="close-button" id="closeModal">×</button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="modal-message">${modalData.message}</p>
+                    
+                    <div class="appointment-details">
+                        <h3>Appointment Details:</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Date:</span>
+                                <span class="detail-value">${new Date(modalData.appointmentDetails.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Time:</span>
+                                <span class="detail-value">${modalData.appointmentDetails.time}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Nurse Type:</span>
+                                <span class="detail-value">${modalData.appointmentDetails.nurseType}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Reason:</span>
+                                <span class="detail-value">${modalData.appointmentDetails.symptoms}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="operating-hours-info">
+                        <h4>Clinic Operating Hours:</h4>
+                        <ul>
+                            <li>Monday - Friday: 9:00 AM - 4:00 PM</li>
+                            <li>Weekends: Closed</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="confirmModal">
+                        Got it!
+                    </button>
+                </div>
+            `;
+        }
+
+        // Show modal with specified data
+        function showModal(modalData) {
+            modalContainer.innerHTML = createModalHTML(modalData);
+            appointmentModal.classList.add('active');
+            modalContainer.classList.add('active');
+            
+            // Add event listeners to close buttons
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('confirmModal').addEventListener('click', closeModal);
+            
+            // Close modal when clicking on overlay
+            appointmentModal.addEventListener('click', function(e) {
+                if (e.target === appointmentModal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Close modal
+        function closeModal() {
+            appointmentModal.classList.remove('active');
+            modalContainer.classList.remove('active');
+        }
+
+        // Handle form submission
+        appointmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(appointmentForm);
+            const appointmentDetails = {
+                date: formData.get('appointmentDate'),
+                time: formData.get('timeSlot'),
+                nurseType: formData.get('consultationType'),
+                symptoms: formData.get('symptomsDescription')
+            };
+            
+            // Check if within operating hours
+            const withinHours = isWithinOperatingHours();
+            
+            // Generate modal data
+            const modalData = generateModalData(appointmentDetails, withinHours);
+            
+            // Show modal
+            showModal(modalData);
+        });
+
+        // Demo buttons for testing
+        demoWithinHours.addEventListener('click', function() {
+            const appointmentDetails = {
+                date: '2025-03-10',
+                time: '10:00',
+                nurseType: 'General Nursing',
+                symptoms: 'Regular checkup and consultation'
+            };
+            
+            const modalData = generateModalData(appointmentDetails, true);
+            showModal(modalData);
+        });
+
+        demoOutsideHours.addEventListener('click', function() {
+            const appointmentDetails = {
+                date: '2025-03-10',
+                time: '10:00',
+                nurseType: 'Emergency Care',
+                symptoms: 'Persistent headache and fever'
+            };
+            
+            const modalData = generateModalData(appointmentDetails, false);
+            showModal(modalData);
+        });
+
+        // Set minimum date to tomorrow
+        const dateInput = document.getElementById('appointmentDate');
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        dateInput.min = tomorrow.toISOString().split('T')[0];
+        
+        // Set maximum date to 30 days from now
+        const maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 30);
+        dateInput.max = maxDate.toISOString().split('T')[0];
+    </script>
+</body>
+</html>
