@@ -5,8 +5,6 @@ using HealthConnect.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -15,12 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 
-// Entity Framework
+// Entity Framework - Support both SQL Server and PostgreSQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-    if (connectionString?.Contains("postgres") == true)
+    if (connectionString?.Contains("postgres") == true || connectionString?.Contains("Host=") == true)
     {
         options.UseNpgsql(connectionString);
     }
