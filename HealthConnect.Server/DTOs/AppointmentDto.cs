@@ -11,12 +11,13 @@
 
     public class UpdateAppointmentDto
     {
-        public int Id { get; set; }
         public DateTime? AppointmentDate { get; set; }
         public string? TimeSlot { get; set; }
         public string? ConsultationType { get; set; }
         public string? SymptomsDescription { get; set; }
         public string? Notes { get; set; }
+        public string? Prescription { get; set; }  // ADD THIS LINE
+        public string? NurseId { get; set; }
         public string? Status { get; set; }
     }
 
@@ -31,6 +32,7 @@
         public string Status { get; set; } = string.Empty;
         public string SymptomsDescription { get; set; } = string.Empty;
         public string? Notes { get; set; }
+        public string? Prescription { get; set; }  // ADD THIS LINE
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

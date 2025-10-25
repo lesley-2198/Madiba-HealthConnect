@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap, catchError, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Appointment {
   id: number;
@@ -13,6 +15,7 @@ export interface Appointment {
   status: string;
   symptomsDescription: string;
   notes?: string;
+  prescription?: string;
   createdAt: string;
   updatedAt: string;
   studentName: string;
@@ -32,18 +35,20 @@ export interface CreateAppointmentRequest {
 }
 
 export interface UpdateAppointmentRequest {
+  appointmentDate?: string;
+  timeSlot?: string;
   nurseId?: string;
   status?: string;
   notes?: string;
+  prescription?: string;
   consultationMethod?: string;
-  // Add other updatable fields as needed
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
-  private apiUrl = 'api/appointments';
+  private apiUrl = environment.production ? `${environment.apiUrl}/appointments` : 'api/appointments';
 
   constructor(private http: HttpClient) { }
 
@@ -73,6 +78,20 @@ export class AppointmentService {
   }
 
   // Assign appointment to nurse (Admin only)
+  // Line 76-78
   assignAppointment(appointmentId: number, nurseId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${appointmentId}/assign`, { NurseId: nurseId });  }
+    const payload = { NurseId: nurseId };
+    console.log('🔵 FRONTEND: Sending assignment request:', {
+      appointmentId,
+      nurseId,
+      payload
+    });
+    return this.http.post(`${this.apiUrl}/${appointmentId}/assign`, payload).pipe(
+      tap((response) => console.log('🟢 FRONTEND: Assignment response:', response)),
+      catchError((error) => {
+        console.error('🔴 FRONTEND: Assignment error:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }

@@ -143,6 +143,9 @@ namespace HealthConnect.Server.Migrations
                     b.Property<string>("NurseId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Prescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

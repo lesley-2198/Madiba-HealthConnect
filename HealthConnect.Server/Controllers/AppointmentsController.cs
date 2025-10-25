@@ -1,11 +1,13 @@
 ﻿using HealthConnect.Server.Data;
 using HealthConnect.Server.DTOs;
 using HealthConnect.Server.Models;
+using HealthConnect.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace HealthConnect.Server.Controllers
 {
@@ -16,11 +18,13 @@ namespace HealthConnect.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailService _emailService;
 
-        public AppointmentsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AppointmentsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IEmailService emailService)
         {
             _context = context;
             _userManager = userManager;
+            _emailService = emailService;
         }
 
         // GET: api/appointments
@@ -29,6 +33,10 @@ namespace HealthConnect.Server.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(userId);
+
+            Console.WriteLine($"🔵 GET APPOINTMENTS: UserId from JWT: '{userId}'");
+            Console.WriteLine($"🔵 GET APPOINTMENTS: User found: {user != null}");
+            Console.WriteLine($"🔵 GET APPOINTMENTS: User role: '{user?.Role}'");
 
             if (user == null)
                 return Unauthorized();
@@ -47,6 +55,8 @@ namespace HealthConnect.Server.Controllers
             }
             else if (user.Role == "Nurse")
             {
+                Console.WriteLine($"🟢 GET APPOINTMENTS: Querying appointments for Nurse ID: '{userId}'");
+
                 // Nurses can see appointments assigned to them
                 appointments = await _context.Appointments
                     .Where(a => a.NurseId == userId)
@@ -54,6 +64,14 @@ namespace HealthConnect.Server.Controllers
                     .Include(a => a.Nurse)
                     .OrderByDescending(a => a.CreatedAt)
                     .ToListAsync();
+
+                Console.WriteLine($"🟢 GET APPOINTMENTS: Found {appointments.Count} appointments for nurse");
+
+                // ADD THIS DEBUG LOG
+                foreach (var apt in appointments)
+                {
+                    Console.WriteLine($"   - Appointment {apt.Id}: NurseId='{apt.NurseId}', Status='{apt.Status}'");
+                }
             }
             else if (user.Role == "Admin")
             {
@@ -80,6 +98,7 @@ namespace HealthConnect.Server.Controllers
                 Status = a.Status,
                 SymptomsDescription = a.SymptomsDescription,
                 Notes = a.Notes,
+                Prescription = a.Prescription,  // ADD THIS LINE
                 CreatedAt = a.CreatedAt,
                 UpdatedAt = a.UpdatedAt,
                 StudentName = a.Student.FullName,
@@ -129,6 +148,7 @@ namespace HealthConnect.Server.Controllers
                 Status = appointment.Status,
                 SymptomsDescription = appointment.SymptomsDescription,
                 Notes = appointment.Notes,
+                Prescription = appointment.Prescription,  // ADD THIS LINE
                 CreatedAt = appointment.CreatedAt,
                 UpdatedAt = appointment.UpdatedAt,
                 StudentName = appointment.Student.FullName,
@@ -190,6 +210,14 @@ namespace HealthConnect.Server.Controllers
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
 
+            // Send email notification to admin
+            await _emailService.SendAppointmentNotificationAsync(
+                appointment,
+                user.FullName,
+                user.StudentNumber ?? "N/A",
+                user.PhoneNumber ?? "N/A"
+            );
+
             // Return the created appointment with student info
             var createdAppointment = await _context.Appointments
                 .Include(a => a.Student)
@@ -206,6 +234,7 @@ namespace HealthConnect.Server.Controllers
                 Status = createdAppointment.Status,
                 SymptomsDescription = createdAppointment.SymptomsDescription,
                 Notes = createdAppointment.Notes,
+                Prescription = createdAppointment.Prescription,  // ADD THIS LINE
                 CreatedAt = createdAppointment.CreatedAt,
                 UpdatedAt = createdAppointment.UpdatedAt,
                 StudentName = createdAppointment.Student.FullName,
@@ -226,7 +255,11 @@ namespace HealthConnect.Server.Controllers
             if (user == null)
                 return Unauthorized();
 
-            var appointment = await _context.Appointments.FindAsync(id);
+            var appointment = await _context.Appointments
+                .Include(a => a.Student)
+                .Include(a => a.Nurse)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (appointment == null)
                 return NotFound();
 
@@ -237,7 +270,16 @@ namespace HealthConnect.Server.Controllers
             if (user.Role == "Nurse" && appointment.NurseId != userId)
                 return Forbid();
 
-            // Update fields if provided
+            // Track if status is changing to "Completed"
+            bool statusChangedToCompleted = false;
+            if (!string.IsNullOrEmpty(model.Status) &&
+                model.Status == "Completed" &&
+                appointment.Status != "Completed")
+            {
+                statusChangedToCompleted = true;
+            }
+
+            // Update appointment fields
             if (model.AppointmentDate.HasValue)
                 appointment.AppointmentDate = model.AppointmentDate.Value;
 
@@ -250,8 +292,14 @@ namespace HealthConnect.Server.Controllers
             if (!string.IsNullOrEmpty(model.SymptomsDescription))
                 appointment.SymptomsDescription = model.SymptomsDescription;
 
-            if (model.Notes != null)
+            if (!string.IsNullOrEmpty(model.Notes))
                 appointment.Notes = model.Notes;
+
+            if (!string.IsNullOrEmpty(model.Prescription))  // ADD THIS BLOCK
+                appointment.Prescription = model.Prescription;
+
+            if (!string.IsNullOrEmpty(model.NurseId))
+                appointment.NurseId = model.NurseId;
 
             if (!string.IsNullOrEmpty(model.Status))
                 appointment.Status = model.Status;
@@ -259,6 +307,17 @@ namespace HealthConnect.Server.Controllers
             appointment.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
+
+            // Send email if consultation was marked complete
+            if (statusChangedToCompleted)
+            {
+                await _emailService.SendConsultationCompleteEmailAsync(
+                    appointment,
+                    appointment.Student.Email,
+                    appointment.Nurse?.FullName ?? "Your Nurse",
+                    appointment.Prescription ?? ""
+                );
+            }
 
             return NoContent();
         }
@@ -305,32 +364,62 @@ namespace HealthConnect.Server.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignAppointment(int id, [FromBody] AssignAppointmentDto model)
         {
+            Console.WriteLine($"🔵 BACKEND: Received assignment request for Appointment ID: {id}");
+            Console.WriteLine($"🔵 BACKEND: Model NurseId: '{model.NurseId}'");
+
             var appointment = await _context.Appointments
                 .Include(a => a.Student)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (appointment == null)
+            {
+                Console.WriteLine($"🔴 BACKEND: Appointment {id} not found");
                 return NotFound();
+            }
 
             if (appointment.Status != "Pending")
+            {
+                Console.WriteLine($"🔴 BACKEND: Appointment status is '{appointment.Status}', not 'Pending'");
                 return BadRequest(new { message = "Only pending appointments can be assigned" });
+            }
 
+            Console.WriteLine($"🔵 BACKEND: Looking for nurse with ID: '{model.NurseId}'");
             var nurse = await _userManager.FindByIdAsync(model.NurseId);
+
             if (nurse == null || nurse.Role != "Nurse")
+            {
+                Console.WriteLine($"🔴 BACKEND: Nurse not found or invalid. Nurse is null: {nurse == null}, Role: {nurse?.Role}");
                 return BadRequest(new { message = "Invalid nurse" });
+            }
+
+            Console.WriteLine($"🟢 BACKEND: Valid nurse found: {nurse.FullName}");
+            Console.WriteLine($"🔵 BACKEND: Setting appointment.NurseId = '{model.NurseId}'");
 
             appointment.NurseId = model.NurseId;
             appointment.Status = "Assigned";
             appointment.UpdatedAt = DateTime.UtcNow;
 
+            Console.WriteLine($"🔵 BACKEND: Before SaveChanges - NurseId: '{appointment.NurseId}'");
             await _context.SaveChangesAsync();
+            Console.WriteLine($"🟢 BACKEND: SaveChanges completed");
+
+            // ADD THIS EMAIL NOTIFICATION CODE:
+            Console.WriteLine($"🔵 BACKEND: Sending assignment email to student: {appointment.Student.Email}");
+            await _emailService.SendAppointmentAssignedEmailAsync(
+                appointment,
+                appointment.Student.Email ?? "",
+                nurse.FullName,
+                nurse.Specialization ?? "General Nursing"
+            );
+            Console.WriteLine($"🟢 BACKEND: Email service called");
 
             return Ok(new { message = "Appointment assigned successfully" });
         }
-    }
 
-    public class AssignAppointmentDto
-    {
-        public string NurseId { get; set; } = string.Empty;
+        public class AssignAppointmentDto
+        {
+            [JsonPropertyName("nurseId")]  // Add this attribute
+            public string NurseId { get; set; } = string.Empty;
+        }
     }
 }

@@ -562,6 +562,28 @@ body, html {
   border-color: #dc3545;
 }
 
+.consultation-notes {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #f0f9ff;
+  border-left: 4px solid #0ea5e9;
+  border-radius: 4px;
+}
+
+  .consultation-notes strong {
+    display: block;
+    color: #0369a1;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+
+  .consultation-notes p {
+    margin: 0;
+    color: #334155;
+    line-height: 1.5;
+    white-space: pre-wrap; /* Preserves line breaks in notes */
+  }
+
 .news-section-header {
   display: flex;
   justify-content: space-between;
@@ -1332,3 +1354,232 @@ body, html {
    RESPONSIVE BREAKPOINTS
    =================================== */
 
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+  .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+/* Modal Container */
+.modal-container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.9) translateY(-20px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+  .modal-container.active {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+/* Modal Header */
+.modal-header {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+  .modal-header.warning {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+  }
+
+.modal-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  flex: 1;
+  line-height: 1.3;
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+  .close-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+/* Modal Body */
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-message {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Appointment Details */
+.appointment-details {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+  .appointment-details h3 {
+    color: #1a3a52;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+.details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  text-align: right;
+  color: #1a3a52;
+  font-weight: 500;
+}
+
+/* Operating Hours Info */
+.operating-hours-info {
+  background: #e3f2fd;
+  border-left: 4px solid #2196F3;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+  .operating-hours-info h4 {
+    color: #1976D2;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .operating-hours-info ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .operating-hours-info li {
+    color: #0D47A1;
+    padding: 0.25rem 0;
+    font-size: 0.95rem;
+  }
+
+/* Modal Footer */
+.modal-footer {
+  padding: 0 2rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+  .modal-container {
+    max-width: 100%;
+    margin: 1rem;
+  }
+
+  .modal-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .modal-footer {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .detail-label,
+  .detail-value {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .modal-icon {
+    order: -1;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+}

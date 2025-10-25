@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Nurse {
   id: string;
@@ -32,7 +33,7 @@ export interface UpdateNurseRequest {
   providedIn: 'root'
 })
 export class NurseService {
-  private apiUrl = 'api/auth';
+  private apiUrl = environment.production ? `${environment.apiUrl}/auth` : 'api/auth';
 
   constructor(private http: HttpClient) { }
 

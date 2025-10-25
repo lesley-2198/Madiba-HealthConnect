@@ -13,6 +13,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // User data
   user: any = null;
   userInitials: string = '';
+  showSuccessModal = false;
+  isAfterHours = false;
+  modalTitle = '';
+  modalMessage = '';
+  bookedAppointment: any = null;
 
   // Appointments data
   appointments: Appointment[] = [];
@@ -152,11 +157,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // Form methods
   submitBooking(): void {
     if (this.bookingForm.valid) {
+      const selectedDate = new Date(this.bookingForm.value.appointmentDate);
+      const selectedTime = this.bookingForm.value.timeSlot;
+
+      // Check if weekend
+      if (this.isWeekend(selectedDate)) {
+        alert('Appointments cannot be booked on weekends. Clinic operates Monday-Friday only.');
+        return;
+      }
+
       this.isSubmittingBooking = true;
 
-      const appointmentData: CreateAppointmentRequest = {
-        appointmentDate: this.bookingForm.value.appointmentDate,
-        timeSlot: this.bookingForm.value.timeSlot,
+      const appointmentData = {
+        appointmentDate: selectedDate.toISOString(),
+        timeSlot: selectedTime,
         consultationType: this.bookingForm.value.consultationType,
         symptomsDescription: this.bookingForm.value.symptomsDescription,
         notes: this.bookingForm.value.notes
@@ -168,7 +182,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.appointments.unshift(appointment);
           this.bookingForm.reset();
           this.isSubmittingBooking = false;
-          alert('Appointment booked successfully!');
+
+          // Check if booking is within operating hours
+          this.isAfterHours = this.isAfterClinicHours();
+          this.bookedAppointment = appointment;
+
+          if (this.isAfterHours) {
+            this.modalTitle = 'Appointment Received - Outside Operating Hours';
+            this.modalMessage = 'Your appointment has been received. Since you booked outside of our operating hours (9:00 AM - 4:00 PM, Monday-Friday), a nurse will review and confirm your appointment when the clinic opens. You will receive a notification once it\'s confirmed.';
+          } else {
+            this.modalTitle = 'Appointment Booked Successfully!';
+            this.modalMessage = 'Your appointment has been booked successfully and is pending approval. You can expect communication from the clinic shortly. You will receive a notification once it\'s confirmed.';
+          }
+
+          this.showSuccessModal = true;
         },
         error: (error) => {
           console.error('Error creating appointment:', error);
@@ -188,6 +215,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
         control.markAsTouched();
       }
     });
+  }
+
+  isAfterClinicHours(): boolean {
+    const now = new Date();
+    const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    const currentHour = now.getHours();
+
+    // Check if it's a weekend
+    if (currentDay === 0 || currentDay === 6) {
+      return true;
+    }
+
+    // Check if it's outside operating hours (9 AM - 4 PM)
+    if (currentHour < 9 || currentHour >= 16) {
+      return true;
+    }
+
+    return false;
+  }
+
+  isWeekend(date: Date): boolean {
+    const day = date.getDay();
+    return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
   }
 
   cancelAppointment(appointmentId: number): void {
@@ -289,6 +339,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.bookingForm.get('appointmentDate')?.setErrors(null);
       }
     }
+  }
+
+  closeModal(): void {
+    this.showSuccessModal = false;
+    this.bookedAppointment = null;
   }
 
   // UI methods

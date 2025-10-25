@@ -153,6 +153,82 @@
   margin-top: 0.25rem;
 }
 
+/* Appointment Cards (matching admin nurse cards style) */
+.appointment-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+  .appointment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+.appointment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+  .appointment-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+  }
+
+.appointment-info {
+  margin-bottom: 15px;
+}
+
+  .appointment-info p {
+    margin: 8px 0;
+    color: #666;
+    font-size: 0.95em;
+  }
+
+  .appointment-info strong {
+    color: #333;
+    margin-right: 5px;
+  }
+
+.appointment-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+  .status-badge.assigned {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status-badge.completed {
+    background: #d4edda;
+    color: #155724;
+  }
+
+.no-appointments {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
 /* Consultation Interface */
 .consultation-form {
   display: flex;

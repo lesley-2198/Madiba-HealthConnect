@@ -9,6 +9,7 @@ import { TermsConditionsComponent } from './terms-conditions/terms-conditions.co
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { NurseDashboardComponent } from './nurse-dashboard/nurse-dashboard.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AnalyticsDashboardComponent } from './analytics-dashboard/analytics-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 
@@ -38,6 +39,12 @@ const routes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Admin'] }
+  },
+  {
+    path: 'admin-dashboard/reports/appointment-statistics',
+    component: AnalyticsDashboardComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['Admin'] }
   },

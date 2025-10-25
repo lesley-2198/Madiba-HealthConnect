@@ -1,0 +1,52 @@
+# Azure deployment files
+*.azurewebsites.net
+*.publish.xml
+*.PublishSettings
+
+# Secrets and sensitive configuration
+appsettings.Production.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio cache/options
+.vs/
+.vscode/
+
+# Node modules
+node_modules/
+
+# Angular build output
+dist/
+tmp/
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+
+# Environment files with secrets
+.env
+.env.local
+.env.production
+

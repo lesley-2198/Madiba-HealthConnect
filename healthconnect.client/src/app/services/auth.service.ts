@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 export interface LoginResponse {
   token: string;
@@ -23,7 +24,7 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'api/auth'; // Points to your backend
+  private apiUrl = environment.production ? `${environment.apiUrl}/auth` : 'api/auth';
 
   constructor(
     private http: HttpClient,

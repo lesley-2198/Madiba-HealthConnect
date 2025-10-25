@@ -1,9 +1,12 @@
+using HealthConnect.Server.Configuration;
 using HealthConnect.Server.Data;
 using HealthConnect.Server.Models;
 using HealthConnect.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -14,7 +17,18 @@ builder.Services.AddControllers();
 
 // Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+    if (connectionString?.Contains("postgres") == true)
+    {
+        options.UseNpgsql(connectionString);
+    }
+    else
+    {
+        options.UseSqlServer(connectionString);
+    }
+});
 
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -56,6 +70,32 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email"));
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Configure CORS for Azure deployment
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAzureFrontend", policy =>
+    {
+        var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
+        
+        if (allowedOrigins.Length > 0)
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        }
+        else
+        {
+            // Development fallback
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -87,6 +127,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// Enable CORS
+app.UseCors("AllowAzureFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();

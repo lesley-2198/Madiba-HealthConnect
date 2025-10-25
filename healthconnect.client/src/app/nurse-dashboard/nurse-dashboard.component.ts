@@ -23,15 +23,13 @@ export class NurseDashboardComponent implements OnInit {
 
   // Navigation menu
   menuItems = [
-    { id: 'overview', label: 'Dashboard Overview', description: 'Your schedule and workload', checked: true },
+    { id: 'schedule', label: 'Dashboard Overview', description: 'Your schedule and workload', checked: true },
     { id: 'appointments', label: 'My Appointments', description: 'Manage your assigned appointments', checked: false },
-    { id: 'availability', label: 'Availability', description: 'Set your working hours', checked: false },
-    { id: 'profile', label: 'Profile', description: 'Update your information', checked: false }
+    { id: 'consultations', label: 'Consultations', description: 'Consult students and make notes', checked: false}
   ];
 
   // Availability
   availabilityForm: FormGroup;
-  isUpdatingAvailability = false;
 
   // UI state
   today: Date = new Date();
@@ -76,13 +74,22 @@ export class NurseDashboardComponent implements OnInit {
 
   private loadAppointments(): void {
     this.isLoadingAppointments = true;
+
+    // ADD THESE LOGS
+    console.log('🔵 NURSE: Loading appointments...');
+    console.log('🔵 NURSE: Current user from localStorage:', this.nurse);
+    console.log('🔵 NURSE: User ID:', this.nurse?.id);
+    console.log('🔵 NURSE: Token:', this.authService.getToken());
+
     this.appointmentService.getAppointments().subscribe({
       next: (appointments) => {
+        console.log('🟢 NURSE: Received appointments:', appointments);
+        console.log('🟢 NURSE: Total count:', appointments.length);
         this.appointments = appointments;
         this.isLoadingAppointments = false;
       },
       error: (error) => {
-        console.error('Error loading appointments:', error);
+        console.error('🔴 NURSE: Error loading appointments:', error);
         this.isLoadingAppointments = false;
       }
     });
@@ -121,7 +128,7 @@ export class NurseDashboardComponent implements OnInit {
 
   isSectionActive(sectionId: string): boolean {
     const activeItem = this.menuItems.find(item => item.checked);
-    return activeItem ? activeItem.id === sectionId : sectionId === 'overview';
+    return activeItem ? activeItem.id === sectionId : sectionId === 'schedule';
   }
 
   // User menu methods
@@ -193,22 +200,6 @@ export class NurseDashboardComponent implements OnInit {
     this.appointmentNotesForm.reset();
   }
 
-  // Availability management
-  updateAvailability(): void {
-    this.isUpdatingAvailability = true;
-
-    // This would typically call an API to update nurse availability
-    // For now, we'll just update the local state
-    const isAvailable = this.availabilityForm.value.isAvailable;
-
-    // Simulate API call
-    setTimeout(() => {
-      this.nurse.isAvailable = isAvailable;
-      this.isUpdatingAvailability = false;
-      alert(`Availability updated to ${isAvailable ? 'Available' : 'Unavailable'}.`);
-    }, 1000);
-  }
-
   // Filter appointments
   getTodaysAppointments(): Appointment[] {
     const today = new Date().toISOString().split('T')[0];
@@ -245,10 +236,17 @@ export class NurseDashboardComponent implements OnInit {
   // Consultation methods
   startConsultation(appointment: Appointment): void {
     this.activeConsultation = appointment;
-    this.consultationNotes = '';
+    this.consultationNotes = appointment.notes || '';
     this.prescription = '';
     this.followUpRequired = false;
     this.followUpDate = '';
+
+    // Switch to consultations tab
+    this.menuItems.forEach(item => item.checked = false);
+    const consultationsItem = this.menuItems.find(item => item.id === 'consultations');
+    if (consultationsItem) {
+      consultationsItem.checked = true;
+    }
   }
 
   completeConsultation(appointment: Appointment): void {

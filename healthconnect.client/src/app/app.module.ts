@@ -17,6 +17,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { AnalyticsDashboardComponent } from './analytics-dashboard/analytics-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { RoleGuard } from './guards/role.guard';
     TermsConditionsComponent,
     PrivacyPolicyComponent,
     NurseDashboardComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    AnalyticsDashboardComponent
   ],
   imports: [
     BrowserModule,

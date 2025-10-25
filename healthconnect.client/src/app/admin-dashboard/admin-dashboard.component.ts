@@ -292,6 +292,10 @@ export class AdminDashboardComponent implements OnInit {
     return this.nurses.filter(nurse => nurse.isAvailable).length;
   }
 
+  viewAppointmentStatistics(): void {
+    this.router.navigate(['/admin-dashboard/reports/appointment-statistics']);
+  }
+
   logout(): void {
     this.authService.logout();
   }

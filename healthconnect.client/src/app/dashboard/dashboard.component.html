@@ -48,28 +48,28 @@
   </nav>
 
   <!-- Top Header Bar -->
-<header class="top-bar">
-  <div class="header-brand">
-    <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" alt="Logo" />
-    <div class="header-text">
-      <h1>Madiba HealthConnect</h1>
-      <p class="header-subtitle">Campus Clinic Booking</p>
-    </div>
-  </div>
-
-  <!-- Desktop Header Avatar (hidden on mobile) -->
-  <div class="header-avatar-container">
-    <div class="header-avatar" (click)="toggleUserMenu()">
-      {{ userInitials }}
-    </div>
-    <div class="user-menu" *ngIf="showUserMenu">
-      <div class="user-menu-item" (click)="logout()">
-        <span class="menu-icon">🚪</span>
-        Logout
+  <header class="top-bar">
+    <div class="header-brand">
+      <img class="header-logo" src="../../assets/logos/icononly_transparent_nobuffer.png" alt="Logo" />
+      <div class="header-text">
+        <h1>Madiba HealthConnect</h1>
+        <p class="header-subtitle">Campus Clinic Booking</p>
       </div>
     </div>
-  </div>
-</header>
+
+    <!-- Desktop Header Avatar (hidden on mobile) -->
+    <div class="header-avatar-container">
+      <div class="header-avatar" (click)="toggleUserMenu()">
+        {{ userInitials }}
+      </div>
+      <div class="user-menu" *ngIf="showUserMenu">
+        <div class="user-menu-item" (click)="logout()">
+          <span class="menu-icon">🚪</span>
+          Logout
+        </div>
+      </div>
+    </div>
+  </header>
 
   <!-- Profile Section -->
   <div class="profile-section">
@@ -228,6 +228,12 @@
                     <div>Nurse Type: {{ appt.consultationType }} • Status: {{ appt.status }}</div>
                     <div>{{ appt.symptomsDescription }}</div>
                     <div *ngIf="appt.nurseName">Assigned to: {{ appt.nurseName }}</div>
+
+                    <!-- ADD THIS SECTION -->
+                    <div *ngIf="appt.notes && (appt.status === 'Completed' || appt.status === 'Assigned')" class="consultation-notes">
+                      <strong>Consultation Notes:</strong>
+                      <p>{{ appt.notes }}</p>
+                    </div>
                   </div>
                   <div class="appt-actions">
                     <button *ngIf="appt.status === 'Pending'" class="btn danger small" (click)="cancelAppointment(appt.id)">
@@ -292,4 +298,58 @@
       </section>
     </main>
   </div>
+
+  <!-- Appointment Success Modal -->
+  <div class="modal-overlay" [class.active]="showSuccessModal" (click)="closeModal()">
+    <div class="modal-container" [class.active]="showSuccessModal" (click)="$event.stopPropagation()">
+      <div class="modal-header" [class.warning]="isAfterHours">
+        <div class="modal-icon">
+          {{ isAfterHours ? '⚠️' : '✅' }}
+        </div>
+        <h2 class="modal-title">{{ modalTitle }}</h2>
+        <button class="close-button" (click)="closeModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-message">{{ modalMessage }}</p>
+
+        <div class="appointment-details" *ngIf="bookedAppointment">
+          <h3>Appointment Details:</h3>
+          <div class="details-grid">
+            <div class="detail-item">
+              <span class="detail-label">Date:</span>
+              <span class="detail-value">{{ bookedAppointment.appointmentDate | date:'fullDate' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Time:</span>
+              <span class="detail-value">{{ bookedAppointment.timeSlot }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Nurse Type:</span>
+              <span class="detail-value">{{ bookedAppointment.consultationType }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Reason:</span>
+              <span class="detail-value">{{ bookedAppointment.symptomsDescription }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="operating-hours-info">
+          <h4>Clinic Operating Hours:</h4>
+          <ul>
+            <li>Monday - Friday: 9:00 AM - 4:00 PM</li>
+            <li>Weekends: Closed</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn primary" (click)="closeModal()">
+          Got it!
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>

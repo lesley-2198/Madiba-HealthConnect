@@ -202,89 +202,110 @@
             <!-- Pending Appointments -->
             <h3>Pending Assignment ({{ pendingAppointments.length }})</h3>
             <div class="appointment-list">
-              <div *ngFor="let appointment of pendingAppointments"
-                   class="appointment-item">
-                <div class="appointment-time">
-                  <strong>{{ appointment.timeSlot }}</strong>
+              <div *ngFor="let appointment of pendingAppointments" class="appointment-card">
+                <!-- Appointment Info -->
+                <div class="appointment-header">
+                  <div class="appointment-time-badge">
+                    <span class="time">{{ appointment.timeSlot }}</span>
+                    <span class="date">{{ appointment.appointmentDate | date:'MMM d, y' }}</span>
+                  </div>
+                  <span class="status-badge pending">Pending</span>
                 </div>
-                <div class="appointment-details">
-                  <div class="patient-info">
-                    <strong>{{ appointment.studentName }}</strong>
-                    <span class="student-id">{{ appointment.studentNumber }}</span>
+
+                <div class="appointment-body">
+                  <div class="patient-section">
+                    <h4>{{ appointment.studentName }}</h4>
+                    <div class="patient-meta">
+                      <span class="meta-item">
+                        <strong>Student #:</strong> {{ appointment.studentNumber }}
+                      </span>
+                      <span class="meta-item">
+                        <strong>Phone:</strong> {{ appointment.studentPhoneNumber }}
+                      </span>
+                    </div>
+                    <div class="appointment-info">
+                      <span class="info-badge">{{ appointment.consultationType }}</span>
+                    </div>
+                    <p class="symptoms">{{ appointment.symptomsDescription }}</p>
                   </div>
-                  <div class="appointment-type">
-                    {{ appointment.consultationType }} • {{ appointment.appointmentDate }}
+
+                  <!-- Inline Assignment Form -->
+                  <div class="assignment-section" [class.expanded]="selectedAppointment?.id === appointment.id">
+                    <div *ngIf="selectedAppointment?.id !== appointment.id">
+                      <button class="btn primary" (click)="assignAppointment(appointment)">
+                        Assign Nurse
+                      </button>
+                    </div>
+
+                    <div *ngIf="selectedAppointment?.id === appointment.id" class="assignment-form">
+                      <h4>Select Nurse for Assignment</h4>
+                      <div class="form-group">
+                        <label for="nurseSelect-{{appointment.id}}">Available Nurses</label>
+                        <select id="nurseSelect-{{appointment.id}}"
+                                [(ngModel)]="selectedNurseId"
+                                class="form-control">
+                          <option [value]="null" disabled>Choose a nurse...</option>
+                          <option *ngFor="let nurse of getAvailableNurses()" [value]="nurse.id">
+                            {{ nurse.fullName }} - {{ nurse.specialization }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-actions">
+                        <button class="btn success"
+                                (click)="confirmAssignment()"
+                                [disabled]="!selectedNurseId">
+                          Confirm Assignment
+                        </button>
+                        <button class="btn outline" (click)="cancelAssignment()">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="symptoms">
-                    {{ appointment.symptomsDescription }}
-                  </div>
-                </div>
-                <div class="appointment-actions">
-                  <button class="btn primary small"
-                          (click)="assignAppointment(appointment)">
-                    Assign Nurse
-                  </button>
                 </div>
               </div>
+
               <div *ngIf="pendingAppointments.length === 0" class="no-appointments">
-                <p>No appointments pending assignment.</p>
-              </div>
-            </div>
-
-            <!-- Assignment Modal -->
-            <div *ngIf="selectedAppointment" class="assignment-modal">
-              <h3>Assign Nurse to Appointment</h3>
-              <div class="appointment-details">
-                <strong>{{ selectedAppointment.studentName }}</strong> -
-                {{ selectedAppointment.timeSlot }} • {{ selectedAppointment.consultationType }}
-              </div>
-
-              <div class="form-group">
-                <label>Select Nurse:</label>
-                <select [(ngModel)]="selectedNurseId" class="form-control">
-                  <option [value]="null" disabled>Choose a nurse...</option>
-                  <option *ngFor="let nurse of getAvailableNurses()"
-                          [value]="nurse.id">
-                    {{ nurse.fullName }} ({{ nurse.specialization }})
-                  </option>
-                </select>
-              </div>
-
-              <div class="action-buttons">
-                <button class="btn success"
-                        (click)="confirmAssignment()"
-                        [disabled]="!selectedNurseId">
-                  Confirm Assignment
-                </button>
-                <button class="btn outline" (click)="cancelAssignment()">
-                  Cancel
-                </button>
+                <p>✅ No appointments pending assignment.</p>
               </div>
             </div>
 
             <!-- Assigned Appointments -->
-            <h3>Assigned Appointments ({{ assignedAppointments.length }})</h3>
+            <h3 style="margin-top: 2rem;">Assigned Appointments ({{ assignedAppointments.length }})</h3>
             <div class="appointment-list">
-              <div *ngFor="let appointment of assignedAppointments"
-                   class="appointment-item assigned">
-                <div class="appointment-time">
-                  <strong>{{ appointment.timeSlot }}</strong>
-                </div>
-                <div class="appointment-details">
-                  <div class="patient-info">
-                    <strong>{{ appointment.studentName }}</strong>
-                    <span class="student-id">{{ appointment.studentNumber }}</span>
+              <div *ngFor="let appointment of assignedAppointments" class="appointment-card assigned">
+                <div class="appointment-header">
+                  <div class="appointment-time-badge">
+                    <span class="time">{{ appointment.timeSlot }}</span>
+                    <span class="date">{{ appointment.appointmentDate | date:'MMM d, y' }}</span>
                   </div>
-                  <div class="appointment-type">
-                    Assigned to: {{ appointment.nurseName }}
-                  </div>
-                  <div class="symptoms">
-                    {{ appointment.symptomsDescription }}
-                  </div>
-                </div>
-                <div class="appointment-status">
                   <span class="status-badge assigned">Assigned</span>
                 </div>
+
+                <div class="appointment-body">
+                  <div class="patient-section">
+                    <h4>{{ appointment.studentName }}</h4>
+                    <div class="patient-meta">
+                      <span class="meta-item">
+                        <strong>Student #:</strong> {{ appointment.studentNumber }}
+                      </span>
+                      <span class="meta-item">
+                        <strong>Phone:</strong> {{ appointment.studentPhoneNumber }}
+                      </span>
+                    </div>
+                    <div class="appointment-info">
+                      <span class="info-badge">{{ appointment.consultationType }}</span>
+                      <span class="nurse-assigned">
+                        <strong>Assigned to:</strong> {{ appointment.nurseName }}
+                      </span>
+                    </div>
+                    <p class="symptoms">{{ appointment.symptomsDescription }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="assignedAppointments.length === 0" class="no-appointments">
+                <p>No appointments have been assigned yet.</p>
               </div>
             </div>
           </div>
@@ -405,18 +426,8 @@
             <div class="reports-grid">
               <div class="report-card">
                 <h3>Appointment Statistics</h3>
-                <p>Weekly/Monthly appointment trends and distribution</p>
-                <button class="btn outline">View Report</button>
-              </div>
-              <div class="report-card">
-                <h3>Nurse Performance</h3>
-                <p>Nurse workload and appointment completion rates</p>
-                <button class="btn outline">View Report</button>
-              </div>
-              <div class="report-card">
-                <h3>Clinic Utilization</h3>
-                <p>Peak hours and resource utilization patterns</p>
-                <button class="btn outline">View Report</button>
+                <p>Comprehensive analytics on appointments, nurses, and clinic utilization</p>
+                <button class="btn outline" (click)="viewAppointmentStatistics()">View Report</button>
               </div>
             </div>
           </div>

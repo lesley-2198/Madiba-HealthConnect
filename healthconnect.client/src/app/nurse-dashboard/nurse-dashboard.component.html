@@ -84,13 +84,6 @@
         <div class="user-details">
           <p><strong>Employee Number:</strong> {{ nurse?.employeeNumber || 'N/A' }}</p>
           <p><strong>Specialization:</strong> {{ nurse?.specialization || 'N/A' }}</p>
-          <p>
-            <strong>Status:</strong>
-            <span class="status-badge" [class.available]="nurse?.isAvailable"
-                  [class.unavailable]="!nurse?.isAvailable">
-              {{ nurse?.isAvailable ? 'Available' : 'Unavailable' }}
-            </span>
-          </p>
         </div>
       </div>
     </div>
@@ -126,12 +119,12 @@
       <!-- Quick Stats -->
       <div class="quick-stats">
         <div class="stat-card">
-          <div class="stat-number">{{ todaysAppointments.length }}</div>
-          <div class="stat-label">Today's Appointments</div>
+          <div class="stat-number">{{ appointments.length }}</div>
+          <div class="stat-label">Total Appointments</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">{{ pendingAppointmentsCount }}</div>
-          <div class="stat-label">Pending</div>
+          <div class="stat-number">{{ getAssignedAppointments().length }}</div>
+          <div class="stat-label">Assigned</div>
         </div>
       </div>
     </aside>
@@ -142,66 +135,30 @@
       <section id="schedule-content" class="content-section" [class.hidden]="!isSectionActive('schedule')">
         <div class="content-card">
           <div class="card-header">
-            <h2>Today's Schedule - {{ today | date:'fullDate' }}</h2>
+            <h2>My Assigned Appointments</h2>
           </div>
           <div class="card-content">
             <div class="schedule-list">
-              <div *ngFor="let appointment of todaysAppointments"
-                   class="appointment-item"
-                   [class.completed]="appointment.status === 'Completed'"
-                   [class.upcoming]="appointment.status === 'Confirmed'"
-                   [class.in-progress]="appointment.status === 'InProgress'">
-
-                <div class="appointment-time">
-                  <strong>{{ appointment.timeSlot }}</strong>
-                </div>
-
-                <div class="appointment-details">
-                  <div class="patient-info">
-                    <strong>{{ appointment.studentName }}</strong>
-                    <span class="student-id">{{ appointment.studentNumber }}</span>
-                  </div>
-                  <div class="appointment-type">
-                    {{ appointment.consultationType }} • {{ appointment.consultationMode || 'In-Person' }}
-                  </div>
-                  <div class="symptoms" *ngIf="appointment.symptomsDescription">
-                    {{ appointment.symptomsDescription }}
-                  </div>
-                </div>
-
-                <div class="appointment-status">
-                  <span class="status-badge" [class]="appointment.status.toLowerCase()">
+              <div *ngFor="let appointment of appointments" class="appointment-card">
+                <div class="appointment-header">
+                  <h3>{{ appointment.studentName }}</h3>
+                  <span class="status-badge" [class.assigned]="appointment.status === 'Assigned'"
+                        [class.completed]="appointment.status === 'Completed'">
                     {{ appointment.status }}
                   </span>
                 </div>
-
-                <div class="appointment-actions">
-                  <button *ngIf="appointment.status === 'Confirmed'"
-                          class="btn primary small"
-                          (click)="startConsultation(appointment)">
-                    Start Consultation
-                  </button>
-
-                  <button *ngIf="appointment.status === 'InProgress'"
-                          class="btn success small"
-                          (click)="completeConsultation(appointment)">
-                    Complete
-                  </button>
-
-                  <button class="btn outline small"
-                          (click)="viewAppointmentDetails(appointment)">
-                    Details
-                  </button>
-
-                  <button class="btn outline small"
-                          (click)="rescheduleAppointment(appointment)">
-                    Reschedule
-                  </button>
+                <div class="appointment-info">
+                  <p><strong>Student #:</strong> {{ appointment.studentNumber }}</p>
+                  <p><strong>Phone:</strong> {{ appointment.studentPhoneNumber || 'N/A' }}</p>
+                  <p><strong>Date:</strong> {{ appointment.appointmentDate | date:'mediumDate' }}</p>
+                  <p><strong>Time:</strong> {{ appointment.timeSlot }}</p>
+                  <p><strong>Type:</strong> {{ appointment.consultationType }}</p>
+                  <p *ngIf="appointment.symptomsDescription"><strong>Symptoms:</strong> {{ appointment.symptomsDescription }}</p>
                 </div>
               </div>
 
-              <div *ngIf="todaysAppointments.length === 0" class="no-appointments">
-                <p>No appointments scheduled for today.</p>
+              <div *ngIf="appointments.length === 0" class="no-appointments">
+                <p>No appointments assigned to you yet.</p>
               </div>
             </div>
           </div>
@@ -212,21 +169,44 @@
       <section id="appointments-content" class="content-section" [class.hidden]="!isSectionActive('appointments')">
         <div class="content-card">
           <div class="card-header">
-            <h2>All My Appointments</h2>
-            <div class="filter-controls">
-              <select [(ngModel)]="appointmentFilter" (change)="filterAppointments()">
-                <option value="all">All Appointments</option>
-                <option value="today">Today</option>
-                <option value="week">This Week</option>
-                <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
-              </select>
-            </div>
+            <h2>My Appointments</h2>
           </div>
           <div class="card-content">
-            <!-- Similar appointment list as schedule view but with date filtering -->
             <div class="appointment-list">
-              <!-- Implementation similar to schedule view -->
+              <div *ngFor="let appointment of appointments" class="appointment-card">
+                <div class="appointment-header">
+                  <h3>{{ appointment.studentName }}</h3>
+                  <span class="status-badge" [class.assigned]="appointment.status === 'Assigned'"
+                        [class.completed]="appointment.status === 'Completed'">
+                    {{ appointment.status }}
+                  </span>
+                </div>
+                <div class="appointment-info">
+                  <p><strong>Student #:</strong> {{ appointment.studentNumber }}</p>
+                  <p><strong>Phone:</strong> {{ appointment.studentPhoneNumber || 'N/A' }}</p>
+                  <p><strong>Date:</strong> {{ appointment.appointmentDate | date:'mediumDate' }}</p>
+                  <p><strong>Time:</strong> {{ appointment.timeSlot }}</p>
+                  <p><strong>Type:</strong> {{ appointment.consultationType }}</p>
+                  <p *ngIf="appointment.symptomsDescription"><strong>Symptoms:</strong> {{ appointment.symptomsDescription }}</p>
+                  <p *ngIf="appointment.notes"><strong>Notes:</strong> {{ appointment.notes }}</p>
+                </div>
+                <div class="appointment-actions">
+                  <button *ngIf="appointment.status === 'Assigned'"
+                          class="btn primary"
+                          (click)="startConsultation(appointment)">
+                    Start Consultation
+                  </button>
+                  <button *ngIf="appointment.status === 'Assigned'"
+                          class="btn success"
+                          (click)="updateAppointmentStatus(appointment.id, 'Completed')">
+                    Mark Complete
+                  </button>
+                </div>
+              </div>
+
+              <div *ngIf="appointments.length === 0" class="no-appointments">
+                <p>No appointments assigned to you yet.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -289,28 +269,6 @@
 
             <div *ngIf="!activeConsultation" class="no-consultation">
               <p>Select an appointment to start consultation.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Availability Management -->
-      <section id="availability-content" class="content-section" [class.hidden]="!isSectionActive('availability')">
-        <div class="content-card">
-          <div class="card-header">
-            <h2>Manage Availability</h2>
-          </div>
-          <div class="card-content">
-            <div class="availability-controls">
-              <label class="toggle large">
-                <input type="checkbox" [(ngModel)]="nurse.isAvailable" (change)="updateAvailability()">
-                <span>I am available for new appointments</span>
-              </label>
-
-              <div class="working-hours">
-                <h4>Working Hours</h4>
-                <!-- Working hours management interface -->
-              </div>
             </div>
           </div>
         </div>

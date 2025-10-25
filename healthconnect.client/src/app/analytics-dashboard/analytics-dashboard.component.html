@@ -1,0 +1,369 @@
+<div class="analytics-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <img src="../../assets/logos/icononly_transparent_nobuffer.png" alt="Madiba HealthConnect Logo" />
+      <div class="logo-text">
+        <h1>Madiba HealthConnect</h1>
+        <p>Analytics Dashboard</p>
+      </div>
+    </div>
+
+    <div class="menu-item" [class.active]="activeTab === 'dashboard'" (click)="switchTab('dashboard')">
+      <span>Dashboard</span>
+    </div>
+
+    <div class="menu-item" [class.active]="activeTab === 'nurse-performance'" (click)="switchTab('nurse-performance')">
+      <span>Nurse Performance</span>
+    </div>
+
+    <div class="menu-item" [class.active]="activeTab === 'clinic-utilization'" (click)="switchTab('clinic-utilization')">
+      <span>Clinic Utilization</span>
+    </div>
+
+    <div class="menu-item" (click)="backToAdmin()" style="margin-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+      <span>← Back to Admin</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <h2 id="page-title">
+        <span *ngIf="activeTab === 'dashboard'">Dashboard Overview</span>
+        <span *ngIf="activeTab === 'nurse-performance'">Nurse Performance</span>
+        <span *ngIf="activeTab === 'clinic-utilization'">Clinic Utilization</span>
+      </h2>
+      <div class="header-info">
+        <button class="back-button" (click)="backToAdmin()">
+          ← Return to Admin Dashboard
+        </button>
+        <div class="date-display">
+          <span>{{ currentDate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div class="page-content" [class.active]="activeTab === 'dashboard'">
+      <!-- Stats Cards -->
+      <div class="cards-container">
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Total Appointments</div>
+            <div class="card-icon-text">487</div>
+          </div>
+          <div class="card-value">487</div>
+          <div class="card-change positive">
+            ↑ 12% from last month
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Active Nurses</div>
+            <div class="card-icon-text">4</div>
+          </div>
+          <div class="card-value">4</div>
+          <div class="card-change neutral">
+            No change
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Registered Students</div>
+            <div class="card-icon-text">1.2K</div>
+          </div>
+          <div class="card-value">1,234</div>
+          <div class="card-change positive">
+            ↑ 8% from last month
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Avg Wait Time</div>
+            <div class="card-icon-text">18m</div>
+          </div>
+          <div class="card-value">18 min</div>
+          <div class="card-change positive">
+            ↓ 15% improvement
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-container">
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Appointments Over Time</span>
+          </div>
+          <canvas id="appointmentsOverTimeChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Consultation Types</span>
+          </div>
+          <canvas id="consultationTypesChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Appointments Table -->
+      <div class="table-card">
+        <div class="table-title">Recent Appointments</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Appointment ID</th>
+              <th>Student Name</th>
+              <th>Date & Time</th>
+              <th>Nurse</th>
+              <th>Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appt of mockAppointments">
+              <td>{{ appt.id }}</td>
+              <td>{{ appt.student }}</td>
+              <td>{{ appt.date }}</td>
+              <td>{{ appt.nurse }}</td>
+              <td>{{ appt.type }}</td>
+              <td>
+                <span class="status-badge"
+                      [ngClass]="{
+                        'status-completed': appt.status === 'Completed',
+                        'status-assigned': appt.status === 'Assigned',
+                        'status-pending': appt.status === 'Pending'
+                      }">
+                  {{ appt.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Nurse Performance Page -->
+    <div class="page-content" [class.active]="activeTab === 'nurse-performance'">
+      <div class="cards-container">
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Total Consultations</div>
+          </div>
+          <div class="card-value">177</div>
+          <div class="card-change positive">
+            ↑ 9% this month
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Avg Consultation Time</div>
+          </div>
+          <div class="card-value">23 min</div>
+          <div class="card-change neutral">
+            Within target
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Patient Satisfaction</div>
+          </div>
+          <div class="card-value">95%</div>
+          <div class="card-change positive">
+            ↑ 3% improvement
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Available Nurses</div>
+          </div>
+          <div class="card-value">3</div>
+          <div class="card-change neutral">
+            Currently on duty
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-container">
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Appointments by Nurse</span>
+          </div>
+          <canvas id="appointmentsByNurseChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Nurse Specialization Distribution</span>
+          </div>
+          <canvas id="nurseSpecializationChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Monthly Performance Trends</span>
+          </div>
+          <canvas id="performanceTrendsChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Patient Feedback Scores</span>
+          </div>
+          <canvas id="feedbackScoresChart"></canvas>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-title">Nurse Performance Summary</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nurse Name</th>
+              <th>Specialization</th>
+              <th>Appointments</th>
+              <th>Avg Time</th>
+              <th>Satisfaction</th>
+              <th>Availability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let nurse of mockNurses">
+              <td>{{ nurse.name }}</td>
+              <td>{{ nurse.specialization }}</td>
+              <td>{{ nurse.appointments }}</td>
+              <td>{{ nurse.avgTime }}</td>
+              <td>{{ nurse.satisfaction }}</td>
+              <td>
+                <span class="status-badge"
+                      [ngClass]="{
+                        'status-completed': nurse.availability === 'Available',
+                        'status-pending': nurse.availability === 'Busy'
+                      }">
+                  {{ nurse.availability }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Clinic Utilization Page -->
+    <div class="page-content" [class.active]="activeTab === 'clinic-utilization'">
+      <div class="cards-container">
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Booking Rate</div>
+          </div>
+          <div class="card-value">78%</div>
+          <div class="card-change positive">
+            ↑ 5% this week
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Peak Hour</div>
+          </div>
+          <div class="card-value">2-3 PM</div>
+          <div class="card-change neutral">
+            Afternoon rush
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">No-Show Rate</div>
+          </div>
+          <div class="card-value">6%</div>
+          <div class="card-change positive">
+            ↓ 2% decrease
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-title">Capacity Utilization</div>
+          </div>
+          <div class="card-value">82%</div>
+          <div class="card-change positive">
+            ↑ Optimal level
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-container">
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Hourly Booking Distribution</span>
+          </div>
+          <canvas id="hourlyBookingChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Weekly Utilization Pattern</span>
+          </div>
+          <canvas id="weeklyUtilizationChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Campus Distribution</span>
+          </div>
+          <canvas id="campusDistributionChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">
+            <span>Appointment Status Breakdown</span>
+          </div>
+          <canvas id="statusBreakdownChart"></canvas>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-title">Time Slot Utilization</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Time Slot</th>
+              <th>Total Capacity</th>
+              <th>Bookings</th>
+              <th>Utilization</th>
+              <th>No-Shows</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let slot of mockTimeSlots">
+              <td>{{ slot.time }}</td>
+              <td>{{ slot.capacity }}</td>
+              <td>{{ slot.bookings }}</td>
+              <td>{{ slot.utilization }}</td>
+              <td>{{ slot.noShows }}</td>
+              <td>
+                <span class="status-badge"
+                      [ngClass]="{
+                        'status-completed': slot.status === 'Optimal',
+                        'status-assigned': slot.status === 'High',
+                        'status-pending': slot.status === 'Full'
+                      }">
+                  {{ slot.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
