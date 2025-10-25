@@ -1,8 +1,0 @@
-[phases.setup]
-nixPkgs = ['...', 'dotnet-sdk_8']
-
-[phases.build]
-cmds = ['cd HealthConnect.Server && dotnet publish -c Release -o out']
-
-[start]
-cmd = 'cd HealthConnect.Server/out && ./HealthConnect.Server'
