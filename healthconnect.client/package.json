@@ -24,6 +24,7 @@
     "@fortawesome/fontawesome-free": "^7.1.0",
     "jest-editor-support": "*",
     "run-script-os": "*",
+    "chart.js": "^4.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
