@@ -48,7 +48,6 @@ Thumbs.db
 .env.*local
 
 # Secrets and API keys (SPECIFIC files only)
-src/environments/environment.prod.ts
 firebase-config.json
 aws-credentials.json
 .secret
