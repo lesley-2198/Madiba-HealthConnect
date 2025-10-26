@@ -1,4 +1,4 @@
-using HealthConnect.Server.Configuration;
+﻿using HealthConnect.Server.Configuration;
 using HealthConnect.Server.Data;
 using HealthConnect.Server.Models;
 using HealthConnect.Server.Services;
@@ -105,6 +105,27 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Run migrations automatically on startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        var logger = services.GetRequiredService<ILogger<Program>>();
+
+        logger.LogInformation("🔵 Applying database migrations...");
+        await context.Database.MigrateAsync();
+        logger.LogInformation("✅ Database migrations applied successfully!");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "❌ An error occurred while migrating the database.");
+        throw;
+    }
+}
 
 // Seed roles and admin user
 using (var scope = app.Services.CreateScope())
