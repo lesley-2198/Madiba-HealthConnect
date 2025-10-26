@@ -1,1 +1,23 @@
-{"Version":1,"Hash":"bWJAo8amOqdJSU8LQ0cOMWLQ9EaFyeEEttivgLmlRP0=","Source":"HealthConnect.Server","BasePath":"_content/HealthConnect.Server","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[{"Identity":"C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\healthconnect.client\\healthconnect.client.esproj","Version":2,"Source":"healthconnect.client","GetPublishAssetsTargets":"GetCurrentProjectPublishStaticWebAssetItems","AdditionalPublishProperties":"","AdditionalPublishPropertiesToRemove":"WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained","GetBuildAssetsTargets":"GetCurrentProjectBuildStaticWebAssetItems","AdditionalBuildProperties":"","AdditionalBuildPropertiesToRemove":"WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"}],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "wZLFqzl4JDZ8ELrMD2LvfdqND7pK6pzTFYSkVFxP230=",
+  "Source": "HealthConnect.Server",
+  "BasePath": "_content/HealthConnect.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\lesle\\source\\repos\\Madiba-HealthConnect\\healthconnect.client\\healthconnect.client.esproj",
+      "Version": 2,
+      "Source": "healthconnect.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

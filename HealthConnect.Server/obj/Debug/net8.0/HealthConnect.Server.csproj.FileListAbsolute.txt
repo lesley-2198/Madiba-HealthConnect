@@ -38,7 +38,6 @@ C:\Users\lesle\source\repos\HealthConnect\HealthConnect.Server\obj\Debug\net8.0\
 C:\Users\lesle\source\repos\HealthConnect\HealthConnect.Server\obj\Debug\net8.0\ref\HealthConnect.Server.dll
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\appsettings.json
-C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\HealthConnect.Server.staticwebassets.endpoints.json
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\spa.proxy.json
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\HealthConnect.Server.exe
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\HealthConnect.Server.deps.json
@@ -52,7 +51,6 @@ C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.csproj.AssemblyReference.cache
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\spa.proxy.json
-C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\rpswa.dswa.cache.json
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.AssemblyInfoInputs.cache
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.AssemblyInfo.cs
@@ -60,14 +58,9 @@ C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.sourcelink.json
-C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\rjimswa.dswa.cache.json
-C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
-C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\scopedcss\bundle\HealthConnect.Server.styles.css
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthCo.2892DA75.Up2Date
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\HealthConnect.Server.dll
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\refint\HealthConnect.Server.dll
@@ -186,3 +179,16 @@ C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\appsettings.Production.json
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Npgsql.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets\msbuild.HealthConnect.Server.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets\msbuild.build.HealthConnect.Server.props
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.HealthConnect.Server.props
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.HealthConnect.Server.props
+C:\Users\lesle\source\repos\Madiba-HealthConnect\HealthConnect.Server\obj\Debug\net8.0\staticwebassets.pack.json
