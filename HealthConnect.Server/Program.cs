@@ -16,7 +16,16 @@ builder.Services.AddControllers();
 // Entity Framework - Support both SQL Server and PostgreSQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    // Render provides DATABASE_URL by default for PostgreSQL
+    var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+                          ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
+    // Render's DATABASE_URL starts with "postgres://" not "postgresql://"
+    // Convert it to the format Npgsql expects
+    if (connectionString?.StartsWith("postgres://") == true)
+    {
+        connectionString = connectionString.Replace("postgres://", "postgresql://");
+    }
 
     if (connectionString?.Contains("postgres") == true || connectionString?.Contains("Host=") == true)
     {
