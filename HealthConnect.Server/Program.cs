@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Resend;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -77,7 +78,18 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email"));
+
+// Configure Resend Email Service
+builder.Services.Configure<ResendSettings>(builder.Configuration.GetSection("Resend"));
+
+// Add Resend client with options
+builder.Services.AddOptions<ResendClientOptions>().Configure<IConfiguration>((o, config) =>
+{
+    o.ApiToken = config.GetSection("Resend:ApiKey").Value ?? "";
+});
+builder.Services.AddHttpClient<IResend, ResendClient>();
+
+// Register email service
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Configure CORS for Azure deployment
