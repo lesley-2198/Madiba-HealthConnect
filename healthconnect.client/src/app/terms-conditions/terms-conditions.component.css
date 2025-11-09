@@ -98,36 +98,344 @@
     text-decoration: underline;
   }
 
-/* Responsive Design */
+/* ===================================
+   MOBILE RESPONSIVE STYLES
+   =================================== */
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) {
+  .header-subsection {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  .profile-indicator {
+    font-size: 0.85rem;
+  }
+
+  .dashboard-layout {
+    flex-direction: column;
+    padding: 0 1.5rem 2rem;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .main-content {
+    width: 100%;
+  }
+
+  .services-grid,
+  .usage-grid,
+  .rights-grid,
+  .security-measures {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* Mobile Styles (up to 768px) */
 @media (max-width: 768px) {
-  .services-grid {
+  /* Header adjustments */
+  .top-bar {
+    padding: 1rem 1rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .header-main {
+    width: 100%;
+  }
+
+  .header-main h1 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-subsection {
+    position: static;
+    transform: none;
+    left: auto;
+    top: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .header-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .page-title {
+    font-size: 1.3rem;
+  }
+
+  .profile-indicator {
+    font-size: 0.8rem;
+  }
+
+  .header-avatar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  /* Layout adjustments */
+  .dashboard-layout {
     grid-template-columns: 1fr;
+    padding: 0 1rem 2rem;
+    gap: 1.5rem;
   }
 
-  .service-item {
-    margin-bottom: 1rem;
+  .sidebar {
+    width: 100%;
+    order: 1;
   }
-}
 
-/* Spacing between introduction and content sections */
-.content-section + .content-section {
-  margin-top: 2rem; /* Increased from the default 10px */
-}
+  .main-content {
+    width: 100%;
+    order: 2;
+  }
 
-/* If you want even more space, use this instead: */
-/*
-.content-section + .content-section {
-  margin-top: 3rem;
-}
-*/
+  /* Card adjustments */
+  .content-card {
+    border-radius: 16px;
+  }
 
-/* Or if you want different spacing for mobile vs desktop */
-.content-section + .content-section {
-  margin-top: 2rem;
-}
+  .card-header {
+    padding: 1.25rem 1.5rem;
+  }
 
-@media (max-width: 768px) {
+  .card-header h2,
+  .card-header h3 {
+    font-size: 1.4rem;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .card-content h4 {
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Grid adjustments */
+  .services-grid,
+  .usage-grid,
+  .rights-grid,
+  .security-measures {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-item,
+  .usage-item,
+  .right-item,
+  .security-item {
+    margin-bottom: 0;
+  }
+
+  /* Menu adjustments */
+  .main-nav {
+    border-radius: 12px;
+  }
+
+  .main-nav li {
+    margin: 0.25rem 0.75rem;
+  }
+
+  .menu-item {
+    padding: 0.875rem 1rem;
+  }
+
+  .menu-label {
+    font-size: 0.9rem;
+  }
+
+  .menu-description {
+    font-size: 0.75rem;
+  }
+
+  /* List adjustments */
+  .terms-list li {
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .terms-list li:before {
+    left: 0.25rem;
+  }
+
+  /* Spacing adjustments */
   .content-section + .content-section {
-    margin-top: 1.5rem; /* Slightly less on mobile */
+    margin-top: 1.5rem;
+  }
+
+  /* Note boxes */
+  .disclaimer-note,
+  .medical-disclaimer,
+  .contact-info,
+  .policy-highlight,
+  .consent-note,
+  .data-transfer,
+  .breach-protocol,
+  .rights-actions {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .sharing-category {
+    padding: 0.875rem;
+  }
+
+  /* Contact info */
+  .contact-info p {
+    font-size: 0.9rem;
+    word-break: break-word;
+  }
+}
+
+/* Small Mobile Styles (up to 480px) */
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 0.875rem 0.875rem 1.25rem;
+  }
+
+  .header-main h1 {
+    font-size: 1.1rem;
+  }
+
+  .page-title {
+    font-size: 1.15rem;
+  }
+
+  .profile-indicator {
+    font-size: 0.75rem;
+  }
+
+  .header-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+
+  .dashboard-layout {
+    padding: 0 0.875rem 1.5rem;
+  }
+
+  .card-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .card-header h2,
+  .card-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .card-content {
+    padding: 1.25rem;
+  }
+
+  .card-content h4 {
+    font-size: 1rem;
+  }
+
+  .card-content p,
+  .card-content li {
+    font-size: 0.9rem;
+  }
+
+  .menu-item {
+    padding: 0.75rem 0.875rem;
+  }
+
+  .menu-label {
+    font-size: 0.85rem;
+  }
+
+  .menu-description {
+    font-size: 0.7rem;
+  }
+
+  .service-item,
+  .usage-item,
+  .right-item,
+  .security-item {
+    padding: 0.875rem;
+  }
+
+  .service-item h4,
+  .usage-item h4,
+  .right-item h4,
+  .security-item h5 {
+    font-size: 0.95rem;
+  }
+
+  .service-item p,
+  .usage-item p,
+  .right-item p,
+  .security-item p {
+    font-size: 0.85rem;
+  }
+
+  .disclaimer-note,
+  .medical-disclaimer,
+  .contact-info,
+  .policy-highlight,
+  .consent-note,
+  .data-transfer,
+  .breach-protocol,
+  .rights-actions {
+    padding: 0.875rem;
+    font-size: 0.85rem;
+  }
+
+  .contact-info p {
+    font-size: 0.85rem;
+  }
+
+  .terms-list li {
+    font-size: 0.85rem;
+  }
+
+  .last-updated {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Small Devices (up to 360px) */
+@media (max-width: 360px) {
+  .header-main h1 {
+    font-size: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.05rem;
+  }
+
+  .card-header h2,
+  .card-header h3 {
+    font-size: 1.15rem;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+
+  .dashboard-layout {
+    padding: 0 0.75rem 1.25rem;
   }
 }
