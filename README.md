@@ -32,7 +32,7 @@ Madiba HealthConnect addresses the inefficiencies in campus clinic services by i
 ## 🎯 Problem Statement
 
 University students currently face:
-- Minimum 2-day wait times for clinic appointments
+- Appointments require at least 2 days advance booking
 - Inefficient care delivery for minor health issues
 - Long waiting periods for consultations that take only 15 minutes
 - Limited immediate access to medical advice
