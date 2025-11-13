@@ -79,7 +79,7 @@
 .menu-item {
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the text */
+  justify-content: center;
   padding: 16px 20px;
   margin-bottom: 8px;
   border-radius: 12px;

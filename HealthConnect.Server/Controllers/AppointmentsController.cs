@@ -67,7 +67,6 @@ namespace HealthConnect.Server.Controllers
 
                 Console.WriteLine($"🟢 GET APPOINTMENTS: Found {appointments.Count} appointments for nurse");
 
-                // ADD THIS DEBUG LOG
                 foreach (var apt in appointments)
                 {
                     Console.WriteLine($"   - Appointment {apt.Id}: NurseId='{apt.NurseId}', Status='{apt.Status}'");
@@ -98,7 +97,7 @@ namespace HealthConnect.Server.Controllers
                 Status = a.Status,
                 SymptomsDescription = a.SymptomsDescription,
                 Notes = a.Notes,
-                Prescription = a.Prescription,  // ADD THIS LINE
+                Prescription = a.Prescription,
                 CreatedAt = a.CreatedAt,
                 UpdatedAt = a.UpdatedAt,
                 StudentName = a.Student.FullName,
@@ -148,7 +147,7 @@ namespace HealthConnect.Server.Controllers
                 Status = appointment.Status,
                 SymptomsDescription = appointment.SymptomsDescription,
                 Notes = appointment.Notes,
-                Prescription = appointment.Prescription,  // ADD THIS LINE
+                Prescription = appointment.Prescription,  
                 CreatedAt = appointment.CreatedAt,
                 UpdatedAt = appointment.UpdatedAt,
                 StudentName = appointment.Student.FullName,
@@ -234,7 +233,7 @@ namespace HealthConnect.Server.Controllers
                 Status = createdAppointment.Status,
                 SymptomsDescription = createdAppointment.SymptomsDescription,
                 Notes = createdAppointment.Notes,
-                Prescription = createdAppointment.Prescription,  // ADD THIS LINE
+                Prescription = createdAppointment.Prescription, 
                 CreatedAt = createdAppointment.CreatedAt,
                 UpdatedAt = createdAppointment.UpdatedAt,
                 StudentName = createdAppointment.Student.FullName,
@@ -295,7 +294,7 @@ namespace HealthConnect.Server.Controllers
             if (!string.IsNullOrEmpty(model.Notes))
                 appointment.Notes = model.Notes;
 
-            if (!string.IsNullOrEmpty(model.Prescription))  // ADD THIS BLOCK
+            if (!string.IsNullOrEmpty(model.Prescription)) 
                 appointment.Prescription = model.Prescription;
 
             if (!string.IsNullOrEmpty(model.NurseId))
@@ -403,7 +402,6 @@ namespace HealthConnect.Server.Controllers
             await _context.SaveChangesAsync();
             Console.WriteLine($"🟢 BACKEND: SaveChanges completed");
 
-            // ADD THIS EMAIL NOTIFICATION CODE:
             Console.WriteLine($"🔵 BACKEND: Sending assignment email to student: {appointment.Student.Email}");
             await _emailService.SendAppointmentAssignedEmailAsync(
                 appointment,
@@ -418,7 +416,7 @@ namespace HealthConnect.Server.Controllers
 
         public class AssignAppointmentDto
         {
-            [JsonPropertyName("nurseId")]  // Add this attribute
+            [JsonPropertyName("nurseId")] 
             public string NurseId { get; set; } = string.Empty;
         }
     }

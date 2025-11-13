@@ -42,7 +42,7 @@ export class NurseService {
     return this.http.post(`${this.apiUrl}/register-nurse`, nurse);
   }
 
-  // Get all nurses (Admin only) - This would need a new backend endpoint
+  // Get all nurses (Admin only)
   getNurses(): Observable<Nurse[]> {
     return this.http.get<Nurse[]>(`${this.apiUrl}/nurses`);
   }

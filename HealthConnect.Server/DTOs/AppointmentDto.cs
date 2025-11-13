@@ -16,7 +16,7 @@
         public string? ConsultationType { get; set; }
         public string? SymptomsDescription { get; set; }
         public string? Notes { get; set; }
-        public string? Prescription { get; set; }  // ADD THIS LINE
+        public string? Prescription { get; set; } 
         public string? NurseId { get; set; }
         public string? Status { get; set; }
     }
@@ -32,7 +32,7 @@
         public string Status { get; set; } = string.Empty;
         public string SymptomsDescription { get; set; } = string.Empty;
         public string? Notes { get; set; }
-        public string? Prescription { get; set; }  // ADD THIS LINE
+        public string? Prescription { get; set; }  
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

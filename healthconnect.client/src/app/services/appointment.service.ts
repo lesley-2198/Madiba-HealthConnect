@@ -78,7 +78,6 @@ export class AppointmentService {
   }
 
   // Assign appointment to nurse (Admin only)
-  // Line 76-78
   assignAppointment(appointmentId: number, nurseId: string): Observable<any> {
     const payload = { NurseId: nurseId };
     console.log('🔵 FRONTEND: Sending assignment request:', {

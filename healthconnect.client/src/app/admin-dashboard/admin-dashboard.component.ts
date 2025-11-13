@@ -100,22 +100,20 @@ export class AdminDashboardComponent implements OnInit {
     this.loadPendingAppointments();
   }
 
-  // ADD THIS METHOD:
   private loadPendingAppointments(): void {
     this.appointmentService.getAppointments().subscribe({
-      next: (appointments: Appointment[]) => {  // ADD TYPE
+      next: (appointments: Appointment[]) => {  
         // Filter pending and assigned appointments
-        this.pendingAppointments = appointments.filter((a: Appointment) => a.status === 'Pending');  // ADD TYPE
-        this.assignedAppointments = appointments.filter((a: Appointment) => a.status === 'Assigned');  // ADD TYPE
+        this.pendingAppointments = appointments.filter((a: Appointment) => a.status === 'Pending');  
+        this.assignedAppointments = appointments.filter((a: Appointment) => a.status === 'Assigned');  
         console.log('Loaded appointments:', appointments);
       },
-      error: (error: any) => {  // ADD TYPE
+      error: (error: any) => {  
         console.error('Error loading appointments:', error);
       }
     });
   }
 
-  // ADD THIS METHOD
   private loadAdminData(): void {
     this.admin = this.authService.getUser();
     if (this.admin) {
@@ -123,15 +121,12 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  // ADD THIS METHOD
   private getInitials(fullName: string): string {
     if (!fullName) return '';
     return fullName.split(' ').map(name => name[0]).join('').toUpperCase();
   }
 
-  // REPLACE THIS METHOD (around line 180):
   private loadNurses(): void {
-    // TODO: Replace with actual API call when endpoint is ready
     this.nurseService.getNurses().subscribe({
       next: (nurses) => {
         this.nurses = nurses;
@@ -196,7 +191,6 @@ export class AdminDashboardComponent implements OnInit {
     return this.nurses.filter(nurse => nurse.isAvailable);
   }
 
-  // Nurse Management - ADD THESE METHODS
   showCreateNurseForm(): void {
     this.showNurseForm = true;
     this.nurseForm.reset();
@@ -216,7 +210,7 @@ export class AdminDashboardComponent implements OnInit {
         fullName: this.nurseForm.value.fullName,
         employeeNumber: this.nurseForm.value.employeeNumber,
         specialization: this.nurseForm.value.specialization,
-        phoneNumber: this.nurseForm.value.phoneNumber // ADD THIS
+        phoneNumber: this.nurseForm.value.phoneNumber
       };
 
       this.nurseService.createNurse(nurseData).subscribe({
@@ -247,17 +241,14 @@ export class AdminDashboardComponent implements OnInit {
 
   toggleNurseAvailability(nurse: Nurse): void {
     nurse.isAvailable = !nurse.isAvailable;
-    // Here you would typically call an API to update the nurse's availability
     console.log(`Nurse ${nurse.fullName} availability: ${nurse.isAvailable}`);
     alert(`Nurse ${nurse.fullName} availability updated to ${nurse.isAvailable ? 'Available' : 'Unavailable'}`);
   }
 
   addNurse(): void {
-    // Implementation for adding new nurse
     this.showCreateNurseForm();
   }
 
-  // ADD THIS METHOD
   private markFormGroupTouched(): void {
     Object.keys(this.nurseForm.controls).forEach(key => {
       const control = this.nurseForm.get(key);
@@ -267,7 +258,6 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  // ADD THIS METHOD
   private mandelaEmailValidator(): any {
     return (control: any): any => {
       if (!control.value) {

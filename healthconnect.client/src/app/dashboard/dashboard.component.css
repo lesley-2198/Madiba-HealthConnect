@@ -25,7 +25,7 @@ body, html {
 .top-bar {
   background-color: #1a3a52;
   color: white;
-  padding: 1rem 2rem 8rem 2rem; /* Restored extended padding for overlap */
+  padding: 1rem 2rem 8rem 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: space-between;
@@ -64,14 +64,14 @@ body, html {
 
 .header-subtitle {
   margin: 0;
-  font-size: 2.5rem; /* Slightly bigger */
+  font-size: 2.5rem;
   color: #f1fffd;
   font-weight: 700;
   position: absolute;
   left: 50%;
-  top: 40%; /* Center vertically */
-  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
-  margin-top: 4px; /* Move down a few pixels */
+  top: 40%; 
+  transform: translate(-50%, -50%); 
+  margin-top: 4px; 
   white-space: nowrap;
 }
 
@@ -193,11 +193,9 @@ body, html {
 .profile-section {
   position: relative;
   z-index: 2;
-  margin-top: -5rem; /* Pulls the card up to overlap the top bar */
+  margin-top: -5rem;
   padding: 0 2rem;
 }
-
-/* Show profile on desktop and tablet, hide only*/
 
 .profile-container {
   background-color: #f1fffd;
@@ -267,7 +265,7 @@ body, html {
 .dashboard-layout {
   display: flex;
   max-width: 1200px;
-  margin: 2rem auto 0; /* Added top margin to account for overlapping profile */
+  margin: 2rem auto 0;
   padding: 0 2rem 2rem;
   gap: 2rem;
   position: relative;
@@ -387,7 +385,7 @@ body, html {
 
 /* Content Cards */
 .content-card {
-  background-color: #f1fffd; /* Light blue background */
+  background-color: #f1fffd;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e0f2f1;
@@ -581,7 +579,7 @@ body, html {
     margin: 0;
     color: #334155;
     line-height: 1.5;
-    white-space: pre-wrap; /* Preserves line breaks in notes */
+    white-space: pre-wrap;
   }
 
 .news-section-header {
@@ -646,8 +644,8 @@ body, html {
 .news-scroll-container {
   overflow-x: auto;
   overflow-y: hidden;
-  margin: 0 -2rem; /* Match card-content padding */
-  padding: 0 2rem; /* Match card-content padding */
+  margin: 0 -2rem;
+  padding: 0 2rem;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 }
@@ -685,7 +683,7 @@ body, html {
 }
 
 .news-card {
-  flex: 0 0 300px; /* Fixed width for consistent scrolling */
+  flex: 0 0 300px;
   background: #fff;
   border: 1px solid #e0f2f1;
   border-radius: 16px;
@@ -742,11 +740,11 @@ body, html {
   .dashboard-layout {
     flex-direction: column;
     padding: 0 1.5rem 2rem;
-    margin-top: -3rem; /* Overlap effect for main-nav */
+    margin-top: -3rem; 
   }
 
   .profile-section {
-    display: block; /* Keep profile visible on tablet */
+    display: block; 
   }
 
   .sidebar {
@@ -768,11 +766,11 @@ body, html {
   .dashboard-layout {
     flex-direction: column;
     padding: 0 1.5rem 2rem;
-    margin-top: -3rem; /* Reduced top margin since profile is hidden */
+    margin-top: -3rem; 
   }
 
   .profile-section {
-    display: none; /* Hide profile section on tablets and mobile */
+    display: none;
   }
 
   .sidebar {
@@ -782,11 +780,11 @@ body, html {
   }
 
   .main-nav {
-    margin-top: -2rem; /* Pull the nav up to overlap the top bar */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Enhanced shadow for floating effect */
+    margin-top: -2rem; 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); 
     border: 1px solid #e0f2f1;
     position: relative;
-    z-index: 2; /* Ensure it sits above other content */
+    z-index: 2; 
   }
 
   .main-content {
@@ -878,10 +876,10 @@ body, html {
   }
 
   .header-subtitle {
-    position: static; /* Remove absolute positioning */
-    transform: none; /* Remove transform */
-    font-size: 0.8rem; /* Smaller on mobile */
-    margin-top: 0.25rem; /* Small gap below title */
+    position: static;
+    transform: none;
+    font-size: 0.8rem; 
+    margin-top: 0.25rem; 
   }
 
     /* Remove decorative bullets on mobile */
@@ -897,7 +895,7 @@ body, html {
 
   /* Adjust profile section for mobile */
   .profile-section {
-    display: none; /* Hide on mobile since it's in the drawer */
+    display: none; 
   }
 
   /* Make main content full width on mobile and move it down */
@@ -922,7 +920,7 @@ body, html {
   }
 
   .news-scroll-container {
-    overflow-x: auto; /* Enable on mobile */
+    overflow-x: auto; 
   }
 }
 

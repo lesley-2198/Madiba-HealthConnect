@@ -6,7 +6,7 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.css'] // Reuse login CSS
+  styleUrls: ['./create-account.component.css']
 })
 export class CreateAccountComponent {
   createAccountForm: FormGroup;
@@ -111,7 +111,7 @@ export class CreateAccountComponent {
   private passwordComplexityValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value || control.value.length < 8) {
-        return null; // Let minLength validator handle this
+        return null;
       }
 
       const password = control.value as string;
@@ -131,9 +131,6 @@ export class CreateAccountComponent {
       if (!/(?=.*\d)/.test(password)) {
         errors['missingNumber'] = true;
       }
-
-      // Special character is optional, so we don't validate it
-      // Only show in UI as recommended but not required
 
       return Object.keys(errors).length > 0 ? errors : null;
     };
@@ -222,7 +219,6 @@ export class CreateAccountComponent {
         phoneNumber: this.createAccountForm.get('cellphone')?.value
       };
 
-      // ACTUALLY CALL THE BACKEND API
       this.authService.register(registerData).subscribe({
         next: (response) => {
           this.isLoading = false;

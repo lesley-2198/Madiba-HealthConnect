@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { AuthService, LoginResponse } from '../services/auth.service'; // Adjust path as needed
+import { AuthService, LoginResponse } from '../services/auth.service'; 
 
 @Component({
   selector: 'app-log-in',
@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService // Inject AuthService
+    private authService: AuthService 
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, this.mandelaEmailValidator()]],

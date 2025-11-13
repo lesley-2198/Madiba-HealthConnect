@@ -11,8 +11,7 @@
   <div class="login-section">
     <div class="login-content-wrapper">
       <div class="login-content">
-        <h1>Madiba HealthConnect</h1>
-        <p>Please use your academic email and password</p>
+        <h1>Sign In</h1>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
           <!-- Email Field -->
@@ -47,6 +46,13 @@
             </div>
           </div>
 
+          <div class="error-message" *ngIf="errorMessage">
+            <div class="error-content">
+              <span class="error-icon">⚠</span>
+              <p>{{ errorMessage }}</p>
+            </div>
+          </div>
+
           <!-- Forgot Password Link -->
           <div class="forgot-password-section">
             <a href="#" (click)="navigateToForgotPassword(); $event.preventDefault()" class="forgot-password-link">
@@ -61,40 +67,8 @@
             <span *ngIf="!isLoading">SIGN IN</span>
             <span *ngIf="isLoading">Signing in...</span>
           </button>
-
-          <!-- Create Account Link -->
-          <div class="create-account-section">
-            <p class="create-account-text">
-              Don't have an account?
-              <a href="#" (click)="navigateToCreateAccount(); $event.preventDefault()" class="create-account-link">
-                Create Account
-              </a>
-            </p>
-          </div>
-
-          <!-- Add this inside the form, after the password field -->
-          <div class="error-message" *ngIf="errorMessage">
-            <div class="error-content">
-              <span class="error-icon">⚠</span>
-              <p>{{ errorMessage }}</p>
-            </div>
-          </div>
         </form>
       </div>
-    </div>
-
-    <!-- Disclaimer Section -->
-    <div class="disclaimer-section">
-      <h3>Disclaimer</h3>
-      <p>
-        All parties agree that they will comply with POPI regulations and process all the information
-        and/or personal data in respect of the services being rendered in accordance with the said regulations.
-      </p>
-      <p>
-        It is confirmed that by submitting information to Madiba HealthConnect, irrespective as to how
-        such information is submitted, you consent to the collection, collation, processing, and storing
-        of such information and the use and disclosure of such information in accordance with this policy.
-      </p>
     </div>
   </div>
 </div>

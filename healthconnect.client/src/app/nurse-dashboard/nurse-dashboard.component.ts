@@ -75,7 +75,6 @@ export class NurseDashboardComponent implements OnInit {
   private loadAppointments(): void {
     this.isLoadingAppointments = true;
 
-    // ADD THESE LOGS
     console.log('🔵 NURSE: Loading appointments...');
     console.log('🔵 NURSE: Current user from localStorage:', this.nurse);
     console.log('🔵 NURSE: User ID:', this.nurse?.id);
@@ -229,7 +228,6 @@ export class NurseDashboardComponent implements OnInit {
 
   // Appointment filtering
   filterAppointments(): void {
-    // This method can be used to filter appointments based on appointmentFilter
     console.log('Filtering appointments by:', this.appointmentFilter);
   }
 
@@ -262,7 +260,6 @@ export class NurseDashboardComponent implements OnInit {
 
   viewAppointmentDetails(appointment: Appointment): void {
     this.selectAppointment(appointment);
-    // You can add more detailed view logic here
   }
 
   rescheduleAppointment(appointment: Appointment): void {

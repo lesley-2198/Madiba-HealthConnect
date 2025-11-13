@@ -11,7 +11,7 @@ body, html {
 
 .login-container {
   display: flex;
-  min-height: 100vh; /* Use min-height instead of fixed height */
+  min-height: 100vh;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -23,7 +23,7 @@ body, html {
   background-color: #0e2743;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* This centers vertically */
+  justify-content: center;
   align-items: center;
   padding: 2rem;
   text-align: center;
@@ -44,7 +44,7 @@ body, html {
   color: #f1fffd;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 600;
-  font-size: clamp(1.8rem, 4vw, 2.8rem); /* Responsive font size */
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
   margin: 0.5rem 0;
   line-height: 1.1;
   width: 100%;
@@ -54,13 +54,13 @@ body, html {
   color: #f1fffd;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 300;
-  font-size: clamp(1rem, 2vw, 1.2rem); /* Responsive font size */
+  font-size: clamp(1rem, 2vw, 1.2rem);
   margin: 1.5rem 0 2rem 0;
   opacity: 0.9;
 }
 
 .logo_nobg {
-  width: min(70%, 300px); /* Responsive sizing */
+  width: min(70%, 300px);
   height: auto;
   margin-top: 1rem;
 }
@@ -238,7 +238,7 @@ body, html {
   border-top: 1px solid #e0e0e0;
   padding: 1.5rem 0 0 0;
   width: 100%;
-  margin-top: auto; /* Push to bottom naturally */
+  margin-top: auto;
 }
 
   .disclaimer-section h3 {

@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   isAfterClinicHours(): boolean {
     const now = new Date();
-    const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    const currentDay = now.getDay();
     const currentHour = now.getHours();
 
     // Check if it's a weekend
@@ -237,7 +237,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   isWeekend(date: Date): boolean {
     const day = date.getDay();
-    return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
+    return day === 0 || day === 6;
   }
 
   cancelAppointment(appointmentId: number): void {
@@ -328,7 +328,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const selectedDate = this.bookingForm.get('appointmentDate')?.value;
     if (selectedDate) {
       const date = new Date(selectedDate);
-      const dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+      const dayOfWeek = date.getDay();
 
       if (dayOfWeek === 0 || dayOfWeek === 6) {
         // Weekend selected - show error and clear selection
@@ -377,7 +377,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  // News scrolling methods
+  // Care-Tips scrolling methods
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.updateScrollPosition();
@@ -395,9 +395,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getTotalPages(): number {
     const visibleCards = 2;
     const totalCards = this.selfCareTips.length;
-    // How many scroll positions do we need to see all cards?
-    // With 7 cards showing 3: positions 0,1,2,3,4 = 5 positions
-    // Formula: totalCards - visibleCards + 1
     return Math.max(1, totalCards - visibleCards + 1);
   }
 
@@ -434,7 +431,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.closeMobileMenu();
   }
 
-  // ADD THIS: Ensure scroll is restored when component is destroyed
+  // Ensure scroll is restored when component is destroyed
   ngOnDestroy(): void {
     document.body.style.overflow = '';
   }
@@ -444,8 +441,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (cards.length > 0) {
       const firstCard = cards[0] as HTMLElement;
       const cardWidth = firstCard.offsetWidth;
-      const gap = 24; // 1.5rem = 24px
-      // Scroll one card at a time
+      const gap = 24; 
       this.translateX = -this.currentNewsIndex * (cardWidth + gap);
     }
   }

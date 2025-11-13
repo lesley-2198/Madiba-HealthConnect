@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, Valid
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['../log-in/log-in.component.css'] // Reuse login CSS
+  styleUrls: ['../log-in/log-in.component.css']
 })
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup;
@@ -70,10 +70,7 @@ export class ResetPasswordComponent {
   private passwordHistoryValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const newPassword = control.value;
-      // This would call a service to check against password history
-      // const isPreviousPassword = this.authService.checkPasswordHistory(newPassword);
-      // return isPreviousPassword ? { previousPassword: true } : null;
-      return null; // Placeholder for future implementation
+      return null;
     };
   }
 

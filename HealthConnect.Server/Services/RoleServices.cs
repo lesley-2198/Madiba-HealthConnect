@@ -36,7 +36,7 @@ namespace HealthConnect.Server.Services
                     Department = "Clinic Administration"
                 };
 
-                string adminPassword = "Admin123!"; // Change this in production!
+                string adminPassword = "Admin123!";
                 var createAdmin = await userManager.CreateAsync(admin, adminPassword);
 
                 if (createAdmin.Succeeded)

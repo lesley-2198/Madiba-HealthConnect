@@ -14,7 +14,7 @@ export class AnalyticsDashboardComponent implements OnInit, AfterViewInit {
   currentDate: string = '';
   activeTab: string = 'dashboard';
 
-  // Mock data with real nurse names
+  // Mock data
   mockAppointments = [
     { id: 'APT-1001', student: 'Thabo Mthembu', date: '2025-10-22 09:00', nurse: 'Dr. Sarah Johnson', type: 'Primary Care', status: 'Completed' },
     { id: 'APT-1002', student: 'Lerato Dlamini', date: '2025-10-22 09:30', nurse: 'Dr. Michael Chen', type: 'Mental Health', status: 'Completed' },

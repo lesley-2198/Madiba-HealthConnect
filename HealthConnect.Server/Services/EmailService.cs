@@ -22,7 +22,7 @@ namespace HealthConnect.Server.Services
         public EmailService(
             IOptions<ResendSettings> resendSettings,
             ILogger<EmailService> logger,
-            IResend resend)  // ADD THIS PARAMETER
+            IResend resend)
         {
             _resendSettings = resendSettings.Value;
             _logger = logger;

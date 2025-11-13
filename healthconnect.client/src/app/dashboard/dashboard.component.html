@@ -229,7 +229,6 @@
                     <div>{{ appt.symptomsDescription }}</div>
                     <div *ngIf="appt.nurseName">Assigned to: {{ appt.nurseName }}</div>
 
-                    <!-- ADD THIS SECTION -->
                     <div *ngIf="appt.notes && (appt.status === 'Completed' || appt.status === 'Assigned')" class="consultation-notes">
                       <strong>Consultation Notes:</strong>
                       <p>{{ appt.notes }}</p>
