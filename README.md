@@ -29,6 +29,18 @@ Madiba HealthConnect addresses the inefficiencies in campus clinic services by i
 - **Responsive Design**: Fully accessible on mobile and desktop devices with hamburger menu
 - **Cloud Deployment**: Live deployment on Render (backend) and Vercel (frontend)
 
+## 🎥 System Demo & Walkthrough
+
+Watch our comprehensive system demo to see Madiba HealthConnect in action:
+
+<div align="center">
+  <a href="https://youtu.be/1H5vqefcL6g">
+    <img src="https://img.youtube.com/vi/1H5vqefcL6g/maxresdefault.jpg" alt="Madiba HealthConnect Demo" width="600" style="border: 2px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  </a>
+  <br>
+  <em>Click the image above to watch the full system walkthrough</em>
+</div>
+
 ## 🎯 Problem Statement
 
 University students currently face:
