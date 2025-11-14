@@ -31,14 +31,40 @@ Madiba HealthConnect addresses the inefficiencies in campus clinic services by i
 
 ## 🎥 System Demo & Walkthrough
 
-Watch our comprehensive system demo to see Madiba HealthConnect in action:
+Watch our comprehensive system demo to see Madiba HealthConnect in action, including our automated email notification system:
 
 <div align="center">
-  <a href="https://youtu.be/1H5vqefcL6g">
-    <img src="https://img.youtube.com/vi/1H5vqefcL6g/maxresdefault.jpg" alt="Madiba HealthConnect Demo" width="600" style="border: 2px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  </a>
-  <br>
-  <em>Click the image above to watch the full system walkthrough</em>
+
+### Video Demonstration & Email System
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="60%">
+      <h3>🎬 Full System Walkthrough</h3>
+      <a href="https://youtu.be/1H5vqefcL6g">
+        <img src="https://img.youtube.com/vi/1H5vqefcL6g/maxresdefault.jpg" alt="Madiba HealthConnect Demo" width="100%" style="border: 2px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      </a>
+      <br>
+      <em>Click to watch complete system demonstration</em>
+    </td>
+    <td align="center" valign="top" width="40%">
+      <h3>📧 Email Automation</h3>
+      <div style="max-height: 250px; overflow: hidden; border: 2px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 15px;">
+        <img src="files/email-screenshot.jpg" alt="Admin Email Notification" width="100%">
+      </div>
+      <small><em>Real email sent to admin when student books appointment</em></small>
+      <div style="text-align: left; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+        <strong>Automated Email Types:</strong>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+          <li><strong>Admin Alerts</strong> - New appointment notifications</li>
+          <li><strong>Student Confirmations</strong> - Nurse assignment updates</li>
+          <li><strong>Prescription Delivery</strong> - Consultation results</li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+
 </div>
 
 ## 🎯 Problem Statement
