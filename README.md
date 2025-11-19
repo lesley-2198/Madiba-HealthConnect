@@ -314,8 +314,8 @@ A comprehensive digital platform that enables:
 ### Default Login Credentials
 
 >**Admin Account:**
->- Email: `admin@healthconnect.com`
->- Password: `Admin@123`
+>- Email: `admin@mandela.ac.za`
+>- Password: `Admin123!`
 
 >**Test Nurse Accounts:**
 >- Email: `nurse1@mandela.ac.za`
